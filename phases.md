@@ -2,18 +2,29 @@
 
 Estimated total duration: ~5-6 weeks.
 
-## Phase 1 — Planning & Design (5-6 days)
-- [ ] Finalize product categories with client
-- [ ] Wireframes for storefront (home, catalog, product page, cart, checkout)
-- [ ] Wireframe for admin panel
-- [ ] Confirm database schema against actual product data (once received)
-- [ ] Set up Next.js project skeleton + folder structure per architecture.md
+## Phase 1 — Planning & Design (5-6 days) ✅
+- [x] Set up Next.js project skeleton + folder structure per architecture.md
+- [x] Prisma schema with all database tables (SQLite for dev, MySQL for production)
+- [x] Locale files (German default + English)
+- [x] Storefront page shells (home, catalog, product, cart, checkout, account)
+- [x] Admin panel shell (dashboard, products, orders, customers, settings)
+- [x] Shared components (StorefrontNav, StorefrontFooter, CookieConsent, LanguageSwitcher, MobileNav)
+- [x] API route structure (products, orders, auth, payments, invoices)
+- [x] VAT calculation helper (reads from DB, not hardcoded)
+- [x] Payment & invoice placeholders
+- [x] Legal page stubs (privacy, imprint, terms, returns)
+- [x] Environment config (.env, .env.example)
+- [x] Build verified — 25 routes, no errors
+- [ ] Pending from client: product data, logo/brand colors, Impressum details
 
 ## Phase 2 — Core Development (2.5-3.5 weeks)
-- [ ] Product catalog + category pages
-- [ ] Product detail pages with size/color variant selection
-- [ ] Search
-- [ ] Cart
+- [x] Product catalog + category pages (Prisma-powered with filtering, sorting, categories)
+- [x] Product detail pages with size/color variant selection (Prisma-powered)
+- [x] Homepage with featured products from Prisma
+- [x] Database seed script with 8 sample products, 3 categories, settings
+- [x] Reusable ProductCard component
+- [ ] Search functionality
+- [ ] Shopping cart (add to cart, quantity management, persistence)
 - [ ] Guest checkout flow
 - [ ] Customer account flow (signup/login, order history, addresses)
 - [ ] Admin panel: product CRUD, variants, inventory, orders, customers, dashboard
