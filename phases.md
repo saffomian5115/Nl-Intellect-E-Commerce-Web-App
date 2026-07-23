@@ -14,7 +14,7 @@ Estimated total duration: ~5-6 weeks.
 - [x] Payment & invoice placeholders
 - [x] Legal page stubs (privacy, imprint, terms, returns)
 - [x] Environment config (.env, .env.example)
-- [x] Build verified — 25 routes, no errors
+- [x] Build verified — 25+ routes, no errors
 - [ ] Pending from client: product data, logo/brand colors, Impressum details
 
 ## Phase 2 — Core Development (2.5-3.5 weeks)
@@ -24,10 +24,12 @@ Estimated total duration: ~5-6 weeks.
 - [x] Database seed script with 8 sample products, 3 categories, settings
 - [x] Reusable ProductCard component
 - [x] Shopping cart (add to cart, quantity management, localStorage persistence, free shipping progress)
-- [ ] Search functionality
-- [ ] Guest checkout flow
-- [ ] Customer account flow (signup/login, order history, addresses)
-- [ ] Admin panel: product CRUD, variants, inventory, orders, customers, dashboard
+- [x] Search functionality (SearchBar component with Cmd+K shortcut, catalog filtering, filter chips)
+- [x] Guest checkout flow (form validation, order creation API with stock check, success page)
+- [x] Customer account system (signup/login with bcryptjs, session cookies, order history, address CRUD)
+- [x] Admin panel: product CRUD (create/edit/delete, variant management, image upload, in-place variant updates)
+- [ ] Admin panel: orders management (status updates, order detail view)
+- [ ] Admin panel: customers management, dashboard stats
 
 ## Phase 3 — Payment & Integrations (5-7 days)
 - [ ] Stripe integration
