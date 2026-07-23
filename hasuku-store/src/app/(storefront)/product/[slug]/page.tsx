@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { formatPrice } from "@/lib/vat";
+import AddToCartButton from "@/components/storefront/AddToCartButton";
 
 export default async function ProductDetailPage({
   params,
@@ -38,6 +39,9 @@ export default async function ProductDetailPage({
 
   const totalStock = product.variants.reduce((sum, v) => sum + v.stockQty, 0);
   const isInStock = totalStock > 0;
+
+  // Use first variant as default for add-to-cart (will be refined with variant selection later)
+  const defaultVariant = product.variants[0];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -149,30 +153,24 @@ export default async function ProductDetailPage({
             )}
           </div>
 
-          {/* Quantity & Add to Cart */}
-          <div className="mt-8 flex items-center gap-4">
-            <div className="flex items-center border rounded-lg">
-              <button className="px-4 py-3 text-gray-600 hover:text-gray-900 transition-colors">
-                −
-              </button>
-              <span className="px-4 py-3 font-medium min-w-[3rem] text-center">
-                1
-              </span>
-              <button className="px-4 py-3 text-gray-600 hover:text-gray-900 transition-colors">
-                +
-              </button>
+          {/* Add to Cart */}
+          {defaultVariant && (
+            <div className="mt-8">
+              <AddToCartButton
+                variantId={defaultVariant.id}
+                productId={product.id}
+                name={product.name}
+                slug={product.slug}
+                size={defaultVariant.size}
+                color={defaultVariant.color}
+                colorHex={defaultVariant.colorHex}
+                imageUrl={product.imageUrl}
+                unitPrice={defaultVariant.priceOverride ?? product.basePrice}
+                stockQty={defaultVariant.stockQty}
+                sku={defaultVariant.sku}
+              />
             </div>
-            <button
-              className={`flex-1 font-semibold py-3 rounded-lg transition-colors ${
-                isInStock
-                  ? "bg-red-500 hover:bg-red-600 text-white"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
-              disabled={!isInStock}
-            >
-              {isInStock ? "In den Warenkorb" : "Nicht verfügbar"}
-            </button>
-          </div>
+          )}
 
           {/* Shipping hint */}
           <p className="text-xs text-gray-500 mt-4">

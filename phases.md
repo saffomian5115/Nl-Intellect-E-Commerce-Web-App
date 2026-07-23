@@ -23,8 +23,8 @@ Estimated total duration: ~5-6 weeks.
 - [x] Homepage with featured products from Prisma
 - [x] Database seed script with 8 sample products, 3 categories, settings
 - [x] Reusable ProductCard component
+- [x] Shopping cart (add to cart, quantity management, localStorage persistence, free shipping progress)
 - [ ] Search functionality
-- [ ] Shopping cart (add to cart, quantity management, persistence)
 - [ ] Guest checkout flow
 - [ ] Customer account flow (signup/login, order history, addresses)
 - [ ] Admin panel: product CRUD, variants, inventory, orders, customers, dashboard

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import SearchBar from "./SearchBar";
 
 export default function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -45,6 +46,12 @@ export default function MobileNav() {
             </svg>
           </button>
         </div>
+
+        {/* Search in mobile menu */}
+        <div className="p-4 border-b">
+          <SearchBar />
+        </div>
+
         <nav className="p-4 space-y-1">
           <Link href="/" onClick={() => setOpen(false)} className="block px-4 py-3 rounded-lg hover:bg-gray-100">
             Startseite

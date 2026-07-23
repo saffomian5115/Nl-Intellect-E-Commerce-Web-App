@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/db/prisma";
 import ProductCard from "@/components/storefront/ProductCard";
 import SortSelect from "@/components/storefront/SortSelect";
+import SearchBar from "@/components/shared/SearchBar";
 
 type SearchParams = {
   category?: string;
@@ -54,29 +55,71 @@ export default async function CatalogPage({
 
   const activeCategory = categories.find((c) => c.slug === category);
 
+  // Build page title
+  let pageTitle = "Alle Produkte";
+  if (q && activeCategory) {
+    pageTitle = `Suche: "${q}" in ${activeCategory.name}`;
+  } else if (q) {
+    pageTitle = `Suche: "${q}"`;
+  } else if (activeCategory) {
+    pageTitle = activeCategory.name;
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Page Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
-          {activeCategory ? activeCategory.name : "Alle Produkte"}
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-900">{pageTitle}</h1>
         <p className="text-gray-500 mt-1">
           {totalCount} {totalCount === 1 ? "Produkt" : "Produkte"} gefunden
+          {q && (
+            <span>
+              {" "}für &quot;<span className="font-medium text-gray-900">{q}</span>&quot;
+            </span>
+          )}
         </p>
+        {/* Active filters */}
+        {(q || category) && (
+          <div className="flex flex-wrap gap-2 mt-3">
+            {q && (
+              <Link
+                href={category ? `/catalog?category=${category}` : "/catalog"}
+                className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-gray-200 transition-colors"
+              >
+                Suche: {q}
+                <span className="text-gray-400">✕</span>
+              </Link>
+            )}
+            {activeCategory && (
+              <Link
+                href={q ? `/catalog?q=${encodeURIComponent(q)}` : "/catalog"}
+                className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-gray-200 transition-colors"
+              >
+                {activeCategory.name}
+                <span className="text-gray-400">✕</span>
+              </Link>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col md:flex-row gap-8">
         {/* Sidebar Filters */}
         <aside className="w-full md:w-64 shrink-0">
           <div className="space-y-6">
+            {/* Search */}
+            <div>
+              <h3 className="font-medium mb-3 text-gray-900">Suchen</h3>
+              <SearchBar initialQuery={q} currentCategory={category} />
+            </div>
+
             {/* Categories */}
             <div>
               <h3 className="font-medium mb-3 text-gray-900">Kategorien</h3>
               <ul className="space-y-1 text-sm">
                 <li>
                   <Link
-                    href="/catalog"
+                    href={q ? `/catalog?q=${encodeURIComponent(q)}` : "/catalog"}
                     className={`block px-3 py-2 rounded-lg transition-colors ${
                       !category
                         ? "bg-gray-900 text-white font-medium"
@@ -86,23 +129,28 @@ export default async function CatalogPage({
                     Alle Kategorien
                   </Link>
                 </li>
-                {categories.map((cat) => (
-                  <li key={cat.id}>
-                    <Link
-                      href={`/catalog?category=${cat.slug}`}
-                      className={`block px-3 py-2 rounded-lg transition-colors ${
-                        category === cat.slug
-                          ? "bg-gray-900 text-white font-medium"
-                          : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                      }`}
-                    >
-                      {cat.name}
-                      <span className="ml-1 text-xs opacity-60">
-                        ({cat._count.products})
-                      </span>
-                    </Link>
-                  </li>
-                ))}
+                {categories.map((cat) => {
+                  const catParams = new URLSearchParams();
+                  if (q) catParams.set("q", q);
+                  catParams.set("category", cat.slug);
+                  return (
+                    <li key={cat.id}>
+                      <Link
+                        href={`/catalog?${catParams.toString()}`}
+                        className={`block px-3 py-2 rounded-lg transition-colors ${
+                          category === cat.slug
+                            ? "bg-gray-900 text-white font-medium"
+                            : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                        }`}
+                      >
+                        {cat.name}
+                        <span className="ml-1 text-xs opacity-60">
+                          ({cat._count.products})
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 
@@ -145,18 +193,35 @@ export default async function CatalogPage({
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={1}
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
               </svg>
               <p className="text-lg font-medium text-gray-500">
-                Keine Produkte gefunden
+                {q
+                  ? `Keine Produkte für "${q}" gefunden`
+                  : "Keine Produkte gefunden"}
               </p>
-              <Link
-                href="/catalog"
-                className="mt-4 inline-block text-red-500 hover:text-red-600 font-medium"
-              >
-                Filter zurücksetzen
-              </Link>
+              <p className="text-sm text-gray-400 mt-2">
+                {q
+                  ? "Versuchen Sie einen anderen Suchbegriff oder durchstöbern Sie unsere Kategorien."
+                  : "Versuchen Sie, die Filter zu ändern."}
+              </p>
+              <div className="mt-6 flex gap-3 justify-center">
+                {q && (
+                  <Link
+                    href="/catalog"
+                    className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
+                  >
+                    Alle Produkte
+                  </Link>
+                )}
+                <Link
+                  href="/catalog"
+                  className="px-4 py-2 border rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+                >
+                  Filter zurücksetzen
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
