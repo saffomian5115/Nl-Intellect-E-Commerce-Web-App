@@ -1,48 +1,86 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import MobileNav from "./MobileNav";
 import SearchBar from "./SearchBar";
 import { useCart } from "@/components/storefront/CartContext";
 
+const CATEGORIES = [
+  { name: "Küche", slug: "kueche", icon: "🍳" },
+  { name: "Büro", slug: "buero", icon: "💻" },
+  { name: "Haushalt", slug: "haushalt", icon: "🏠" },
+  { name: "Alle Produkte", slug: "", icon: "🛒" },
+];
+
 export default function StorefrontNav() {
   const { itemCount } = useCart();
+  const [catOpen, setCatOpen] = useState(false);
+  const catRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (catRef.current && !catRef.current.contains(e.target as Node)) {
+        setCatOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200">
+    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-4">
             <MobileNav />
-            <Link href="/" className="text-2xl font-bold text-gray-900">
+            <Link href="/" className="text-2xl font-bold text-gray-900 tracking-tight">
               hausku
             </Link>
           </div>
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-1">
             <Link
               href="/catalog"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-gray-600 hover:text-gray-900 transition-colors px-3 py-2 rounded-lg hover:bg-gray-50 text-sm font-medium"
             >
-              Produkte
+              Alle Produkte
             </Link>
-            <Link
-              href="/catalog?category=kueche"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              Küche
-            </Link>
-            <Link
-              href="/catalog?category=buero"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              Büro
-            </Link>
-            <Link
-              href="/catalog?category=haushalt"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              Haushalt
-            </Link>
+            {/* Category Dropdown */}
+            <div className="relative" ref={catRef}>
+              <button
+                onClick={() => setCatOpen(!catOpen)}
+                className="flex items-center gap-1 text-gray-600 hover:text-gray-900 transition-colors px-3 py-2 rounded-lg hover:bg-gray-50 text-sm font-medium"
+              >
+                Kategorien
+                <svg
+                  className={`w-4 h-4 transition-transform ${catOpen ? "rotate-180" : ""}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {catOpen && (
+                <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                  {CATEGORIES.map((cat) => (
+                    <Link
+                      key={cat.slug}
+                      href={cat.slug ? `/catalog?category=${cat.slug}` : "/catalog"}
+                      onClick={() => setCatOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
+                    >
+                      <span className="text-lg">{cat.icon}</span>
+                      <div>
+                        <p className="font-medium text-gray-900 text-sm">{cat.name}</p>
+                        <p className="text-xs text-gray-400">Alle ansehen →</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
           <div className="flex items-center space-x-2">
             <SearchBar compact />
