@@ -10,7 +10,7 @@ export default function AdminSettingsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Shop-Name</label>
-              <input type="text" defaultValue="HASUKU" className="w-full border rounded-lg px-4 py-3" />
+              <input type="text" defaultValue="hausku" className="w-full border rounded-lg px-4 py-3" />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Standard-Sprache</label>

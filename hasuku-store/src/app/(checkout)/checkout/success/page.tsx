@@ -2,13 +2,43 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { formatPrice } from "@/lib/vat";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
-  const orderNumber = searchParams.get("order") || "Unbekannt";
+  const orderNumber = searchParams.get("order") || "";
   const total = parseFloat(searchParams.get("total") || "0") || 0;
+  const sessionId = searchParams.get("session_id") || "";
+
+  const [verified, setVerified] = useState(!sessionId); // If no session_id, already verified
+  const [orderData, setOrderData] = useState<{
+    orderNumber: string;
+    total: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (sessionId) {
+      // Verify the Stripe session and get order details
+      fetch(`/api/payments/stripe/verify?session_id=${sessionId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.orderNumber) {
+            setOrderData({
+              orderNumber: data.orderNumber,
+              total: data.total,
+            });
+          }
+          setVerified(true);
+        })
+        .catch(() => {
+          setVerified(true);
+        });
+    }
+  }, [sessionId]);
+
+  const displayOrderNumber = orderData?.orderNumber || orderNumber || "Unbekannt";
+  const displayTotal = orderData?.total || total || 0;
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-16 text-center">
@@ -36,20 +66,31 @@ function SuccessContent() {
         Ihre Bestellung wurde erfolgreich aufgegeben.
       </p>
 
-      <div className="bg-gray-50 rounded-lg p-6 my-8 text-left">
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <p className="text-gray-500">Bestellnummer</p>
-            <p className="font-bold text-gray-900">{orderNumber}</p>
-          </div>
-          <div>
-            <p className="text-gray-500">Gesamtbetrag</p>
-            <p className="font-bold text-gray-900">
-              {total > 0 ? formatPrice(total) : "—"}
-            </p>
+      {!verified ? (
+        <div className="bg-gray-50 rounded-lg p-6 my-8">
+          <div className="animate-pulse flex space-x-4">
+            <div className="flex-1 space-y-4 py-1">
+              <div className="h-4 bg-gray-200 rounded w-3/4" />
+              <div className="h-4 bg-gray-200 rounded w-1/2" />
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="bg-gray-50 rounded-lg p-6 my-8 text-left">
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <p className="text-gray-500">Bestellnummer</p>
+              <p className="font-bold text-gray-900">{displayOrderNumber}</p>
+            </div>
+            <div>
+              <p className="text-gray-500">Gesamtbetrag</p>
+              <p className="font-bold text-gray-900">
+                {displayTotal > 0 ? formatPrice(displayTotal) : "—"}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <p className="text-gray-600 mb-8">
         Sie erhalten in Kürze eine Bestätigungs-E-Mail mit den Details Ihrer
@@ -81,7 +122,7 @@ export default function CheckoutSuccessPage() {
       <header className="bg-white border-b">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <Link href="/" className="text-2xl font-bold text-gray-900">
-            HASUKU
+            hausku
           </Link>
         </div>
       </header>

@@ -1,4 +1,4 @@
-# Architecture — HASUKU E-Commerce Web Application
+# Architecture — hausku E-Commerce Web Application
 
 ## Tech Stack
 - **Frontend + Backend:** Next.js (React-based) — chosen for SEO (SSR/SSG), performance, image optimization, and single-framework simplicity for a small-scope store.

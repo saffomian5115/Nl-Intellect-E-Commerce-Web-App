@@ -1,6 +1,6 @@
 {
   "common": {
-    "brand": "HASUKU",
+    "brand": "hausku",
     "tagline": "Home, Office & Kitchen",
     "search": "Search...",
     "cart": "Cart",
@@ -28,7 +28,7 @@
   },
   "home": {
     "hero": {
-      "title": "Welcome to HASUKU",
+      "title": "Welcome to hausku",
       "subtitle": "Quality products for home, office, and kitchen",
       "cta": "Discover now"
     },

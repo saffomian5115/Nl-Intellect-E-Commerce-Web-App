@@ -1,10 +1,10 @@
-# Project Memory / Status Log — HASUKU E-Commerce Web Application
+# Project Memory / Status Log — hausku E-Commerce Web Application
 
 Purpose: running log of client info, key decisions, and current status — read this first when resuming work on this project (especially useful for AI coding assistant context continuity across sessions).
 
 ## Client Info
 - Business: NI Intellect UG
-- Brand: HASUKU
+- Brand: hausku
 - Contact: Waqar Ali Anjam
 - Market: Germany, general household/office/kitchen products (e.g. laptop stands)
 - Sells on Amazon/eBay already; this is their first independent web store

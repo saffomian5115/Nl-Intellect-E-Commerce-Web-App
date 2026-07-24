@@ -35,7 +35,7 @@ export default function MobileNav() {
         }`}
       >
         <div className="flex items-center justify-between p-4 border-b">
-          <span className="text-xl font-bold">HASUKU</span>
+          <span className="text-xl font-bold">hausku</span>
           <button
             onClick={() => setOpen(false)}
             className="p-2 text-gray-600 hover:text-gray-900"

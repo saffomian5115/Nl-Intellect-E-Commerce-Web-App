@@ -22,12 +22,12 @@ type CreateOrderBody = {
   items: OrderItemInput[];
 };
 
-// Generate order number: HASUKU-YYYYMMDD-XXXX
+// Generate order number: hausku-YYYYMMDD-XXXX
 function generateOrderNumber(): string {
   const now = new Date();
   const date = now.toISOString().slice(0, 10).replace(/-/g, "");
   const random = Math.floor(1000 + Math.random() * 9000);
-  return `HASUKU-${date}-${random}`;
+  return `hausku-${date}-${random}`;
 }
 
 export async function GET(request: NextRequest) {
@@ -217,16 +217,20 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      // Decrement stock for each variant
-      for (const item of items) {
-        await tx.productVariant.update({
-          where: { id: item.variantId },
-          data: {
-            stockQty: {
-              decrement: item.qty,
+      // For Stripe payments, don't decrement stock immediately.
+      // Stock will be decremented by the webhook after payment confirmation.
+      // For other payment methods, decrement stock immediately.
+      if (paymentMethod !== "stripe") {
+        for (const item of items) {
+          await tx.productVariant.update({
+            where: { id: item.variantId },
+            data: {
+              stockQty: {
+                decrement: item.qty,
+              },
             },
-          },
-        });
+          });
+        }
       }
 
       return newOrder;

@@ -71,7 +71,8 @@ export default function CheckoutPage() {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/orders", {
+      // Step 1: Create the order
+      const orderRes = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -94,25 +95,66 @@ export default function CheckoutPage() {
         }),
       });
 
-      let data: Record<string, unknown> = {};
+      let orderData: Record<string, unknown> = {};
       try {
-        data = await res.json();
+        orderData = await orderRes.json();
       } catch {
         setErrors({ submit: "Server-Fehler. Bitte versuchen Sie es erneut." });
         setLoading(false);
         return;
       }
 
-      if (!res.ok) {
-        setErrors({ submit: (data.error as string) || "Fehler bei der Bestellung" });
+      if (!orderRes.ok) {
+        setErrors({
+          submit: (orderData.error as string) || "Fehler bei der Bestellung",
+        });
         setLoading(false);
         return;
       }
 
-      // Order successful - clear cart and redirect to success page
+      // Step 2: For Stripe payments, create a checkout session and redirect
+      if (form.paymentMethod === "stripe") {
+        const paymentRes = await fetch("/api/payments", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            provider: "stripe",
+            orderId: orderData.orderId,
+          }),
+        });
+
+        let paymentData: Record<string, unknown> = {};
+        try {
+          paymentData = await paymentRes.json();
+        } catch {
+          setErrors({
+            submit:
+              "Fehler bei der Zahlung. Bitte versuchen Sie es erneut.",
+          });
+          setLoading(false);
+          return;
+        }
+
+        if (!paymentRes.ok) {
+          setErrors({
+            submit:
+              (paymentData.error as string) ||
+              "Fehler bei der Zahlungsabwicklung",
+          });
+          setLoading(false);
+          return;
+        }
+
+        // Redirect to Stripe Checkout
+        clearCart();
+        window.location.href = paymentData.url as string;
+        return;
+      }
+
+      // For other payment methods (PayPal, Klarna) — redirect to success for now
       clearCart();
       router.push(
-        `/checkout/success?order=${data.orderNumber}&total=${data.total}`
+        `/checkout/success?order=${orderData.orderNumber}&total=${orderData.total}`
       );
     } catch {
       setErrors({ submit: "Netzwerkfehler. Bitte versuchen Sie es erneut." });
@@ -144,7 +186,7 @@ export default function CheckoutPage() {
       <header className="bg-white border-b">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="text-2xl font-bold text-gray-900">
-            HASUKU
+            hausku
           </Link>
           <div className="hidden md:flex items-center gap-2 text-sm text-gray-500">
             <span className="font-medium text-gray-900">1. Kontakt</span>
@@ -439,7 +481,11 @@ export default function CheckoutPage() {
                     : "bg-red-500 hover:bg-red-600 text-white"
                 }`}
               >
-                {loading ? "Wird verarbeitet..." : "Bestellung aufgeben"}
+                {loading
+                  ? "Wird verarbeitet..."
+                  : form.paymentMethod === "stripe"
+                    ? "Zur Kasse gehen"
+                    : "Bestellung aufgeben"}
               </button>
 
               <p className="text-xs text-center text-gray-500 mt-4">

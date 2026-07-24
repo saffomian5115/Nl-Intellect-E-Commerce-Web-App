@@ -1,4 +1,4 @@
-# Development Phases — HASUKU E-Commerce Web Application
+# Development Phases — hausku E-Commerce Web Application
 
 Estimated total duration: ~5-6 weeks.
 
@@ -28,11 +28,12 @@ Estimated total duration: ~5-6 weeks.
 - [x] Guest checkout flow (form validation, order creation API with stock check, success page)
 - [x] Customer account system (signup/login with bcryptjs, session cookies, order history, address CRUD)
 - [x] Admin panel: product CRUD (create/edit/delete, variant management, image upload, in-place variant updates)
-- [ ] Admin panel: orders management (status updates, order detail view)
-- [ ] Admin panel: customers management, dashboard stats
+- [x] Admin panel: orders management (status updates, order detail view)
+- [x] Admin panel: customers management, dashboard stats
+- [x] Admin authentication middleware (protected routes, login page, session cookies)
 
 ## Phase 3 — Payment & Integrations (5-7 days)
-- [ ] Stripe integration
+- [x] Stripe integration (checkout sessions, webhook handler, idempotent order processing, lazy SDK init)
 - [ ] PayPal integration
 - [ ] Klarna integration
 - [ ] Flexible VAT settings (admin-configurable rate, applied at checkout)

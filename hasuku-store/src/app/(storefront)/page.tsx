@@ -25,7 +25,7 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
           <div className="max-w-2xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Willkommen bei <span className="text-red-500">HASUKU</span>
+              Willkommen bei <span className="text-red-500">hausku</span>
             </h1>
             <p className="text-xl text-gray-300 mb-8">
               Qualitätsprodukte für Haus, Büro und Küche

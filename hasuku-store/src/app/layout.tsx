@@ -4,7 +4,7 @@ import { AuthProvider } from "@/components/storefront/AuthContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "HASUKU — Haus, Büro & Küche",
+  title: "hausku — Haus, Büro & Küche",
   description:
     "Qualitätsprodukte für Haus, Büro und Küche. Kostenloser Versand ab 30 €.",
 };

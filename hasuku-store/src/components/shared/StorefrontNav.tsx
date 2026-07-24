@@ -15,7 +15,7 @@ export default function StorefrontNav() {
           <div className="flex items-center gap-4">
             <MobileNav />
             <Link href="/" className="text-2xl font-bold text-gray-900">
-              HASUKU
+              hausku
             </Link>
           </div>
           <div className="hidden md:flex items-center space-x-8">

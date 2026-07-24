@@ -1,7 +1,7 @@
-# Requirements — HASUKU E-Commerce Web Application
+# Requirements — hausku E-Commerce Web Application
 
 ## Project Summary
-Client: NI Intellect UG (Brand: **HASUKU**)
+Client: NI Intellect UG (Brand: **hausku**)
 Contact: Waqar Ali Anjam
 Market: Germany (household, office & kitchen products — e.g. laptop stands)
 Existing sales channels: Amazon, eBay

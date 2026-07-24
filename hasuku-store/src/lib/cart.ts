@@ -22,7 +22,7 @@ export const emptyCart: Cart = { items: [] };
 export function getCartFromStorage(): Cart {
   if (typeof window === "undefined") return emptyCart;
   try {
-    const raw = localStorage.getItem("hasuku-cart");
+    const raw = localStorage.getItem("hausku-cart");
     if (!raw) return emptyCart;
     const parsed = JSON.parse(raw);
     if (!parsed || !Array.isArray(parsed.items)) return emptyCart;
@@ -35,7 +35,7 @@ export function getCartFromStorage(): Cart {
 export function saveCartToStorage(cart: Cart): void {
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem("hasuku-cart", JSON.stringify(cart));
+    localStorage.setItem("hausku-cart", JSON.stringify(cart));
   } catch {
     // Silently fail if storage is full
   }

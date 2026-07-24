@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { formatPrice } from "@/lib/vat";
 
 type Customer = {
   id: number;
@@ -14,12 +14,7 @@ type Customer = {
   totalRevenue: number;
 };
 
-function formatPrice(amount: number): string {
-  return new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
-}
+
 
 export default function AdminCustomersPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -50,11 +45,7 @@ export default function AdminCustomersPage() {
     fetchCustomers(search);
   };
 
-  const filtered = customers.filter(
-    (c) =>
-      c.name?.toLowerCase().includes(search.toLowerCase()) ||
-      c.email.toLowerCase().includes(search.toLowerCase())
-  );
+
 
   return (
     <div>
@@ -134,7 +125,7 @@ export default function AdminCustomersPage() {
                   Wird geladen...
                 </td>
               </tr>
-            ) : filtered.length === 0 ? (
+            ) : customers.length === 0 ? (
               <tr>
                 <td
                   colSpan={6}
@@ -146,7 +137,7 @@ export default function AdminCustomersPage() {
                 </td>
               </tr>
             ) : (
-              filtered.map((customer) => (
+              customers.map((customer) => (
                 <tr key={customer.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <p className="font-medium text-gray-900">
@@ -182,7 +173,7 @@ export default function AdminCustomersPage() {
       </div>
 
       <p className="text-sm text-gray-500 mt-4">
-        {filtered.length} von {customers.length} Kunden
+        {customers.length} Kunde{customers.length !== 1 ? "n" : ""}
       </p>
     </div>
   );

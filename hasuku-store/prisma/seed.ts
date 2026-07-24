@@ -160,8 +160,8 @@ async function main() {
     { key: "vat_rate", value: "19" },
     { key: "shipping_flat_rate", value: "4.99" },
     { key: "free_shipping_threshold", value: "30" },
-    { key: "store_name", value: "HASUKU" },
-    { key: "store_email", value: "info@hasuku.de" },
+    { key: "store_name", value: "hausku" },
+    { key: "store_email", value: "info@hausku.de" },
     { key: "company_name", value: "NI Intellect UG" },
   ];
 
