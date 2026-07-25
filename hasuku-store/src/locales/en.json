@@ -51,7 +51,8 @@
     "orders": "Orders",
     "signIn": "Sign In",
     "signUp": "Register",
-    "language": "Language"
+    "language": "Language",
+    "categories": "Categories"
   },
   "home": {
     "freeShipping": "Free shipping on orders over €30",

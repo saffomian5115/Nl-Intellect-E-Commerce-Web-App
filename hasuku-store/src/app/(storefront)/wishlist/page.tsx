@@ -35,7 +35,7 @@ export default function WishlistPage() {
 
     if (user) {
       // Fetch full product data from wishlist API
-      fetch("/api/wishlist")
+      fetch("/api/wishlist", { credentials: "include" })
         .then((res) => res.json())
         .then((data) => {
           setProducts(data.wishlist || []);

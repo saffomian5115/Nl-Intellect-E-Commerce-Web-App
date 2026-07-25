@@ -72,7 +72,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     if (user) {
       // Logged in: fetch from database
       try {
-        const res = await fetch("/api/wishlist");
+        const res = await fetch("/api/wishlist", { credentials: "include" });
         const data = await res.json();
         setLikedProductIds(new Set(data.wishlist.map((p: Product) => p.id)));
         setWishlistProducts(data.wishlist || []);
@@ -80,11 +80,20 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         // ignore
       }
     } else {
-      // Guest: fetch from localStorage
+      // Guest: fetch from localStorage and get product data
       const ids = getWishlistFromStorage();
       setLikedProductIds(new Set(ids));
-      // For guests, we don't have full product data, so empty the products list
-      setWishlistProducts([]);
+      if (ids.length > 0) {
+        try {
+          const res = await fetch(`/api/products?ids=${ids.join(",")}`, { credentials: "include" });
+          const data = await res.json();
+          setWishlistProducts(data.products || []);
+        } catch {
+          setWishlistProducts([]);
+        }
+      } else {
+        setWishlistProducts([]);
+      }
     }
     setLoading(false);
   }, [user]);
@@ -104,6 +113,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
             fetch("/api/wishlist/toggle", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
+              credentials: "include",
               body: JSON.stringify({ productId }),
             })
           )
@@ -135,6 +145,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
           const res = await fetch("/api/wishlist/toggle", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify({ productId }),
           });
           const data = await res.json();

@@ -9,7 +9,7 @@ import SearchBar from "./SearchBar";
 import { useCart } from "@/components/storefront/CartContext";
 import { useWishlist } from "@/components/storefront/WishlistContext";
 import { useAuth } from "@/components/storefront/AuthContext";
-import { CATEGORIES } from "@/lib/categories";
+import { CATEGORIES, getCategoryName, getCategoryDesc } from "@/lib/categories";
 import { useLocale } from "@/components/shared/LocaleContext";
 
 export default function StorefrontNav() {
@@ -69,7 +69,7 @@ export default function StorefrontNav() {
             <Link href="/" className="flex items-center h-full pl-2 pr-4 group">
               <div className="flex items-center h-full">
                 <Image
-                  src="/mylogo.png"
+                  src="/mylogo.jpeg"
                   alt="hausku"
                   width={140}
                   height={48}
@@ -88,10 +88,9 @@ export default function StorefrontNav() {
             </Link>
 
             {/* Produkte Dropdown */}
-            <div className="relative" ref={catRef}>
+            <div className="relative" ref={catRef} onMouseEnter={() => { closeOthers("cat"); setCatOpen(true); }} onMouseLeave={() => setCatOpen(false)}>
               <button
                 onClick={() => { closeOthers("cat"); setCatOpen(!catOpen); }}
-                onMouseEnter={() => { closeOthers("cat"); setCatOpen(true); }}
                 className="flex items-center gap-1 text-gray-900 hover:text-red-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group"
               >
                 <span>{t("nav.products")}</span>
@@ -99,7 +98,7 @@ export default function StorefrontNav() {
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-red-500 rounded-full transition-all duration-300 group-hover:w-16" />
               </button>
               {catOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50" onMouseLeave={() => setCatOpen(false)}>
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50">
                   <Link href="/catalog" onClick={() => setCatOpen(false)} className="flex items-center gap-3 px-5 py-3 mx-2 rounded-xl hover:bg-gray-50 transition-all group/item">
                     <span className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center text-lg group-hover/item:bg-red-100">🛒</span>
                     <div><p className="font-semibold text-gray-900 text-sm">{t("nav.allProducts")}</p><p className="text-xs text-gray-400">{t("nav.allProductsDesc")}</p></div>
@@ -109,7 +108,7 @@ export default function StorefrontNav() {
                   {CATEGORIES.map((cat) => (
                     <Link key={cat.slug} href={`/catalog?category=${cat.slug}`} onClick={() => setCatOpen(false)} className="flex items-center gap-3 px-5 py-3 mx-2 rounded-xl hover:bg-gray-50 transition-all group/item">
                       <span className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-lg group-hover/item:bg-red-50 group-hover/item:scale-110 transition-all">{cat.icon}</span>
-                      <div><p className="font-semibold text-gray-900 text-sm">{cat.name}</p><p className="text-xs text-gray-400">{cat.desc}</p></div>
+                      <div><p className="font-semibold text-gray-900 text-sm">{getCategoryName(cat, locale)}</p><p className="text-xs text-gray-400">{getCategoryDesc(cat, locale)}</p></div>
                       <svg className="w-4 h-4 text-gray-300 ml-auto group-hover/item:text-red-500 group-hover/item:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                     </Link>
                   ))}
@@ -118,7 +117,7 @@ export default function StorefrontNav() {
             </div>
 
             <Link href="/catalog?sort=newest" className="relative text-gray-900 hover:text-red-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-red-50 group">
-              <span className="flex items-center gap-1"><span className="text-red-500">🏷️</span>{t("nav.sales")}</span>
+              <span className="flex items-center gap-1"><svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" /></svg>{t("nav.sales")}</span>
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-red-500 rounded-full transition-all duration-300 group-hover:w-12" />
             </Link>
 
@@ -138,10 +137,9 @@ export default function StorefrontNav() {
             <SearchBar compact />
 
             {/* Language Globe Icon + Dropdown */}
-            <div className="relative" ref={langRef}>
+            <div className="relative" ref={langRef} onMouseEnter={() => { closeOthers("lang"); setLangOpen(true); }} onMouseLeave={() => setLangOpen(false)}>
               <button
                 onClick={() => { closeOthers("lang"); setLangOpen(!langOpen); }}
-                onMouseEnter={() => { closeOthers("lang"); setLangOpen(true); }}
                 className="p-2.5 text-gray-900 hover:text-red-600 rounded-xl transition-all duration-200 hover:bg-gray-50"
                 aria-label="Sprache wechseln"
               >
@@ -150,7 +148,7 @@ export default function StorefrontNav() {
                 </svg>
               </button>
               {langOpen && (
-                <div className="absolute top-full right-0 mt-0 pt-2 w-44 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 z-50" onMouseLeave={() => setLangOpen(false)}>
+                <div className="absolute top-full right-0 mt-0 pt-2 w-44 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 z-50">
                   <p className="px-4 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Sprache</p>
                   <button
                     onClick={() => { switchLocale("de"); setLangOpen(false); }}
@@ -177,10 +175,9 @@ export default function StorefrontNav() {
             </div>
 
             {/* Wishlist with hover toolbox */}
-            <div className="relative hidden sm:block" ref={wishRef}>
+            <div className="relative hidden sm:block" ref={wishRef} onMouseEnter={() => { closeOthers("wish"); setWishOpen(true); }} onMouseLeave={() => setWishOpen(false)}>
               <button
                 onClick={() => { closeOthers("wish"); setWishOpen(!wishOpen); }}
-                onMouseEnter={() => { closeOthers("wish"); setWishOpen(true); }}
                 className="relative p-2.5 text-gray-900 hover:text-red-500 rounded-xl transition-all duration-200 hover:bg-red-50"
                 aria-label="Merkliste"
               >
@@ -188,7 +185,7 @@ export default function StorefrontNav() {
                 {likedCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{likedCount > 99 ? "99+" : likedCount}</span>}
               </button>
               {wishOpen && (
-                <div className="absolute top-full right-0 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50" onMouseLeave={() => setWishOpen(false)}>
+                <div className="absolute top-full right-0 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50">
                   <div className="px-4 pb-3 border-b border-gray-100">
                     <p className="font-bold text-gray-900 text-sm">{t("nav.wishlist")}</p>
                     <p className="text-xs text-gray-400">{likedCount} {likedCount === 1 ? t("product.description") : t("nav.items")} {t("nav.wishlistSaved")}</p>
@@ -228,10 +225,9 @@ export default function StorefrontNav() {
             </div>
 
             {/* Cart with hover toolbox */}
-            <div className="relative hidden sm:block" ref={cartRef}>
+            <div className="relative hidden sm:block" ref={cartRef} onMouseEnter={() => { closeOthers("cart"); setCartOpen(true); }} onMouseLeave={() => setCartOpen(false)}>
               <button
                 onClick={() => { closeOthers("cart"); setCartOpen(!cartOpen); }}
-                onMouseEnter={() => { closeOthers("cart"); setCartOpen(true); }}
                 className="relative p-2.5 text-gray-900 hover:text-gray-900 rounded-xl transition-all duration-200 hover:bg-gray-50"
                 aria-label="Warenkorb"
               >
@@ -239,7 +235,7 @@ export default function StorefrontNav() {
                 {itemCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{itemCount > 99 ? "99+" : itemCount}</span>}
               </button>
               {cartOpen && (
-                <div className="absolute top-full right-0 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50" onMouseLeave={() => setCartOpen(false)}>
+                <div className="absolute top-full right-0 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50">
                   <div className="px-4 pb-3 border-b border-gray-100">
                     <p className="font-bold text-gray-900 text-sm">{t("nav.cart")}</p>
                     <p className="text-xs text-gray-400">{itemCount} {t("nav.items")} · €{cartTotal.toFixed(2)}</p>
@@ -252,7 +248,7 @@ export default function StorefrontNav() {
                   ) : (
                     <div className="max-h-72 overflow-y-auto">
                       {cart.items.slice(0, 5).map((item) => (
-                        <div key={item.variantId} className="flex items-center gap-3 px-4 py-2.5">
+                        <Link key={item.variantId} href={`/product/${item.slug}`} onClick={() => setCartOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors">
                           <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden shrink-0 border border-gray-100">
                             {item.imageUrl ? <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">📷</div>}
                           </div>
@@ -261,7 +257,7 @@ export default function StorefrontNav() {
                             <p className="text-xs text-gray-400">{item.color ? `${item.color} · ` : ""}{item.qty}x €{item.unitPrice.toFixed(2)}</p>
                           </div>
                           <span className="text-sm font-bold text-gray-900 shrink-0">€{(item.unitPrice * item.qty).toFixed(2)}</span>
-                        </div>
+                        </Link>
                       ))}
                       {cart.items.length > 5 && <p className="text-center text-xs text-gray-400 py-2">+{cart.items.length - 5} weitere Artikel</p>}
                     </div>
@@ -282,17 +278,16 @@ export default function StorefrontNav() {
             </div>
 
             {/* Account with hover toolbox */}
-            <div className="relative hidden sm:block" ref={accountRef}>
+            <div className="relative hidden sm:block" ref={accountRef} onMouseEnter={() => { closeOthers("account"); setAccountOpen(true); }} onMouseLeave={() => setAccountOpen(false)}>
               <button
                 onClick={() => { closeOthers("account"); setAccountOpen(!accountOpen); }}
-                onMouseEnter={() => { closeOthers("account"); setAccountOpen(true); }}
                 className="p-2.5 text-gray-900 hover:text-gray-900 rounded-xl transition-all duration-200 hover:bg-gray-50"
                 aria-label="Konto"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
               </button>
               {accountOpen && (
-                <div className="absolute top-full right-0 mt-0 pt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50" onMouseLeave={() => setAccountOpen(false)}>
+                <div className="absolute top-full right-0 mt-0 pt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50">
                   {user ? (
                     <>
                       <div className="px-4 pb-3 border-b border-gray-100">
@@ -301,26 +296,26 @@ export default function StorefrontNav() {
                         <p className="text-xs text-gray-400 truncate">{user.email}</p>
                       </div>
                       <Link href="/account" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
-                        <span>👤</span> {t("nav.myAccount")}
+                        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg> {t("nav.myAccount")}
                       </Link>
                       <Link href="/account/orders" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
-                        <span>📦</span> {t("nav.orders")}
+                        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg> {t("nav.orders")}
                       </Link>
                       <Link href="/wishlist" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
-                        <span>❤️</span> {t("nav.wishlist")}
+                        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> {t("nav.wishlist")}
                       </Link>
                       <div className="my-1 border-t border-gray-100" />
                       <button onClick={async () => { await fetch("/api/auth/logout", { method: "POST" }); window.location.reload(); }} className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-red-500">
-                        <span>🚪</span> {t("common.logout")}
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg> {t("common.logout")}
                       </button>
                     </>
                   ) : (
                     <>
                       <Link href="/account" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
-                        <span>🔑</span> {t("nav.signIn")}
+                        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg> {t("nav.signIn")}
                       </Link>
                       <Link href="/account" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
-                        <span>📝</span> {t("nav.signUp")}
+                        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg> {t("nav.signUp")}
                       </Link>
                     </>
                   )}

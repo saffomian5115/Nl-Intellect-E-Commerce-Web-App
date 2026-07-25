@@ -6,7 +6,7 @@ import Image from "next/image";
 import SearchBar from "./SearchBar";
 import { useAuth } from "@/components/storefront/AuthContext";
 import { useLocale } from "@/components/shared/LocaleContext";
-import { CATEGORIES } from "@/lib/categories";
+import { CATEGORIES, getCategoryName } from "@/lib/categories";
 
 export default function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ export default function MobileNav() {
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
           <Link href="/" onClick={() => setOpen(false)} className="flex items-center">
             <Image
-              src="/mylogo.png"
+              src="/mylogo.jpeg"
               alt="hausku"
               width={100}
               height={36}
@@ -111,12 +111,12 @@ export default function MobileNav() {
 
           <div className="my-2 border-t border-gray-100" />
 
-          <p className="px-4 py-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Kategorien</p>
+          <p className="px-4 py-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">{t("nav.categories")}</p>
 
           {CATEGORIES.map((cat) => (
             <Link key={cat.slug} href={`/catalog?category=${cat.slug}`} onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-medium transition-all">
               <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm">{cat.icon}</span>
-              {cat.name}
+              {getCategoryName(cat, locale)}
             </Link>
           ))}
 

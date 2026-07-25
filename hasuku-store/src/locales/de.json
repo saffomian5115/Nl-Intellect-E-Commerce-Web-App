@@ -51,7 +51,8 @@
     "orders": "Bestellungen",
     "signIn": "Anmelden",
     "signUp": "Registrieren",
-    "language": "Sprache"
+    "language": "Sprache",
+    "categories": "Kategorien"
   },
   "home": {
     "freeShipping": "Kostenloser Versand ab 30 € Bestellwert",
