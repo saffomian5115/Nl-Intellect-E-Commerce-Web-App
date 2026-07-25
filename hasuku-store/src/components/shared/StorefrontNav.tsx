@@ -2,130 +2,340 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+
 import MobileNav from "./MobileNav";
 import SearchBar from "./SearchBar";
 import { useCart } from "@/components/storefront/CartContext";
-
-const CATEGORIES = [
-  { name: "Küche", slug: "kueche", icon: "🍳" },
-  { name: "Büro", slug: "buero", icon: "💻" },
-  { name: "Haushalt", slug: "haushalt", icon: "🏠" },
-  { name: "Alle Produkte", slug: "", icon: "🛒" },
-];
+import { useWishlist } from "@/components/storefront/WishlistContext";
+import { useAuth } from "@/components/storefront/AuthContext";
+import { CATEGORIES } from "@/lib/categories";
+import { useLocale } from "@/components/shared/LocaleContext";
 
 export default function StorefrontNav() {
-  const { itemCount } = useCart();
+  const { itemCount, cart } = useCart();
+  const { likedCount, wishlistProducts } = useWishlist();
+  const { user } = useAuth();
+  const { t, locale, switchLocale } = useLocale();
   const [catOpen, setCatOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [wishOpen, setWishOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const catRef = useRef<HTMLDivElement>(null);
+  const cartRef = useRef<HTMLDivElement>(null);
+  const wishRef = useRef<HTMLDivElement>(null);
+  const accountRef = useRef<HTMLDivElement>(null);
+  const langRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown on outside click
+
+
+
+  // Close ALL dropdowns on outside click
   useEffect(() => {
     function handleClick(e: MouseEvent) {
-      if (catRef.current && !catRef.current.contains(e.target as Node)) {
-        setCatOpen(false);
+      const targets = [catRef, cartRef, wishRef, accountRef, langRef];
+      for (const ref of targets) {
+        if (ref.current && ref.current.contains(e.target as Node)) return;
       }
+      setCatOpen(false);
+      setCartOpen(false);
+      setWishOpen(false);
+      setAccountOpen(false);
+      setLangOpen(false);
     }
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  // Close all other dropdowns when one opens
+  const closeOthers = (except: string) => {
+    if (except !== "cat") setCatOpen(false);
+    if (except !== "cart") setCartOpen(false);
+    if (except !== "wish") setWishOpen(false);
+    if (except !== "account") setAccountOpen(false);
+    if (except !== "lang") setLangOpen(false);
+  };
+
+  const cartTotal = cart.items.reduce((s, i) => s + i.unitPrice * i.qty, 0);
+
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-4">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-center h-16">
+          {/* Left: Hamburger (mobile) + Logo */}
+          <div className="flex items-center shrink-0 h-full">
             <MobileNav />
-            <Link href="/" className="text-2xl font-bold text-gray-900 tracking-tight">
-              hausku
+            <Link href="/" className="flex items-center h-full pl-2 pr-4 group">
+              <div className="flex items-center h-full">
+                <Image
+                  src="/mylogo.png"
+                  alt="hausku"
+                  width={140}
+                  height={48}
+                  className="h-14 w-auto object-contain"
+                  priority
+                />
+              </div>
             </Link>
           </div>
-          <div className="hidden md:flex items-center space-x-1">
-            <Link
-              href="/catalog"
-              className="text-gray-600 hover:text-gray-900 transition-colors px-3 py-2 rounded-lg hover:bg-gray-50 text-sm font-medium"
-            >
-              Alle Produkte
+
+          {/* Center: Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-0.5 flex-1 justify-center">
+            <Link href="/" className="relative text-gray-900 hover:text-red-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
+              <span>{t("nav.home")}</span>
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-red-500 rounded-full transition-all duration-300 group-hover:w-8" />
             </Link>
-            {/* Category Dropdown */}
+
+            {/* Produkte Dropdown */}
             <div className="relative" ref={catRef}>
               <button
-                onClick={() => setCatOpen(!catOpen)}
-                className="flex items-center gap-1 text-gray-600 hover:text-gray-900 transition-colors px-3 py-2 rounded-lg hover:bg-gray-50 text-sm font-medium"
+                onClick={() => { closeOthers("cat"); setCatOpen(!catOpen); }}
+                onMouseEnter={() => { closeOthers("cat"); setCatOpen(true); }}
+                className="flex items-center gap-1 text-gray-900 hover:text-red-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group"
               >
-                Kategorien
-                <svg
-                  className={`w-4 h-4 transition-transform ${catOpen ? "rotate-180" : ""}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+                <span>{t("nav.products")}</span>
+                <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${catOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-red-500 rounded-full transition-all duration-300 group-hover:w-16" />
               </button>
               {catOpen && (
-                <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50" onMouseLeave={() => setCatOpen(false)}>
+                  <Link href="/catalog" onClick={() => setCatOpen(false)} className="flex items-center gap-3 px-5 py-3 mx-2 rounded-xl hover:bg-gray-50 transition-all group/item">
+                    <span className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center text-lg group-hover/item:bg-red-100">🛒</span>
+                    <div><p className="font-semibold text-gray-900 text-sm">{t("nav.allProducts")}</p><p className="text-xs text-gray-400">{t("nav.allProductsDesc")}</p></div>
+                    <svg className="w-4 h-4 text-gray-300 ml-auto group-hover/item:text-red-500 group-hover/item:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                  </Link>
+                  <div className="my-2 border-t border-gray-100" />
                   {CATEGORIES.map((cat) => (
-                    <Link
-                      key={cat.slug}
-                      href={cat.slug ? `/catalog?category=${cat.slug}` : "/catalog"}
-                      onClick={() => setCatOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
-                    >
-                      <span className="text-lg">{cat.icon}</span>
-                      <div>
-                        <p className="font-medium text-gray-900 text-sm">{cat.name}</p>
-                        <p className="text-xs text-gray-400">Alle ansehen →</p>
-                      </div>
+                    <Link key={cat.slug} href={`/catalog?category=${cat.slug}`} onClick={() => setCatOpen(false)} className="flex items-center gap-3 px-5 py-3 mx-2 rounded-xl hover:bg-gray-50 transition-all group/item">
+                      <span className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-lg group-hover/item:bg-red-50 group-hover/item:scale-110 transition-all">{cat.icon}</span>
+                      <div><p className="font-semibold text-gray-900 text-sm">{cat.name}</p><p className="text-xs text-gray-400">{cat.desc}</p></div>
+                      <svg className="w-4 h-4 text-gray-300 ml-auto group-hover/item:text-red-500 group-hover/item:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                     </Link>
                   ))}
                 </div>
               )}
             </div>
-          </div>
-          <div className="flex items-center space-x-2">
-            <SearchBar compact />
-            <Link
-              href="/cart"
-              className="p-2 text-gray-600 hover:text-gray-900 relative"
-              aria-label="Warenkorb"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
-                />
-              </svg>
-              {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                  {itemCount > 99 ? "99+" : itemCount}
-                </span>
-              )}
+
+            <Link href="/catalog?sort=newest" className="relative text-gray-900 hover:text-red-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-red-50 group">
+              <span className="flex items-center gap-1"><span className="text-red-500">🏷️</span>{t("nav.sales")}</span>
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-red-500 rounded-full transition-all duration-300 group-hover:w-12" />
             </Link>
-            <Link
-              href="/account"
-              className="p-2 text-gray-600 hover:text-gray-900"
-              aria-label="Konto"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+
+            <Link href="/imprint" className="relative text-gray-900 hover:text-red-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
+              <span>{t("nav.about")}</span>
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-red-500 rounded-full transition-all duration-300 group-hover:w-10" />
+            </Link>
+
+            <Link href="/imprint#contact" className="relative text-gray-900 hover:text-red-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
+              <span>{t("nav.contact")}</span>
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-red-500 rounded-full transition-all duration-300 group-hover:w-10" />
+            </Link>
+          </div>
+
+          {/* Right: Search + Language + Wishlist + Cart + Account */}
+          <div className="flex items-center space-x-0.5 shrink-0 pr-2">
+            <SearchBar compact />
+
+            {/* Language Globe Icon + Dropdown */}
+            <div className="relative" ref={langRef}>
+              <button
+                onClick={() => { closeOthers("lang"); setLangOpen(!langOpen); }}
+                onMouseEnter={() => { closeOthers("lang"); setLangOpen(true); }}
+                className="p-2.5 text-gray-900 hover:text-red-600 rounded-xl transition-all duration-200 hover:bg-gray-50"
+                aria-label="Sprache wechseln"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                </svg>
+              </button>
+              {langOpen && (
+                <div className="absolute top-full right-0 mt-0 pt-2 w-44 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 z-50" onMouseLeave={() => setLangOpen(false)}>
+                  <p className="px-4 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Sprache</p>
+                  <button
+                    onClick={() => { switchLocale("de"); setLangOpen(false); }}
+                    className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all ${
+                      locale === "de" ? "bg-red-50 text-red-600" : "text-gray-900 hover:bg-gray-50"
+                    }`}
+                  >
+                    <span className="text-lg">🇩🇪</span>
+                    <span>Deutsch</span>
+                    {locale === "de" && <svg className="w-4 h-4 ml-auto text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
+                  </button>
+                  <button
+                    onClick={() => { switchLocale("en"); setLangOpen(false); }}
+                    className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all ${
+                      locale === "en" ? "bg-red-50 text-red-600" : "text-gray-900 hover:bg-gray-50"
+                    }`}
+                  >
+                    <span className="text-lg">🇬🇧</span>
+                    <span>English</span>
+                    {locale === "en" && <svg className="w-4 h-4 ml-auto text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Wishlist with hover toolbox */}
+            <div className="relative hidden sm:block" ref={wishRef}>
+              <button
+                onClick={() => { closeOthers("wish"); setWishOpen(!wishOpen); }}
+                onMouseEnter={() => { closeOthers("wish"); setWishOpen(true); }}
+                className="relative p-2.5 text-gray-900 hover:text-red-500 rounded-xl transition-all duration-200 hover:bg-red-50"
+                aria-label="Merkliste"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                {likedCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{likedCount > 99 ? "99+" : likedCount}</span>}
+              </button>
+              {wishOpen && (
+                <div className="absolute top-full right-0 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50" onMouseLeave={() => setWishOpen(false)}>
+                  <div className="px-4 pb-3 border-b border-gray-100">
+                    <p className="font-bold text-gray-900 text-sm">{t("nav.wishlist")}</p>
+                    <p className="text-xs text-gray-400">{likedCount} {likedCount === 1 ? t("product.description") : t("nav.items")} {t("nav.wishlistSaved")}</p>
+                  </div>
+                  {likedCount === 0 ? (
+                    <div className="px-4 py-8 text-center">
+                      <svg className="w-10 h-10 mx-auto text-gray-200 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                      <p className="text-sm text-gray-500">{t("nav.wishlistEmpty")}</p>
+                      <p className="text-xs text-gray-400 mt-1">{t("nav.wishlistHint")}</p>
+                    </div>
+                  ) : (
+                    <div className="max-h-72 overflow-y-auto">
+                      {wishlistProducts.slice(0, 6).map((p) => (
+                        <Link key={p.id} href={`/product/${p.slug}`} onClick={() => setWishOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors">
+                          <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden shrink-0 border border-gray-100">
+                            {p.imageUrl ? <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">📷</div>}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-medium text-gray-900 truncate">{p.name}</p>
+                            <p className="text-xs text-gray-400">{p.category.name}</p>
+                            <p className="text-sm font-bold text-red-500">€{p.basePrice.toFixed(2)}</p>
+                          </div>
+                        </Link>
+                      ))}
+                      {wishlistProducts.length > 6 && <p className="text-center text-xs text-gray-400 py-2">+{wishlistProducts.length - 6} weitere</p>}
+                    </div>
+                  )}
+                  {likedCount > 0 && (
+                    <div className="px-4 pt-3 border-t border-gray-100">
+                      <Link href="/wishlist" onClick={() => setWishOpen(false)} className="block w-full text-center text-sm font-semibold text-red-500 hover:text-red-600 py-2 rounded-xl hover:bg-red-50 transition-colors">
+                        {t("nav.viewAllWishlist")}
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Cart with hover toolbox */}
+            <div className="relative hidden sm:block" ref={cartRef}>
+              <button
+                onClick={() => { closeOthers("cart"); setCartOpen(!cartOpen); }}
+                onMouseEnter={() => { closeOthers("cart"); setCartOpen(true); }}
+                className="relative p-2.5 text-gray-900 hover:text-gray-900 rounded-xl transition-all duration-200 hover:bg-gray-50"
+                aria-label="Warenkorb"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>
+                {itemCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{itemCount > 99 ? "99+" : itemCount}</span>}
+              </button>
+              {cartOpen && (
+                <div className="absolute top-full right-0 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50" onMouseLeave={() => setCartOpen(false)}>
+                  <div className="px-4 pb-3 border-b border-gray-100">
+                    <p className="font-bold text-gray-900 text-sm">{t("nav.cart")}</p>
+                    <p className="text-xs text-gray-400">{itemCount} {t("nav.items")} · €{cartTotal.toFixed(2)}</p>
+                  </div>
+                  {itemCount === 0 ? (
+                    <div className="px-4 py-8 text-center">
+                      <svg className="w-10 h-10 mx-auto text-gray-200 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>
+                      <p className="text-sm text-gray-500">{t("nav.cartEmpty")}</p>
+                    </div>
+                  ) : (
+                    <div className="max-h-72 overflow-y-auto">
+                      {cart.items.slice(0, 5).map((item) => (
+                        <div key={item.variantId} className="flex items-center gap-3 px-4 py-2.5">
+                          <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden shrink-0 border border-gray-100">
+                            {item.imageUrl ? <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">📷</div>}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-medium text-gray-900 truncate">{item.name}</p>
+                            <p className="text-xs text-gray-400">{item.color ? `${item.color} · ` : ""}{item.qty}x €{item.unitPrice.toFixed(2)}</p>
+                          </div>
+                          <span className="text-sm font-bold text-gray-900 shrink-0">€{(item.unitPrice * item.qty).toFixed(2)}</span>
+                        </div>
+                      ))}
+                      {cart.items.length > 5 && <p className="text-center text-xs text-gray-400 py-2">+{cart.items.length - 5} weitere Artikel</p>}
+                    </div>
+                  )}
+                  {itemCount > 0 && (
+                    <div className="px-4 pt-3 border-t border-gray-100">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm font-medium text-gray-500">{t("nav.total")}</span>
+                        <span className="text-base font-bold text-gray-900">€{cartTotal.toFixed(2)}</span>
+                      </div>
+                      <Link href="/cart" onClick={() => setCartOpen(false)} className="block w-full text-center text-sm font-semibold text-white bg-red-500 hover:bg-red-600 py-3 rounded-xl transition-colors shadow-sm shadow-red-500/20">
+                        {t("nav.checkout")}
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Account with hover toolbox */}
+            <div className="relative hidden sm:block" ref={accountRef}>
+              <button
+                onClick={() => { closeOthers("account"); setAccountOpen(!accountOpen); }}
+                onMouseEnter={() => { closeOthers("account"); setAccountOpen(true); }}
+                className="p-2.5 text-gray-900 hover:text-gray-900 rounded-xl transition-all duration-200 hover:bg-gray-50"
+                aria-label="Konto"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+              </button>
+              {accountOpen && (
+                <div className="absolute top-full right-0 mt-0 pt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50" onMouseLeave={() => setAccountOpen(false)}>
+                  {user ? (
+                    <>
+                      <div className="px-4 pb-3 border-b border-gray-100">
+                        <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-500 font-bold text-sm mb-2">{(user.name || user.email)[0].toUpperCase()}</div>
+                        <p className="font-bold text-gray-900 text-sm">{user.name || "Konto"}</p>
+                        <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                      </div>
+                      <Link href="/account" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
+                        <span>👤</span> {t("nav.myAccount")}
+                      </Link>
+                      <Link href="/account/orders" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
+                        <span>📦</span> {t("nav.orders")}
+                      </Link>
+                      <Link href="/wishlist" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
+                        <span>❤️</span> {t("nav.wishlist")}
+                      </Link>
+                      <div className="my-1 border-t border-gray-100" />
+                      <button onClick={async () => { await fetch("/api/auth/logout", { method: "POST" }); window.location.reload(); }} className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-red-500">
+                        <span>🚪</span> {t("common.logout")}
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link href="/account" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
+                        <span>🔑</span> {t("nav.signIn")}
+                      </Link>
+                      <Link href="/account" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
+                        <span>📝</span> {t("nav.signUp")}
+                      </Link>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile links */}
+            <Link href="/wishlist" className="relative p-2.5 text-gray-900 sm:hidden rounded-xl hover:bg-red-50">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+              {likedCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{likedCount}</span>}
+            </Link>
+            <Link href="/cart" className="relative p-2.5 text-gray-900 sm:hidden rounded-xl hover:bg-gray-50">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>
+              {itemCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{itemCount}</span>}
             </Link>
           </div>
         </div>

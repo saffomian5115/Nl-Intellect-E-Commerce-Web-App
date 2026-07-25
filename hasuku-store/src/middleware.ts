@@ -1,9 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Admin credentials (stored in env vars for production)
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@hausku.de";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "hausku-admin-2024";
-
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -18,14 +14,12 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/admin/login", request.url));
     }
 
-    // Verify session is valid
     try {
       const sessionData = JSON.parse(
         Buffer.from(session.value, "base64").toString()
       );
 
       if (sessionData.expires < Date.now()) {
-        // Session expired
         const response = NextResponse.redirect(
           new URL("/admin/login", request.url)
         );
@@ -33,7 +27,6 @@ export function middleware(request: NextRequest) {
         return response;
       }
     } catch {
-      // Invalid session
       const response = NextResponse.redirect(
         new URL("/admin/login", request.url)
       );
@@ -74,6 +67,10 @@ export function middleware(request: NextRequest) {
       );
     }
   }
+
+  // For storefront: default locale (de) doesn't have /de prefix
+  // /en/* pages work directly thanks to next.config i18n
+  // No need to add locale prefix for default locale
 
   return NextResponse.next();
 }

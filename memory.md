@@ -6,7 +6,7 @@ Purpose: running log of client info, key decisions, and current status — read 
 - Business: NI Intellect UG
 - Brand: hausku
 - Contact: Waqar Ali Anjam
-- Market: Germany, general household/office/kitchen products (e.g. laptop stands)
+- Market: Germany, general household/kitchen products (e.g. laptop cushions, lunch boxes, snack organizers)
 - Sells on Amazon/eBay already; this is their first independent web store
 - Reference site shown by client: blockhuette.net (note: that site is built on Shopify — client's expectations of polish may be shaped by this; our custom build should account for that)
 

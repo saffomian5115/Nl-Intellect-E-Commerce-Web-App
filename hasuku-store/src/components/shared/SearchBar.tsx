@@ -25,7 +25,7 @@ export default function SearchBar({
     }
   }, [expanded]);
 
-  // Click/touch outside to close compact SearchBar
+  // Click outside to close
   useEffect(() => {
     if (!expanded || !compact) return;
     const handler = (e: MouseEvent | TouchEvent) => {
@@ -41,7 +41,7 @@ export default function SearchBar({
     };
   }, [expanded, compact]);
 
-  // Keyboard shortcut: Cmd/Ctrl + K to focus
+  // Keyboard shortcuts
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -81,47 +81,79 @@ export default function SearchBar({
     router.push(qs ? `/catalog?${qs}` : "/catalog");
   };
 
+  // Compact version: icon → animated expanding search bar
   if (compact) {
-    // Compact version: icon that expands into input
     return (
-      <div ref={containerRef} className="relative">
+      <div ref={containerRef} className="relative flex items-center">
         {!expanded ? (
           <button
             onClick={() => setExpanded(true)}
-            className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
-            aria-label="Suchen (Strg+K)"
+            className="p-2.5 text-gray-900 hover:text-red-600 rounded-xl transition-all duration-200 hover:bg-gray-50 group"
+            aria-label="Suchen"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <svg
+              className="w-5 h-5 transition-transform duration-200 group-hover:scale-110"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
             </svg>
           </button>
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center bg-white border rounded-lg shadow-lg z-50"
+            className="flex items-center bg-gray-50 border border-gray-200 rounded-full shadow-lg z-50 overflow-hidden transition-all duration-300 ease-out animate-expand-search"
+            style={{ width: "320px" }}
           >
+            {/* Search icon inside */}
+            <div className="pl-4 pr-1">
+              <svg
+                className="w-4 h-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
             <input
               ref={inputRef}
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Suchen… (Esc zum Schließen)"
-              className="px-4 py-2 text-sm w-48 md:w-64 outline-none rounded-l-lg"
+              placeholder="Produkte suchen…"
+              className="flex-1 bg-transparent py-2.5 px-2 text-sm text-gray-900 placeholder-gray-400 outline-none min-w-0"
             />
-            <button
-              type="submit"
-              className="px-3 py-2 text-gray-600 hover:text-gray-900"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
+            {query && (
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                className="px-2 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
             <button
               type="button"
               onClick={() => { setExpanded(false); setQuery(""); }}
-              className="px-2 py-2 text-gray-400 hover:text-gray-600 border-l"
+              className="mr-1 p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-full transition-all duration-200"
             >
-              ✕
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </button>
           </form>
         )}
@@ -138,7 +170,7 @@ export default function SearchBar({
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Produkte suchen…"
-        className="w-full border rounded-lg px-4 py-2 pl-10 text-sm outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+        className="w-full border rounded-xl px-4 py-2.5 pl-10 text-sm outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
       />
       <svg
         className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
@@ -146,7 +178,12 @@ export default function SearchBar({
         stroke="currentColor"
         viewBox="0 0 24 24"
       >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        />
       </svg>
       {query && (
         <button

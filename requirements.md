@@ -3,7 +3,7 @@
 ## Project Summary
 Client: NI Intellect UG (Brand: **hausku**)
 Contact: Waqar Ali Anjam
-Market: Germany (household, office & kitchen products — e.g. laptop stands)
+Market: Germany (household & kitchen products — e.g. laptop cushions, lunch boxes, snack organizers)
 Existing sales channels: Amazon, eBay
 Goal: Independent web store to sell directly to customers.
 

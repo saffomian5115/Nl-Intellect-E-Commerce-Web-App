@@ -12,129 +12,103 @@ async function main() {
     create: { name: "Küche", slug: "kueche", sortOrder: 1 },
   });
 
-  const buero = await prisma.category.upsert({
-    where: { slug: "buero" },
-    update: {},
-    create: { name: "Büro", slug: "buero", sortOrder: 2 },
-  });
-
   const haushalt = await prisma.category.upsert({
     where: { slug: "haushalt" },
     update: {},
-    create: { name: "Haushalt", slug: "haushalt", sortOrder: 3 },
+    create: { name: "Haushalt", slug: "haushalt", sortOrder: 2 },
   });
 
   console.log("✅ Categories created");
 
-  // ─── Products ──────────────────────────────────────────
+  // ─── Products (Real HAUSKU Products) ────────────────────
   const products = [
+    // ── Laptop Cushions ──
     {
-      name: "Laptop-Ständer Aluminium",
-      slug: "laptop-staender-aluminium",
+      name: "Laptopkissen für Bett & Sofa — Grau",
+      slug: "laptopkissen-grau",
       description:
-        "Höhenverstellbarer Laptop-Ständer aus hochwertigem Aluminium. Ergonomisches Design für bessere Haltung am Arbeitsplatz. Kompatibel mit Laptops von 10 bis 17 Zoll.",
-      basePrice: 29.99,
-      imageUrl: "/images/products/laptop-staender.jpg",
-      categoryId: buero.id,
-      featured: true,
-      variants: [
-        { sku: "LS-ALU-SIL-001", color: "Silber", colorHex: "#C0C0C0", stockQty: 25, size: null },
-        { sku: "LS-ALU-BLK-001", color: "Schwarz", colorHex: "#1a1a2e", stockQty: 30, size: null },
-      ],
-    },
-    {
-      name: "Küchenmesser-Set 6-teilig",
-      slug: "kuechenmesser-set-6",
-      description:
-        "Professionelles 6-teiliges Küchenmesser-Set aus rostfreiem Stahl mit ergonomischem Griff. Inkl. Schneidebrett und Messerschärfer.",
-      basePrice: 49.99,
-      imageUrl: "/images/products/kuechenmesser-set.jpg",
-      categoryId: kueche.id,
-      featured: true,
-      variants: [
-        { sku: "KM-SET-6-BLK-001", color: "Schwarz", colorHex: "#1a1a2e", stockQty: 15, size: null },
-        { sku: "KM-SET-6-WHT-001", color: "Weiß", colorHex: "#ffffff", stockQty: 10, size: null },
-      ],
-    },
-    {
-      name: "Schreibtisch-Organizer",
-      slug: "schreibtisch-organizer",
-      description:
-        "Modularer Schreibtisch-Organizer aus Bambus. Hält Stifte, Notizen und Bürobedarf ordentlich. Natürliches Material, modernes Design.",
-      basePrice: 19.99,
-      imageUrl: "/images/products/schreibtisch-organizer.jpg",
-      categoryId: buero.id,
-      featured: false,
-      variants: [
-        { sku: "SO-BAM-NAT-001", color: "Naturholz", colorHex: "#d4a574", stockQty: 40, size: null },
-      ],
-    },
-    {
-      name: "Wasserkocher Glasperle",
-      slug: "wasserkocher-glasperle",
-      description:
-        "Eleganter Wasserkocher aus Glas mit LED-Beleuchtung. 1,7 Liter Fassungsvermögen, 2400W Leistung. Automatische Abschaltung.",
-      basePrice: 34.99,
-      imageUrl: "/images/products/wasserkocher.jpg",
-      categoryId: kueche.id,
-      featured: true,
-      variants: [
-        { sku: "WK-GLS-CLR-001", color: "Klar", colorHex: "#e0e0e0", stockQty: 20, size: null },
-        { sku: "WK-GLS-BLK-001", color: "Schwarz", colorHex: "#1a1a2e", stockQty: 18, size: null },
-      ],
-    },
-    {
-      name: "Büro-Stuhl Ergonomisch",
-      slug: "buero-stuhl-ergonomisch",
-      description:
-        "Ergonomischer Bürostuhl mit höhenverstellbarer Lehne, Armstützen und Lendenwirbelstütze. Belastbar bis 120 kg.",
-      basePrice: 89.99,
-      imageUrl: "/images/products/buero-stuhl.jpg",
-      categoryId: buero.id,
-      featured: false,
-      variants: [
-        { sku: "BS-ERG-BLK-001", color: "Schwarz", colorHex: "#1a1a2e", stockQty: 12, size: null },
-        { sku: "BS-ERG-GRY-001", color: "Grau", colorHex: "#808080", stockQty: 8, size: null },
-      ],
-    },
-    {
-      name: "Luftreiniger HEPA",
-      slug: "luftreiniger-hepa",
-      description:
-        "Leistungsstarker Luftreiniger mit HEPA-Filter. Ideal für Räume bis 30 m². Ruhiger Betrieb, 3 Stufen.",
-      basePrice: 59.99,
-      imageUrl: "/images/products/luftreiniger.jpg",
+        "Ergonomisches Lapdesk aus Polyester und Holz. Integrierter Smartphone-Tablet-Slot, Handgelenkauflage und Mausbereich. Passt bis 17 Zoll Laptops. Leicht & komfortabel für Büro, Lernen und Entspannung.",
+      basePrice: 29.90,
+      imageUrl: "/images/products/laptopkissen-grau.jpg",
       categoryId: haushalt.id,
       featured: true,
+      manufacturer: "HAUSKU",
       variants: [
-        { sku: "LR-HEPA-WHT-001", color: "Weiß", colorHex: "#ffffff", stockQty: 14, size: null },
+        { sku: "HSK-LK-GRY-001", color: "Grau", colorHex: "#808080", stockQty: 20, size: null },
       ],
     },
     {
-      name: "Spardose Glas mit Zähler",
-      slug: "spardose-glas-zaehler",
+      name: "Laptopkissen für Bett & Sofa — Schwarz",
+      slug: "laptopkissen-schwarz",
       description:
-        "Transparente Spardose aus Glas mit digitaler Anzeige des eingeworfenen Betrags. Perfekt als Geschenk oder zum Sparen.",
-      basePrice: 14.99,
-      imageUrl: "/images/products/spardose.jpg",
+        "Ergonomisches Lapdesk aus Polyester und Holz in eleganter schwarzer Ausführung. Integrierter Smartphone-Tablet-Slot, Handgelenkauflage und Mausbereich. Passt bis 17 Zoll Laptops.",
+      basePrice: 29.90,
+      imageUrl: "/images/products/laptopkissen-schwarz.jpg",
       categoryId: haushalt.id,
-      featured: false,
+      featured: true,
+      manufacturer: "HAUSKU",
       variants: [
-        { sku: "SG-GLS-CLR-001", color: "Klar", colorHex: "#e0e0e0", stockQty: 50, size: null },
+        { sku: "HSK-LK-BLK-001", color: "Schwarz", colorHex: "#1a1a1a", stockQty: 25, size: null },
+      ],
+    },
+
+    // ── Lunch Boxes ──
+    {
+      name: "HAUSKU Edelstahl Brotdose 850 ml",
+      slug: "brotdose-850ml",
+      description:
+        "Auslaufsichere Edelstahl-Brotdose mit verschiebbarer Trennwand und klappbarem Besteckset. 18/08 Lebensmittelqualität, BPA-frei, spülmaschinenfest. Inkl. Ersatzdichtung und 100% Baumwollbeutel. Ideal für Kinder und kleine Portionen.",
+      basePrice: 11.95,
+      imageUrl: "/images/products/brotdose-850ml.jpg",
+      categoryId: kueche.id,
+      featured: true,
+      manufacturer: "HAUSKU",
+      variants: [
+        { sku: "HSK-LB-850-SLV", color: "Silber", colorHex: "#C0C0C0", stockQty: 40, size: "850 ml" },
       ],
     },
     {
-      name: "Mäusepad XXL Gaming",
-      slug: "maeusepad-xxl-gaming",
+      name: "HAUSKU Edelstahl Brotdose 1200 ml",
+      slug: "brotdose-1200ml",
       description:
-        "Extra großer Gaming-Mauspad (900x400mm). Anti-Rutsch-Rückseite, präzise Oberfläche, stochfester Rand.",
-      basePrice: 16.99,
-      imageUrl: "/images/products/maeusepad.jpg",
-      categoryId: buero.id,
+        "Große auslaufsichere Edelstahl-Brotdose mit Silikondichtung und Rastverschluss. Verstellbare Trennwand, klappbares Besteckset, Ersatzdichtung und Baumwollbeutel inklusive. Perfekt für Büro, Schule und Meal Prep.",
+      basePrice: 14.95,
+      imageUrl: "/images/products/brotdose-1200ml.jpg",
+      categoryId: kueche.id,
       featured: false,
+      manufacturer: "HAUSKU",
       variants: [
-        { sku: "MP-XXL-BLK-001", color: "Schwarz", colorHex: "#1a1a2e", stockQty: 35, size: null },
-        { sku: "MP-XXL-GRY-001", color: "Grau", colorHex: "#808080", stockQty: 20, size: null },
+        { sku: "HSK-LB-1200-SLV", color: "Silber", colorHex: "#C0C0C0", stockQty: 35, size: "1200 ml" },
+      ],
+    },
+    {
+      name: "HAUSKU Edelstahl Brotdose 1400 ml",
+      slug: "brotdose-1400ml",
+      description:
+        "Die größte HAUSKU Brotdose mit exklusivem Dip-Sauce-Behälter. Auslaufsicher dank Silikondichtung, verstellbare Trennwand, klappbares Besteckset, Ersatzdichtung und Baumwollbeutel. Ideal für große Mahlzeiten.",
+      basePrice: 15.95,
+      imageUrl: "/images/products/brotdose-1400ml.jpg",
+      categoryId: kueche.id,
+      featured: true,
+      manufacturer: "HAUSKU",
+      variants: [
+        { sku: "HSK-LB-1400-SLV", color: "Silber", colorHex: "#C0C0C0", stockQty: 30, size: "1400 ml" },
+      ],
+    },
+
+    // ── Couch Bar ──
+    {
+      name: "HAUSKU Couch Bar Snackbox",
+      slug: "couchbar-snackbox",
+      description:
+        "Vielseitiger Snack-Organizer für die Couch aus Bambus und Edelstahl. 2 große Schalen + 1 Dip-Schale, integrierte Getränkehalter, Flaschenöffner, 2 Kork-Untersetzer und Tragegriff. Elegante Zweifarben-Optik.",
+      basePrice: 39.90,
+      imageUrl: "/images/products/couchbar-snackbox.jpg",
+      categoryId: haushalt.id,
+      featured: true,
+      manufacturer: "HAUSKU",
+      variants: [
+        { sku: "HSK-CB-NAT-001", color: "Natur/Schwarz", colorHex: "#d4a574", stockQty: 15, size: null },
       ],
     },
   ];
@@ -143,7 +117,15 @@ async function main() {
     const { variants, ...productData } = product;
     await prisma.product.upsert({
       where: { slug: product.slug },
-      update: {},
+      update: {
+        name: productData.name,
+        description: productData.description,
+        basePrice: productData.basePrice,
+        imageUrl: productData.imageUrl,
+        categoryId: productData.categoryId,
+        featured: productData.featured,
+        manufacturer: productData.manufacturer,
+      },
       create: {
         ...productData,
         variants: {
@@ -163,6 +145,8 @@ async function main() {
     { key: "store_name", value: "hausku" },
     { key: "store_email", value: "info@hausku.de" },
     { key: "company_name", value: "NI Intellect UG" },
+    { key: "return_days", value: "60" },
+    { key: "warranty_years", value: "2" },
   ];
 
   for (const setting of settings) {

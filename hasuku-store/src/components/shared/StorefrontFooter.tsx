@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useLocale } from "@/components/shared/LocaleContext";
 
 export default function StorefrontFooter() {
+  const { t } = useLocale();
   return (
     <footer className="bg-gray-900 text-gray-400">
       {/* Main Footer */}
@@ -14,13 +16,12 @@ export default function StorefrontFooter() {
               <h3 className="text-white font-bold text-2xl mb-4">hausku</h3>
             </Link>
             <p className="text-sm leading-relaxed mb-6 max-w-sm">
-              Qualitätsprodukte für Haus, Büro und Küche. Nachhaltiges Design trifft auf
-              smarte Funktionalität — entwickelt für Ihren Alltag.
+              {t("footer.brandDesc")}
             </p>
             {/* Payment Icons Placeholder */}
             <div>
               <p className="text-xs text-gray-500 mb-3 uppercase tracking-wider font-medium">
-                Sichere Zahlungsarten
+                {t("footer.securePayments")}
               </p>
               <div className="flex items-center gap-2">
                 {[
@@ -44,27 +45,22 @@ export default function StorefrontFooter() {
           {/* Shop Column */}
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
-              Shop
+              {t("footer.shop")}
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/catalog" className="hover:text-white transition-colors">
-                  Alle Produkte
+                  {t("footer.allProducts")}
                 </Link>
               </li>
               <li>
                 <Link href="/catalog?category=kueche" className="hover:text-white transition-colors">
-                  Küche
-                </Link>
-              </li>
-              <li>
-                <Link href="/catalog?category=buero" className="hover:text-white transition-colors">
-                  Büro
+                  {t("footer.kitchen")}
                 </Link>
               </li>
               <li>
                 <Link href="/catalog?category=haushalt" className="hover:text-white transition-colors">
-                  Haushalt
+                  {t("footer.household")}
                 </Link>
               </li>
             </ul>
@@ -73,27 +69,27 @@ export default function StorefrontFooter() {
           {/* Kundenservice Column */}
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
-              Kundenservice
+              {t("footer.customerService")}
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/account" className="hover:text-white transition-colors">
-                  Mein Konto
+                  {t("footer.myAccount")}
                 </Link>
               </li>
               <li>
                 <Link href="/account/orders" className="hover:text-white transition-colors">
-                  Bestellungen
+                  {t("footer.orders")}
                 </Link>
               </li>
               <li>
                 <Link href="/returns" className="hover:text-white transition-colors">
-                  Widerrufsrecht
+                  {t("footer.returns")}
                 </Link>
               </li>
               <li>
                 <Link href="/terms" className="hover:text-white transition-colors">
-                  Versand & Zahlung
+                  {t("footer.shipping")}
                 </Link>
               </li>
             </ul>
@@ -102,22 +98,22 @@ export default function StorefrontFooter() {
           {/* Rechtliches Column */}
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
-              Rechtliches
+              {t("footer.legal")}
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/imprint" className="hover:text-white transition-colors">
-                  Impressum
+                  {t("footer.imprint")}
                 </Link>
               </li>
               <li>
                 <Link href="/privacy" className="hover:text-white transition-colors">
-                  Datenschutz
+                  {t("footer.privacy")}
                 </Link>
               </li>
               <li>
                 <Link href="/terms" className="hover:text-white transition-colors">
-                  AGB
+                  {t("footer.terms")}
                 </Link>
               </li>
             </ul>
@@ -130,10 +126,10 @@ export default function StorefrontFooter() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
             <p>
-              © 2026 NI Intellect UG · Alle Rechte vorbehalten.
+              {t("footer.copyright")}
             </p>
             <p className="text-xs">
-              Angaben gemäß § 5 TMG · NICHT EU
+              {t("footer.legalNote")}
             </p>
           </div>
         </div>
