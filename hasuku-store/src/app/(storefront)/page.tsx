@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/db/prisma";
 import ProductCard from "@/components/storefront/ProductCard";
 import { getTranslations } from "@/lib/i18n";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 
 export default async function HomePage() {
   const { t } = await getTranslations();
@@ -48,7 +49,7 @@ export default async function HomePage() {
   return (
     <>
       {/* ═══ SECTION 1: Top Utility Bar ═══ */}
-      <div className="bg-red-500 text-white text-center py-2 text-sm font-medium">
+      <div className="bg-lime-500 text-white text-center py-2 text-sm font-medium">
         <div className="max-w-7xl mx-auto px-4">
           <span className="hidden sm:inline">🚚 {t("home.freeShipping")}</span>
           <span className="hidden sm:inline mx-3 opacity-50">|</span>
@@ -60,47 +61,53 @@ export default async function HomePage() {
       </div>
 
       {/* ═══ SECTION 2: Hero ═══ */}
-      <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-red-500 rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-20 w-96 h-96 bg-orange-500 rounded-full blur-3xl" />
+      <section className="relative hero-bg text-white overflow-hidden min-h-[600px] md:min-h-[700px] flex items-center">
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
+        {/* Decorative lime glow accents */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute top-10 left-10 w-80 h-80 bg-lime-500 rounded-full blur-[120px]" />
+          <div className="absolute bottom-10 right-20 w-64 h-64 bg-lime-400 rounded-full blur-[100px]" />
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="max-w-xl">
-              <span className="inline-block px-4 py-1.5 bg-red-500/20 text-red-400 text-sm font-medium rounded-full mb-6 border border-red-500/30">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32 w-full">
+          <div className="max-w-2xl">
+            <AnimatedSection animation="fadeUp" delay={0}>
+              <span className="inline-block px-4 py-1.5 bg-lime-500/20 text-lime-300 text-sm font-medium rounded-full mb-6 border border-lime-500/30 backdrop-blur-sm">
                 {t("home.heroTagline")}
               </span>
+            </AnimatedSection>
+            <AnimatedSection animation="fadeUp" delay={100}>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 {t("home.heroTitle1")}{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-lime-300 to-green-300">
                   {t("home.heroTitleHighlight")}
                 </span>
                 {t("home.heroTitle2")}<br />
-                {t("home.heroSubtitle")}
+                <span className="text-gray-300">{t("home.heroSubtitle")}</span>
               </h1>
-              <p className="text-lg text-gray-300 mb-8 leading-relaxed">
+            </AnimatedSection>
+            <AnimatedSection animation="fadeUp" delay={200}>
+              <p className="text-lg text-gray-300 mb-8 leading-relaxed max-w-lg">
                 {t("home.heroDescription")}
               </p>
+            </AnimatedSection>
+            <AnimatedSection animation="fadeUp" delay={300}>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/catalog" className="inline-flex items-center justify-center bg-red-500 hover:bg-red-600 text-white font-semibold px-8 py-3.5 rounded-lg transition-all duration-200 shadow-lg shadow-red-500/25 hover:shadow-red-500/40">
+                <Link href="/catalog" className="inline-flex items-center justify-center bg-lime-500 hover:bg-lime-600 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg shadow-lime-500/30 hover:shadow-lime-500/50 hover:scale-[1.02] animate-pulse-glow">
                   {t("home.heroCTA")}
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </Link>
+                <Link href="/imprint" className="inline-flex items-center justify-center border border-white/30 hover:border-white/60 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 backdrop-blur-sm hover:bg-white/10">
+                  {t("nav.about")}
+                </Link>
               </div>
-            </div>
-            <div className="hidden lg:block relative">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 border border-white/10 shadow-2xl">
-                <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                  <svg className="w-20 h-20 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                </div>
-              </div>
-            </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
 
       {/* ═══ SECTION 3: Social Proof ═══ */}
+      <AnimatedSection animation="fadeIn">
       <section className="bg-white py-8 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-sm text-gray-400 font-medium mb-6 uppercase tracking-wider">{t("home.trusted")}</p>
@@ -120,6 +127,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* ═══ SECTION 4: Trust Badges ═══ */}
       <section className="bg-gray-50 border-b border-gray-100">
@@ -145,6 +153,7 @@ export default async function HomePage() {
 
       {/* ═══ SECTION 5: Categories ═══ */}
       {categories.length > 0 && (
+        <AnimatedSection animation="fadeUp">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("home.browseCategories")}</h2>
@@ -162,7 +171,7 @@ export default async function HomePage() {
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <h3 className="text-xl font-bold text-white mb-1">{cat.name}</h3>
                   <p className="text-sm text-gray-300 mb-3">{cat._count.products} {cat._count.products === 1 ? t("home.product") : t("home.products")}</p>
-                  <span className="inline-flex items-center text-sm font-medium text-white group-hover:text-red-400 transition-colors">
+                  <span className="inline-flex items-center text-sm font-medium text-white group-hover:text-lime-400 transition-colors">
                     {t("home.toCollection")}
                     <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                   </span>
@@ -171,10 +180,12 @@ export default async function HomePage() {
             ))}
           </div>
         </section>
+        </AnimatedSection>
       )}
 
       {/* ═══ SECTION 6: Bestsellers ═══ */}
       {bestsellers.length > 0 && (
+        <AnimatedSection animation="fadeUp">
         <section className="bg-gray-50 py-16 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-10">
@@ -182,7 +193,7 @@ export default async function HomePage() {
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">{t("home.popularProducts")}</h2>
                 <p className="text-gray-500">{t("home.popularProductsDesc")}</p>
               </div>
-              <Link href="/catalog" className="hidden sm:inline-flex items-center text-red-500 hover:text-red-600 font-medium transition-colors">
+              <Link href="/catalog" className="hidden sm:inline-flex items-center text-lime-500 hover:text-lime-600 font-medium transition-colors">
                 {t("home.viewAll")}
                 <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
               </Link>
@@ -192,11 +203,13 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+        </AnimatedSection>
       )}
 
       {/* ═══ SECTION 7: Promo Banner ═══ */}
+      <AnimatedSection animation="scaleIn">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-red-500 via-red-600 to-orange-500 text-white">
+        <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-lime-400 via-lime-500 to-green-500 text-white">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/2" />
@@ -207,20 +220,22 @@ export default async function HomePage() {
               <h3 className="text-2xl md:text-3xl font-bold mb-2">{t("home.promoHeadline")}</h3>
               <p className="text-white/80 max-w-lg">{t("home.promoDescription")}</p>
             </div>
-            <Link href="/catalog" className="flex-shrink-0 bg-white text-red-600 font-bold px-8 py-3.5 rounded-lg hover:bg-gray-100 transition-colors shadow-lg">{t("home.shopNow")}</Link>
+            <Link href="/catalog" className="flex-shrink-0 bg-white text-lime-600 font-bold px-8 py-3.5 rounded-lg hover:bg-gray-100 transition-colors shadow-lg">{t("home.shopNow")}</Link>
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* ═══ SECTION 8: New Arrivals ═══ */}
       {newArrivals.length > 0 && (
+        <AnimatedSection animation="fadeUp">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
           <div className="flex items-center justify-between mb-10">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-2">{t("home.newArrivals")}</h2>
               <p className="text-gray-500">{t("home.newArrivalsDesc")}</p>
             </div>
-            <Link href="/catalog?sort=newest" className="hidden sm:inline-flex items-center text-red-500 hover:text-red-600 font-medium transition-colors">
+            <Link href="/catalog?sort=newest" className="hidden sm:inline-flex items-center text-lime-500 hover:text-lime-600 font-medium transition-colors">
               {t("home.viewAllNew")}
               <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </Link>
@@ -229,10 +244,12 @@ export default async function HomePage() {
             {newArrivals.map((product) => (<ProductCard key={product.id} product={product} />))}
           </div>
         </section>
+        </AnimatedSection>
       )}
 
       {/* ═══ SECTION 9: Featured Products ═══ */}
       {featuredProducts.length > 0 && (
+        <AnimatedSection animation="fadeUp">
         <section className="bg-gray-50 py-16 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-10">
@@ -240,7 +257,7 @@ export default async function HomePage() {
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">{t("home.featuredProducts")}</h2>
                 <p className="text-gray-500">{t("home.featuredDesc")}</p>
               </div>
-              <Link href="/catalog" className="hidden sm:inline-flex items-center text-red-500 hover:text-red-600 font-medium transition-colors">
+              <Link href="/catalog" className="hidden sm:inline-flex items-center text-lime-500 hover:text-lime-600 font-medium transition-colors">
                 {t("home.viewAll")}
                 <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
               </Link>
@@ -250,9 +267,11 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+        </AnimatedSection>
       )}
 
       {/* ═══ SECTION 10: Personalization ═══ */}
+      <AnimatedSection animation="slideLeft">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
@@ -261,22 +280,24 @@ export default async function HomePage() {
             </div>
           </div>
           <div>
-            <span className="inline-block px-3 py-1 bg-red-50 text-red-500 text-sm font-medium rounded-full mb-4">{t("home.personalization")}</span>
+            <span className="inline-block px-3 py-1 bg-lime-50 text-lime-500 text-sm font-medium rounded-full mb-4">{t("home.personalization")}</span>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">{t("home.personalizationTitle")}</h2>
             <p className="text-gray-600 mb-6 leading-relaxed">{t("home.personalizationDesc")}</p>
-            <Link href="/catalog" className="inline-flex items-center bg-red-500 hover:bg-red-600 text-white font-semibold px-8 py-3.5 rounded-lg transition-all duration-200 shadow-lg shadow-red-500/25">
+            <Link href="/catalog" className="inline-flex items-center bg-lime-500 hover:bg-lime-600 text-white font-semibold px-8 py-3.5 rounded-lg transition-all duration-200 shadow-lg shadow-lime-500/25">
               {t("home.personalizeNow")}
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </Link>
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* ═══ SECTION 11: Why hausku ═══ */}
+      <AnimatedSection animation="fadeUp">
       <section className="bg-gray-50 py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t("home.whyTitle")} <span className="text-red-500">hausku</span></h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t("home.whyTitle")} <span className="text-lime-500">hausku</span></h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-lg">{t("home.whySubtitle")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -295,8 +316,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* ═══ SECTION 12: Reviews ═══ */}
+      <AnimatedSection animation="scaleIn">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("home.reviewsTitle")}</h2>
@@ -321,19 +344,22 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+      </AnimatedSection>
 
       {/* ═══ SECTION 13: Newsletter ═══ */}
+      <AnimatedSection animation="fadeUp">
       <section className="bg-gray-900 text-white py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold mb-4">{t("home.newsletterTitle")}</h2>
           <p className="text-gray-400 mb-8 max-w-xl mx-auto">{t("home.newsletterDesc")}</p>
           <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input type="email" placeholder={t("home.newsletterPlaceholder")} className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" />
-            <a href="#" className="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap text-center">{t("home.newsletterCTA")}</a>
+            <input type="email" placeholder={t("home.newsletterPlaceholder")} className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent" />
+            <a href="#" className="bg-lime-500 hover:bg-lime-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap text-center">{t("home.newsletterCTA")}</a>
           </div>
           <p className="text-xs text-gray-500 mt-4">{t("home.newsletterDisclaimer")}</p>
         </div>
       </section>
+      </AnimatedSection>
     </>
   );
 }

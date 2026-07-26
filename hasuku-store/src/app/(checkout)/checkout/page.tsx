@@ -171,7 +171,7 @@ export default function CheckoutPage() {
           </p>
           <Link
             href="/catalog"
-            className="inline-block bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+            className="inline-block bg-lime-500 hover:bg-lime-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
           >
             Weiter einkaufen
           </Link>
@@ -478,7 +478,7 @@ export default function CheckoutPage() {
                 className={`w-full mt-6 font-semibold py-3 rounded-lg transition-colors ${
                   loading
                     ? "bg-gray-400 text-white cursor-not-allowed"
-                    : "bg-red-500 hover:bg-red-600 text-white"
+                    : "bg-lime-500 hover:bg-lime-600 text-white"
                 }`}
               >
                 {loading

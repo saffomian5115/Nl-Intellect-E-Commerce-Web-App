@@ -174,7 +174,7 @@ export default function SearchBar({
         {!expanded ? (
           <button
             onClick={() => setExpanded(true)}
-            className="p-2.5 text-gray-900 hover:text-red-600 rounded-xl transition-all duration-200 hover:bg-gray-50 group"
+            className="p-2.5 text-gray-900 hover:text-lime-600 rounded-xl transition-all duration-200 hover:bg-gray-50 group"
             aria-label="Suchen"
           >
             <svg
@@ -282,12 +282,12 @@ export default function SearchBar({
                           <p className="text-sm font-medium text-gray-900 truncate">{product.name}</p>
                           <p className="text-xs text-gray-400">{product.category.name}</p>
                         </div>
-                        <span className="text-sm font-bold text-red-500 shrink-0">€{product.basePrice.toFixed(2)}</span>
+                        <span className="text-sm font-bold text-lime-500 shrink-0">€{product.basePrice.toFixed(2)}</span>
                       </button>
                     ))}
                     <button
                       onClick={handleSubmit}
-                      className="w-full px-4 py-3 border-t border-gray-100 text-sm font-semibold text-red-500 hover:bg-red-50 transition-colors text-center"
+                      className="w-full px-4 py-3 border-t border-gray-100 text-sm font-semibold text-lime-500 hover:bg-lime-50 transition-colors text-center"
                     >
                       „{query}" in Katalog suchen →
                     </button>
@@ -297,7 +297,7 @@ export default function SearchBar({
                     <p className="text-sm text-gray-500">Keine Ergebnisse für „{query}"</p>
                     <button
                       onClick={handleSubmit}
-                      className="mt-2 text-sm font-semibold text-red-500 hover:text-red-600 transition-colors"
+                      className="mt-2 text-sm font-semibold text-lime-500 hover:text-lime-600 transition-colors"
                     >
                       Im ganzen Katalog suchen →
                     </button>
@@ -322,7 +322,7 @@ export default function SearchBar({
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={() => { if (suggestions.length > 0) setShowSuggestions(true); }}
           placeholder="Produkte suchen…"
-          className="w-full border rounded-xl px-4 py-2.5 pl-10 text-sm outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
+          className="w-full border rounded-xl px-4 py-2.5 pl-10 text-sm outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent transition-all"
         />
         <svg
           className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
@@ -386,12 +386,12 @@ export default function SearchBar({
                     <p className="text-sm font-medium text-gray-900 truncate">{product.name}</p>
                     <p className="text-xs text-gray-400">{product.category.name}</p>
                   </div>
-                  <span className="text-sm font-bold text-red-500 shrink-0">€{product.basePrice.toFixed(2)}</span>
+                  <span className="text-sm font-bold text-lime-500 shrink-0">€{product.basePrice.toFixed(2)}</span>
                 </button>
               ))}
               <button
                 onClick={handleSubmit}
-                className="w-full px-4 py-3 border-t border-gray-100 text-sm font-semibold text-red-500 hover:bg-red-50 transition-colors text-center"
+                className="w-full px-4 py-3 border-t border-gray-100 text-sm font-semibold text-lime-500 hover:bg-lime-50 transition-colors text-center"
               >
                 „{query}" in Katalog suchen →
               </button>
@@ -401,7 +401,7 @@ export default function SearchBar({
               <p className="text-sm text-gray-500">Keine Ergebnisse für „{query}"</p>
               <button
                 onClick={handleSubmit}
-                className="mt-2 text-sm font-semibold text-red-500 hover:text-red-600 transition-colors"
+                className="mt-2 text-sm font-semibold text-lime-500 hover:text-lime-600 transition-colors"
               >
                 Im ganzen Katalog suchen →
               </button>

@@ -137,7 +137,7 @@ export default function AddressesPage() {
           </p>
           <Link
             href="/account"
-            className="inline-block bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+            className="inline-block bg-lime-500 hover:bg-lime-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
           >
             Anmelden
           </Link>
@@ -152,7 +152,7 @@ export default function AddressesPage() {
         <h1 className="text-3xl font-bold text-gray-900">Adressen</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
+          className="bg-lime-500 hover:bg-lime-600 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
         >
           {showForm ? "Abbrechen" : "+ Neue Adresse"}
         </button>
@@ -310,7 +310,7 @@ export default function AddressesPage() {
                     </div>
                     <button
                       onClick={() => handleDelete(addr.id)}
-                      className="text-gray-400 hover:text-red-500 transition-colors p-2"
+                      className="text-gray-400 hover:text-lime-500 transition-colors p-2"
                       aria-label="Adresse löschen"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

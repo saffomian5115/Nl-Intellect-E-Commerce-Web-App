@@ -334,7 +334,7 @@ export default function AdminOrderDetailPage() {
                 <button
                   onClick={() => handleStatusUpdate("CANCELLED")}
                   disabled={updating}
-                  className="w-full px-4 py-2 border border-red-300 text-red-600 rounded-lg text-sm font-medium hover:bg-red-50 transition-colors"
+                  className="w-full px-4 py-2 border border-lime-300 text-lime-600 rounded-lg text-sm font-medium hover:bg-lime-50 transition-colors"
                 >
                   Stornieren
                 </button>

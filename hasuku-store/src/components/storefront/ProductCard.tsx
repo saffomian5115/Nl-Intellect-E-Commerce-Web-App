@@ -55,8 +55,8 @@ export default function ProductCard({ product }: { product: ProductWithVariants 
         <svg
           className={`w-5 h-5 transition-all duration-300 ${
             liked
-              ? "text-red-500 fill-red-500 scale-110"
-              : "text-gray-400 hover:text-red-400"
+              ? "text-lime-500 fill-lime-500 scale-110"
+              : "text-gray-400 hover:text-lime-400"
           }`}
           fill={liked ? "currentColor" : "none"}
           stroke="currentColor"
@@ -99,7 +99,7 @@ export default function ProductCard({ product }: { product: ProductWithVariants 
           <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
             {product.category.name}
           </p>
-          <h3 className="font-medium text-gray-900 group-hover:text-red-500 transition-colors line-clamp-2">
+          <h3 className="font-medium text-gray-900 group-hover:text-lime-500 transition-colors line-clamp-2">
             {product.name}
           </h3>
           <div className="flex items-center justify-between mt-3">

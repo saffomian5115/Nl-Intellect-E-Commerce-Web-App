@@ -146,8 +146,8 @@ export default async function ProductDetailPage({
                 Auf Lager ({totalStock} Stück)
               </p>
             ) : (
-              <p className="text-sm text-red-600 flex items-center gap-2">
-                <span className="w-2 h-2 bg-red-500 rounded-full" />
+              <p className="text-sm text-lime-600 flex items-center gap-2">
+                <span className="w-2 h-2 bg-lime-500 rounded-full" />
                 Nicht verfügbar
               </p>
             )}

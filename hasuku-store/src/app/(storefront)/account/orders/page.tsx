@@ -86,7 +86,7 @@ export default function OrdersPage() {
           </p>
           <Link
             href="/account"
-            className="inline-block bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+            className="inline-block bg-lime-500 hover:bg-lime-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
           >
             Anmelden
           </Link>
@@ -133,7 +133,7 @@ export default function OrdersPage() {
               <p className="text-lg font-medium">Noch keine Bestellungen</p>
               <Link
                 href="/catalog"
-                className="mt-4 inline-block text-red-500 hover:text-red-600 font-medium"
+                className="mt-4 inline-block text-lime-500 hover:text-lime-600 font-medium"
               >
                 Jetzt einkaufen →
               </Link>

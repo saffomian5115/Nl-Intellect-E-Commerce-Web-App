@@ -104,8 +104,8 @@ export default function MobileNav() {
             {t("nav.allProducts")}
           </Link>
 
-          <Link href="/catalog?sort=newest" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 text-red-600 font-semibold transition-all">
-            <span className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center text-sm">🏷️</span>
+          <Link href="/catalog?sort=newest" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lime-50 text-lime-600 font-semibold transition-all">
+            <span className="w-8 h-8 rounded-lg bg-lime-50 flex items-center justify-center text-sm">🏷️</span>
             {t("nav.sales")}
           </Link>
 
@@ -136,7 +136,7 @@ export default function MobileNav() {
         {/* Bottom Actions */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-100 bg-white space-y-1">
           <Link href="/wishlist" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">
-            <span className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center text-sm">❤️</span>
+            <span className="w-8 h-8 rounded-lg bg-lime-50 flex items-center justify-center text-sm">❤️</span>
             {t("nav.wishlist")}
           </Link>
           <Link href="/cart" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">

@@ -18,7 +18,7 @@ export default function CartItemRow({ item }: { item: CartItem }) {
       <div className="flex-1 min-w-0">
         <a
           href={`/product/${item.slug}`}
-          className="font-medium text-gray-900 hover:text-red-500 transition-colors line-clamp-1"
+          className="font-medium text-gray-900 hover:text-lime-500 transition-colors line-clamp-1"
         >
           {item.name}
         </a>
@@ -57,7 +57,7 @@ export default function CartItemRow({ item }: { item: CartItem }) {
       {/* Remove */}
       <button
         onClick={() => removeItem(item.variantId)}
-        className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+        className="p-2 text-gray-400 hover:text-lime-500 transition-colors"
         aria-label="Entfernen"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -82,53 +82,53 @@ export default function StorefrontNav() {
 
           {/* Center: Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-0.5 flex-1 justify-center">
-            <Link href="/" className="relative text-gray-900 hover:text-red-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
+            <Link href="/" className="relative text-gray-900 hover:text-lime-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
               <span>{t("nav.home")}</span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-red-500 rounded-full transition-all duration-300 group-hover:w-8" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-lime-500 rounded-full transition-all duration-300 group-hover:w-8" />
             </Link>
 
             {/* Produkte Dropdown */}
             <div className="relative" ref={catRef} onMouseEnter={() => { closeOthers("cat"); setCatOpen(true); }} onMouseLeave={() => setCatOpen(false)}>
               <button
                 onClick={() => { closeOthers("cat"); setCatOpen(!catOpen); }}
-                className="flex items-center gap-1 text-gray-900 hover:text-red-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group"
+                className="flex items-center gap-1 text-gray-900 hover:text-lime-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group"
               >
                 <span>{t("nav.products")}</span>
                 <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${catOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-red-500 rounded-full transition-all duration-300 group-hover:w-16" />
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-lime-500 rounded-full transition-all duration-300 group-hover:w-16" />
               </button>
               {catOpen && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50">
                   <Link href="/catalog" onClick={() => setCatOpen(false)} className="flex items-center gap-3 px-5 py-3 mx-2 rounded-xl hover:bg-gray-50 transition-all group/item">
-                    <span className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center text-lg group-hover/item:bg-red-100">🛒</span>
+                    <span className="w-10 h-10 rounded-xl bg-lime-50 flex items-center justify-center text-lg group-hover/item:bg-lime-100">🛒</span>
                     <div><p className="font-semibold text-gray-900 text-sm">{t("nav.allProducts")}</p><p className="text-xs text-gray-400">{t("nav.allProductsDesc")}</p></div>
-                    <svg className="w-4 h-4 text-gray-300 ml-auto group-hover/item:text-red-500 group-hover/item:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                    <svg className="w-4 h-4 text-gray-300 ml-auto group-hover/item:text-lime-500 group-hover/item:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                   </Link>
                   <div className="my-2 border-t border-gray-100" />
                   {CATEGORIES.map((cat) => (
                     <Link key={cat.slug} href={`/catalog?category=${cat.slug}`} onClick={() => setCatOpen(false)} className="flex items-center gap-3 px-5 py-3 mx-2 rounded-xl hover:bg-gray-50 transition-all group/item">
-                      <span className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-lg group-hover/item:bg-red-50 group-hover/item:scale-110 transition-all">{cat.icon}</span>
+                      <span className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-lg group-hover/item:bg-lime-50 group-hover/item:scale-110 transition-all">{cat.icon}</span>
                       <div><p className="font-semibold text-gray-900 text-sm">{getCategoryName(cat, locale)}</p><p className="text-xs text-gray-400">{getCategoryDesc(cat, locale)}</p></div>
-                      <svg className="w-4 h-4 text-gray-300 ml-auto group-hover/item:text-red-500 group-hover/item:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                      <svg className="w-4 h-4 text-gray-300 ml-auto group-hover/item:text-lime-500 group-hover/item:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                     </Link>
                   ))}
                 </div>
               )}
             </div>
 
-            <Link href="/catalog?sort=newest" className="relative text-gray-900 hover:text-red-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-red-50 group">
-              <span className="flex items-center gap-1"><svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" /></svg>{t("nav.sales")}</span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-red-500 rounded-full transition-all duration-300 group-hover:w-12" />
+            <Link href="/catalog?sort=newest" className="relative text-gray-900 hover:text-lime-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-lime-50 group">
+              <span className="flex items-center gap-1"><svg className="w-4 h-4 text-lime-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" /></svg>{t("nav.sales")}</span>
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-lime-500 rounded-full transition-all duration-300 group-hover:w-12" />
             </Link>
 
-            <Link href="/imprint" className="relative text-gray-900 hover:text-red-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
+            <Link href="/imprint" className="relative text-gray-900 hover:text-lime-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
               <span>{t("nav.about")}</span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-red-500 rounded-full transition-all duration-300 group-hover:w-10" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-lime-500 rounded-full transition-all duration-300 group-hover:w-10" />
             </Link>
 
-            <Link href="/imprint#contact" className="relative text-gray-900 hover:text-red-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
+            <Link href="/imprint#contact" className="relative text-gray-900 hover:text-lime-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
               <span>{t("nav.contact")}</span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-red-500 rounded-full transition-all duration-300 group-hover:w-10" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-lime-500 rounded-full transition-all duration-300 group-hover:w-10" />
             </Link>
           </div>
 
@@ -140,7 +140,7 @@ export default function StorefrontNav() {
             <div className="relative" ref={langRef} onMouseEnter={() => { closeOthers("lang"); setLangOpen(true); }} onMouseLeave={() => setLangOpen(false)}>
               <button
                 onClick={() => { closeOthers("lang"); setLangOpen(!langOpen); }}
-                className="p-2.5 text-gray-900 hover:text-red-600 rounded-xl transition-all duration-200 hover:bg-gray-50"
+                className="p-2.5 text-gray-900 hover:text-lime-600 rounded-xl transition-all duration-200 hover:bg-gray-50"
                 aria-label="Sprache wechseln"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,22 +153,22 @@ export default function StorefrontNav() {
                   <button
                     onClick={() => { switchLocale("de"); setLangOpen(false); }}
                     className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all ${
-                      locale === "de" ? "bg-red-50 text-red-600" : "text-gray-900 hover:bg-gray-50"
+                      locale === "de" ? "bg-lime-50 text-lime-600" : "text-gray-900 hover:bg-gray-50"
                     }`}
                   >
                     <span className="text-lg">🇩🇪</span>
                     <span>Deutsch</span>
-                    {locale === "de" && <svg className="w-4 h-4 ml-auto text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
+                    {locale === "de" && <svg className="w-4 h-4 ml-auto text-lime-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
                   </button>
                   <button
                     onClick={() => { switchLocale("en"); setLangOpen(false); }}
                     className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all ${
-                      locale === "en" ? "bg-red-50 text-red-600" : "text-gray-900 hover:bg-gray-50"
+                      locale === "en" ? "bg-lime-50 text-lime-600" : "text-gray-900 hover:bg-gray-50"
                     }`}
                   >
                     <span className="text-lg">🇬🇧</span>
                     <span>English</span>
-                    {locale === "en" && <svg className="w-4 h-4 ml-auto text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
+                    {locale === "en" && <svg className="w-4 h-4 ml-auto text-lime-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
                   </button>
                 </div>
               )}
@@ -178,11 +178,11 @@ export default function StorefrontNav() {
             <div className="relative hidden sm:block" ref={wishRef} onMouseEnter={() => { closeOthers("wish"); setWishOpen(true); }} onMouseLeave={() => setWishOpen(false)}>
               <button
                 onClick={() => { closeOthers("wish"); setWishOpen(!wishOpen); }}
-                className="relative p-2.5 text-gray-900 hover:text-red-500 rounded-xl transition-all duration-200 hover:bg-red-50"
+                className="relative p-2.5 text-gray-900 hover:text-lime-500 rounded-xl transition-all duration-200 hover:bg-lime-50"
                 aria-label="Merkliste"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                {likedCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{likedCount > 99 ? "99+" : likedCount}</span>}
+                {likedCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-lime-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{likedCount > 99 ? "99+" : likedCount}</span>}
               </button>
               {wishOpen && (
                 <div className="absolute top-full right-0 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50">
@@ -206,7 +206,7 @@ export default function StorefrontNav() {
                           <div className="min-w-0 flex-1">
                             <p className="text-sm font-medium text-gray-900 truncate">{p.name}</p>
                             <p className="text-xs text-gray-400">{p.category.name}</p>
-                            <p className="text-sm font-bold text-red-500">€{p.basePrice.toFixed(2)}</p>
+                            <p className="text-sm font-bold text-lime-500">€{p.basePrice.toFixed(2)}</p>
                           </div>
                         </Link>
                       ))}
@@ -215,7 +215,7 @@ export default function StorefrontNav() {
                   )}
                   {likedCount > 0 && (
                     <div className="px-4 pt-3 border-t border-gray-100">
-                      <Link href="/wishlist" onClick={() => setWishOpen(false)} className="block w-full text-center text-sm font-semibold text-red-500 hover:text-red-600 py-2 rounded-xl hover:bg-red-50 transition-colors">
+                      <Link href="/wishlist" onClick={() => setWishOpen(false)} className="block w-full text-center text-sm font-semibold text-lime-500 hover:text-lime-600 py-2 rounded-xl hover:bg-lime-50 transition-colors">
                         {t("nav.viewAllWishlist")}
                       </Link>
                     </div>
@@ -232,7 +232,7 @@ export default function StorefrontNav() {
                 aria-label="Warenkorb"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>
-                {itemCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{itemCount > 99 ? "99+" : itemCount}</span>}
+                {itemCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-lime-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{itemCount > 99 ? "99+" : itemCount}</span>}
               </button>
               {cartOpen && (
                 <div className="absolute top-full right-0 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50">
@@ -268,7 +268,7 @@ export default function StorefrontNav() {
                         <span className="text-sm font-medium text-gray-500">{t("nav.total")}</span>
                         <span className="text-base font-bold text-gray-900">€{cartTotal.toFixed(2)}</span>
                       </div>
-                      <Link href="/cart" onClick={() => setCartOpen(false)} className="block w-full text-center text-sm font-semibold text-white bg-red-500 hover:bg-red-600 py-3 rounded-xl transition-colors shadow-sm shadow-red-500/20">
+                      <Link href="/cart" onClick={() => setCartOpen(false)} className="block w-full text-center text-sm font-semibold text-white bg-lime-500 hover:bg-lime-600 py-3 rounded-xl transition-colors shadow-sm shadow-lime-500/20">
                         {t("nav.checkout")}
                       </Link>
                     </div>
@@ -291,7 +291,7 @@ export default function StorefrontNav() {
                   {user ? (
                     <>
                       <div className="px-4 pb-3 border-b border-gray-100">
-                        <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-500 font-bold text-sm mb-2">{(user.name || user.email)[0].toUpperCase()}</div>
+                        <div className="w-10 h-10 rounded-full bg-lime-100 flex items-center justify-center text-lime-500 font-bold text-sm mb-2">{(user.name || user.email)[0].toUpperCase()}</div>
                         <p className="font-bold text-gray-900 text-sm">{user.name || "Konto"}</p>
                         <p className="text-xs text-gray-400 truncate">{user.email}</p>
                       </div>
@@ -305,7 +305,7 @@ export default function StorefrontNav() {
                         <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> {t("nav.wishlist")}
                       </Link>
                       <div className="my-1 border-t border-gray-100" />
-                      <button onClick={async () => { await fetch("/api/auth/logout", { method: "POST" }); window.location.reload(); }} className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-red-500">
+                      <button onClick={async () => { await fetch("/api/auth/logout", { method: "POST" }); window.location.reload(); }} className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-lime-500">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg> {t("common.logout")}
                       </button>
                     </>
@@ -324,13 +324,13 @@ export default function StorefrontNav() {
             </div>
 
             {/* Mobile links */}
-            <Link href="/wishlist" className="relative p-2.5 text-gray-900 sm:hidden rounded-xl hover:bg-red-50">
+            <Link href="/wishlist" className="relative p-2.5 text-gray-900 sm:hidden rounded-xl hover:bg-lime-50">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-              {likedCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{likedCount}</span>}
+              {likedCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-lime-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{likedCount}</span>}
             </Link>
             <Link href="/cart" className="relative p-2.5 text-gray-900 sm:hidden rounded-xl hover:bg-gray-50">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>
-              {itemCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{itemCount}</span>}
+              {itemCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-lime-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center">{itemCount}</span>}
             </Link>
           </div>
         </div>

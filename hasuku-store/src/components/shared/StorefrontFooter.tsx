@@ -26,7 +26,7 @@ export default function StorefrontFooter() {
               <div className="flex items-center gap-2">
                 {[
                   { name: "Visa", bg: "bg-blue-900/50" },
-                  { name: "MC", bg: "bg-red-900/50" },
+                  { name: "MC", bg: "bg-lime-900/50" },
                   { name: "PayPal", bg: "bg-blue-800/50" },
                   { name: "Klarna", bg: "bg-pink-900/50" },
                   { name: "Apple Pay", bg: "bg-gray-700/50" },

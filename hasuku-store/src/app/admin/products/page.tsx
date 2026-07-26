@@ -96,7 +96,7 @@ export default function AdminProductsPage() {
           />
           <Link
             href="/admin/products/new"
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
+            className="bg-lime-500 hover:bg-lime-600 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
           >
             + Neues Produkt
           </Link>
@@ -170,7 +170,7 @@ export default function AdminProductsPage() {
                     <span
                       className={`text-sm font-medium ${
                         totalStock(product.variants) === 0
-                          ? "text-red-600"
+                          ? "text-lime-600"
                           : totalStock(product.variants) <= 5
                           ? "text-orange-600"
                           : "text-green-600"
@@ -206,7 +206,7 @@ export default function AdminProductsPage() {
                       <button
                         onClick={() => handleDelete(product)}
                         disabled={deleting === product.id}
-                        className="text-sm text-red-500 hover:text-red-700 font-medium disabled:opacity-50"
+                        className="text-sm text-lime-500 hover:text-lime-700 font-medium disabled:opacity-50"
                       >
                         {deleting === product.id ? "..." : "Löschen"}
                       </button>

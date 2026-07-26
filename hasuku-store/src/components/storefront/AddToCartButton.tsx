@@ -83,7 +83,7 @@ export default function AddToCartButton(props: AddToCartButtonProps) {
             added
               ? "bg-green-500 text-white"
               : isInStock
-              ? "bg-red-500 hover:bg-red-600 text-white"
+              ? "bg-lime-500 hover:bg-lime-600 text-white"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
         >

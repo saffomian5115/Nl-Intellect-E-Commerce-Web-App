@@ -1,51 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useWishlist } from "@/components/storefront/WishlistContext";
 import { useAuth } from "@/components/storefront/AuthContext";
 import { useCart } from "@/components/storefront/CartContext";
 import { formatPrice } from "@/lib/vat";
 
-type Product = {
-  id: number;
-  name: string;
-  slug: string;
-  basePrice: number;
-  imageUrl: string | null;
-  category: { name: string; slug: string };
-  variants: {
-    id: number;
-    color: string | null;
-    colorHex: string | null;
-    stockQty: number;
-    size: string | null;
-  }[];
-};
-
 export default function WishlistPage() {
   const { user, loading: authLoading } = useAuth();
-  const { wishlistProducts, likedCount, toggleLike, loading: wishlistLoading, refreshWishlist } = useWishlist();
+  const { wishlistProducts, toggleLike, loading: wishlistLoading } = useWishlist();
   const { addItem } = useCart();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (authLoading) return;
-
-    if (user) {
-      // Fetch full product data from wishlist API
-      fetch("/api/wishlist", { credentials: "include" })
-        .then((res) => res.json())
-        .then((data) => {
-          setProducts(data.wishlist || []);
-          setLoading(false);
-        })
-        .catch(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
-  }, [user, authLoading, likedCount]);
 
   // If not logged in
   if (!authLoading && !user) {
@@ -72,7 +36,7 @@ export default function WishlistPage() {
           <div className="flex gap-4 justify-center">
             <Link
               href="/account"
-              className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-colors"
+              className="px-6 py-3 bg-lime-500 hover:bg-lime-600 text-white font-semibold rounded-lg transition-colors"
             >
               Anmelden
             </Link>
@@ -89,7 +53,7 @@ export default function WishlistPage() {
   }
 
   // Loading state
-  if (loading || authLoading || wishlistLoading) {
+  if (authLoading || wishlistLoading) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center">
@@ -108,11 +72,11 @@ export default function WishlistPage() {
           Meine Merkliste
         </h1>
         <p className="text-gray-500 mt-1">
-          {products.length} {products.length === 1 ? "Produkt" : "Produkte"} gespeichert
+          {wishlistProducts.length} {wishlistProducts.length === 1 ? "Produkt" : "Produkte"} gespeichert
         </p>
       </div>
 
-      {products.length === 0 ? (
+      {wishlistProducts.length === 0 ? (
         <div className="text-center py-16">
           <svg
             className="w-20 h-20 mx-auto text-gray-300 mb-6"
@@ -135,7 +99,7 @@ export default function WishlistPage() {
           </p>
           <Link
             href="/catalog"
-            className="inline-flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-colors"
+            className="inline-flex items-center px-6 py-3 bg-lime-500 hover:bg-lime-600 text-white font-semibold rounded-lg transition-colors"
           >
             Produkte entdecken
             <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,7 +109,7 @@ export default function WishlistPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => {
+          {wishlistProducts.map((product) => {
             const totalStock = product.variants.reduce((sum, v) => sum + v.stockQty, 0);
             const firstVariant = product.variants[0];
 
@@ -188,7 +152,7 @@ export default function WishlistPage() {
                     aria-label="Aus Merkliste entfernen"
                   >
                     <svg
-                      className="w-5 h-5 text-red-500 fill-red-500 transition-all duration-300 hover:scale-125"
+                      className="w-5 h-5 text-lime-500 fill-lime-500 transition-all duration-300 hover:scale-125"
                       fill="currentColor"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -208,7 +172,7 @@ export default function WishlistPage() {
                     {product.category.name}
                   </p>
                   <Link href={`/product/${product.slug}`}>
-                    <h3 className="font-medium text-gray-900 group-hover:text-red-500 transition-colors line-clamp-2">
+                    <h3 className="font-medium text-gray-900 group-hover:text-lime-500 transition-colors line-clamp-2">
                       {product.name}
                     </h3>
                   </Link>
@@ -233,7 +197,7 @@ export default function WishlistPage() {
                             sku: '',
                           });
                         }}
-                        className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-lg transition-colors"
+                        className="px-4 py-2 bg-lime-500 hover:bg-lime-600 text-white text-sm font-medium rounded-lg transition-colors"
                       >
                         In den Warenkorb
                       </button>

@@ -33,7 +33,7 @@ export default function CookieConsent() {
         <div className="flex gap-3 shrink-0">
           <button
             onClick={accept}
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-2 rounded-lg transition-colors text-sm"
+            className="bg-lime-500 hover:bg-lime-600 text-white font-semibold px-6 py-2 rounded-lg transition-colors text-sm"
           >
             Alle akzeptieren
           </button>

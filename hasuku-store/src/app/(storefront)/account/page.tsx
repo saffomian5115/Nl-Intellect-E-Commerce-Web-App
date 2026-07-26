@@ -235,7 +235,7 @@ function AuthForms({
               className={`w-full font-semibold py-3 rounded-lg transition-colors ${
                 regLoading
                   ? "bg-gray-400 text-white cursor-not-allowed"
-                  : "bg-red-500 hover:bg-red-600 text-white"
+                  : "bg-lime-500 hover:bg-lime-600 text-white"
               }`}
             >
               {regLoading ? "Wird erstellt..." : "Konto erstellen"}

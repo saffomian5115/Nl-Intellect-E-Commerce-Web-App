@@ -267,7 +267,7 @@ export default function ProductForm({
           <button
             type="button"
             onClick={addVariant}
-            className="text-sm text-red-500 hover:text-red-600 font-medium"
+            className="text-sm text-lime-500 hover:text-lime-600 font-medium"
           >
             + Variante hinzufügen
           </button>
@@ -282,7 +282,7 @@ export default function ProductForm({
                 <button
                   type="button"
                   onClick={() => removeVariant(index)}
-                  className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
+                  className="absolute top-2 right-2 text-gray-400 hover:text-lime-500"
                 >
                   ✕
                 </button>

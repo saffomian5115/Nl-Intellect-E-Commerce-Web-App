@@ -53,7 +53,7 @@ export default function CartPage() {
           </p>
           <Link
             href="/catalog"
-            className="inline-block bg-red-500 hover:bg-red-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+            className="inline-block bg-lime-500 hover:bg-lime-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
           >
             Weiter einkaufen
           </Link>
@@ -92,7 +92,7 @@ export default function CartPage() {
 
             <Link
               href="/catalog"
-              className="mt-4 inline-block text-red-500 hover:text-red-600 font-medium text-sm"
+              className="mt-4 inline-block text-lime-500 hover:text-lime-600 font-medium text-sm"
             >
               ← Weiter einkaufen
             </Link>
@@ -130,7 +130,7 @@ export default function CartPage() {
 
               <Link
                 href="/checkout"
-                className="block w-full mt-6 bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-lg transition-colors text-center"
+                className="block w-full mt-6 bg-lime-500 hover:bg-lime-600 text-white font-semibold py-3 rounded-lg transition-colors text-center"
               >
                 Zur Kasse
               </Link>

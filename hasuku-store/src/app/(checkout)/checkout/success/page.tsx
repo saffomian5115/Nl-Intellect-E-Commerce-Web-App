@@ -100,7 +100,7 @@ function SuccessContent() {
       <div className="flex gap-4 justify-center">
         <Link
           href="/catalog"
-          className="bg-red-500 hover:bg-red-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+          className="bg-lime-500 hover:bg-lime-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
         >
           Weiter einkaufen
         </Link>
