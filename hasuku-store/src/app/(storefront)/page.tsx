@@ -58,7 +58,7 @@ export default async function HomePage() {
       </div>
 
       {/* ═══ SECTION 2: Hero ═══ */}
-      <section className="relative hero-bg text-white overflow-hidden min-h-[600px] md:min-h-[700px] flex items-center">
+      <section className="relative hero-bg text-white overflow-hidden min-h-[420px] md:min-h-[500px] flex items-center">
         {/* Hero bg image with zoom-in animation */}
         <div className="absolute inset-0 animate-hero-zoom" style={{ backgroundImage: "url('/bg.jpg')", backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
         {/* Dark overlay for readability */}
@@ -68,7 +68,7 @@ export default async function HomePage() {
           <div className="absolute top-10 left-10 w-80 h-80 bg-lime-500 rounded-full blur-[120px]" />
           <div className="absolute bottom-10 right-20 w-64 h-64 bg-lime-400 rounded-full blur-[100px]" />
         </div>
-        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32 w-full">
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20 lg:py-24 w-full">
           <div className="grid lg:grid-cols-2 gap-8 items-center">
           <div className="max-w-2xl">
             <AnimatedSection animation="fadeUp" delay={0}>
@@ -105,7 +105,7 @@ export default async function HomePage() {
           </div>
 
           {/* Right side — Cutout images */}
-          <div className="relative h-[600px] hidden lg:block">
+          <div className="relative h-[420px] hidden lg:block">
             <HeroCutouts />
           </div>
         </div>
