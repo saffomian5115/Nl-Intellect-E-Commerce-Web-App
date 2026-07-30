@@ -6,7 +6,7 @@ import Image from "next/image";
 import SearchBar from "./SearchBar";
 import { useAuth } from "@/components/storefront/AuthContext";
 import { useLocale } from "@/components/shared/LocaleContext";
-import { CATEGORIES, getCategoryName } from "@/lib/categories";
+import { CATEGORIES, getCategoryName, CategoryIconSvg } from "@/lib/categories";
 
 export default function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -95,17 +95,33 @@ export default function MobileNav() {
         {/* Navigation Links */}
         <nav className="p-4 space-y-1">
           <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">
-            <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm">🏠</span>
+            <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+              <svg className="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" />
+                <path d="M9 21V12h6v9" />
+              </svg>
+            </span>
             {t("nav.home")}
           </Link>
 
           <Link href="/catalog" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">
-            <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm">🛒</span>
+            <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+              <svg className="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                <path d="M3 6h18" />
+                <path d="M16 10a4 4 0 01-8 0" />
+              </svg>
+            </span>
             {t("nav.allProducts")}
           </Link>
 
           <Link href="/catalog?sort=newest" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lime-50 text-lime-600 font-semibold transition-all">
-            <span className="w-8 h-8 rounded-lg bg-lime-50 flex items-center justify-center text-sm">🏷️</span>
+            <span className="w-8 h-8 rounded-lg bg-lime-50 flex items-center justify-center">
+              <svg className="w-4 h-4 text-lime-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2v20M2 12h20" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+            </span>
             {t("nav.sales")}
           </Link>
 
@@ -115,7 +131,9 @@ export default function MobileNav() {
 
           {CATEGORIES.map((cat) => (
             <Link key={cat.slug} href={`/catalog?category=${cat.slug}`} onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-medium transition-all">
-              <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm">{cat.icon}</span>
+              <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+                <CategoryIconSvg icon={cat.icon} className="w-4 h-4 text-gray-700" />
+              </span>
               {getCategoryName(cat, locale)}
             </Link>
           ))}
@@ -123,12 +141,23 @@ export default function MobileNav() {
           <div className="my-2 border-t border-gray-100" />
 
           <Link href="/imprint" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">
-            <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm">ℹ️</span>
+            <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+              <svg className="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4" />
+                <path d="M12 8h.01" />
+              </svg>
+            </span>
             {t("nav.about")}
           </Link>
 
           <Link href="/imprint#contact" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">
-            <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm">✉️</span>
+            <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+              <svg className="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <path d="M22 6l-10 7L2 6" />
+              </svg>
+            </span>
             {t("nav.contact")}
           </Link>
         </nav>
@@ -136,15 +165,30 @@ export default function MobileNav() {
         {/* Bottom Actions */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-100 bg-white space-y-1">
           <Link href="/wishlist" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">
-            <span className="w-8 h-8 rounded-lg bg-lime-50 flex items-center justify-center text-sm">❤️</span>
+            <span className="w-8 h-8 rounded-lg bg-lime-50 flex items-center justify-center">
+              <svg className="w-4 h-4 text-lime-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </span>
             {t("nav.wishlist")}
           </Link>
           <Link href="/cart" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">
-            <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm">🛒</span>
+            <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+              <svg className="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                <path d="M3 6h18" />
+                <path d="M16 10a4 4 0 01-8 0" />
+              </svg>
+            </span>
             {t("nav.cart")}
           </Link>
           <Link href="/account" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">
-            <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm">👤</span>
+            <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+              <svg className="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </span>
             {user ? t("nav.myAccount") : t("nav.signIn")}
           </Link>
         </div>

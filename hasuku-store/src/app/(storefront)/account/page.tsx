@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/components/storefront/AuthContext";
 
 export default function AccountPage() {
-  const { user, loading, login, register, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
 
   // Loading state
   if (loading) {
@@ -91,157 +90,24 @@ export default function AccountPage() {
     );
   }
 
-  // Logged out — show login/register
-  return <AuthForms login={login} register={register} />;
-}
-
-function AuthForms({
-  login,
-  register,
-}: {
-  login: (email: string, password: string) => Promise<{ error?: string }>;
-  register: (
-    email: string,
-    password: string,
-    name?: string
-  ) => Promise<{ error?: string }>;
-}) {
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-  const [loginError, setLoginError] = useState("");
-  const [loginLoading, setLoginLoading] = useState(false);
-
-  const [regName, setRegName] = useState("");
-  const [regEmail, setRegEmail] = useState("");
-  const [regPassword, setRegPassword] = useState("");
-  const [regError, setRegError] = useState("");
-  const [regLoading, setRegLoading] = useState(false);
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoginError("");
-    setLoginLoading(true);
-    const result = await login(loginEmail, loginPassword);
-    setLoginLoading(false);
-    if (result.error) setLoginError(result.error);
-  };
-
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setRegError("");
-    setRegLoading(true);
-    const result = await register(regEmail, regPassword, regName);
-    setRegLoading(false);
-    if (result.error) setRegError(result.error);
-  };
-
+  // Logged out — redirect to login
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Mein Konto</h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Login */}
-        <div className="border rounded-lg p-6">
-          <h2 className="text-xl font-bold mb-4">Anmelden</h2>
-          {loginError && (
-            <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-3 mb-4 text-sm">
-              {loginError}
-            </div>
-          )}
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">E-Mail</label>
-              <input
-                type="email"
-                value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
-                className="w-full border rounded-lg px-4 py-3"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Passwort
-              </label>
-              <input
-                type="password"
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                className="w-full border rounded-lg px-4 py-3"
-                required
-                minLength={8}
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loginLoading}
-              className={`w-full font-semibold py-3 rounded-lg transition-colors ${
-                loginLoading
-                  ? "bg-gray-400 text-white cursor-not-allowed"
-                  : "bg-gray-900 hover:bg-gray-800 text-white"
-              }`}
-            >
-              {loginLoading ? "Wird angemeldet..." : "Anmelden"}
-            </button>
-          </form>
-        </div>
-
-        {/* Register */}
-        <div className="border rounded-lg p-6">
-          <h2 className="text-xl font-bold mb-4">Registrieren</h2>
-          {regError && (
-            <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-3 mb-4 text-sm">
-              {regError}
-            </div>
-          )}
-          <form onSubmit={handleRegister} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Name</label>
-              <input
-                type="text"
-                value={regName}
-                onChange={(e) => setRegName(e.target.value)}
-                className="w-full border rounded-lg px-4 py-3"
-                placeholder="Vor- und Nachname"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">E-Mail</label>
-              <input
-                type="email"
-                value={regEmail}
-                onChange={(e) => setRegEmail(e.target.value)}
-                className="w-full border rounded-lg px-4 py-3"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Passwort
-              </label>
-              <input
-                type="password"
-                value={regPassword}
-                onChange={(e) => setRegPassword(e.target.value)}
-                className="w-full border rounded-lg px-4 py-3"
-                required
-                minLength={8}
-                placeholder="Mindestens 8 Zeichen"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={regLoading}
-              className={`w-full font-semibold py-3 rounded-lg transition-colors ${
-                regLoading
-                  ? "bg-gray-400 text-white cursor-not-allowed"
-                  : "bg-lime-500 hover:bg-lime-600 text-white"
-              }`}
-            >
-              {regLoading ? "Wird erstellt..." : "Konto erstellen"}
-            </button>
-          </form>
-        </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+      <h1 className="text-3xl font-bold text-gray-900 mb-4">Mein Konto</h1>
+      <p className="text-gray-500 mb-8">Bitte melde dich an, um dein Konto zu sehen.</p>
+      <div className="flex gap-4 justify-center">
+        <Link
+          href="/login"
+          className="inline-flex items-center bg-gray-900 hover:bg-gray-800 text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-200 shadow-lg"
+        >
+          Anmelden
+        </Link>
+        <Link
+          href="/register"
+          className="inline-flex items-center bg-lime-500 hover:bg-lime-600 text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-200 shadow-lg shadow-lime-500/25"
+        >
+          Konto erstellen
+        </Link>
       </div>
     </div>
   );

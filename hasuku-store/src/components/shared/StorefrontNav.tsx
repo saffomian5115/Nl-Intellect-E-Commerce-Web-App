@@ -9,7 +9,7 @@ import SearchBar from "./SearchBar";
 import { useCart } from "@/components/storefront/CartContext";
 import { useWishlist } from "@/components/storefront/WishlistContext";
 import { useAuth } from "@/components/storefront/AuthContext";
-import { CATEGORIES, getCategoryName, getCategoryDesc } from "@/lib/categories";
+import { CATEGORIES, getCategoryName, getCategoryDesc, CategoryIconSvg } from "@/lib/categories";
 import { useLocale } from "@/components/shared/LocaleContext";
 
 export default function StorefrontNav() {
@@ -100,14 +100,22 @@ export default function StorefrontNav() {
               {catOpen && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 mt-0 pt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-50">
                   <Link href="/catalog" onClick={() => setCatOpen(false)} className="flex items-center gap-3 px-5 py-3 mx-2 rounded-xl hover:bg-gray-50 transition-all group/item">
-                    <span className="w-10 h-10 rounded-xl bg-lime-50 flex items-center justify-center text-lg group-hover/item:bg-lime-100">🛒</span>
+                    <span className="w-10 h-10 rounded-xl bg-lime-50 flex items-center justify-center group-hover/item:bg-lime-100">
+                      <svg className="w-5 h-5 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                        <path d="M3 6h18" />
+                        <path d="M16 10a4 4 0 01-8 0" />
+                      </svg>
+                    </span>
                     <div><p className="font-semibold text-gray-900 text-sm">{t("nav.allProducts")}</p><p className="text-xs text-gray-400">{t("nav.allProductsDesc")}</p></div>
                     <svg className="w-4 h-4 text-gray-300 ml-auto group-hover/item:text-lime-500 group-hover/item:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                   </Link>
                   <div className="my-2 border-t border-gray-100" />
                   {CATEGORIES.map((cat) => (
                     <Link key={cat.slug} href={`/catalog?category=${cat.slug}`} onClick={() => setCatOpen(false)} className="flex items-center gap-3 px-5 py-3 mx-2 rounded-xl hover:bg-gray-50 transition-all group/item">
-                      <span className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-lg group-hover/item:bg-lime-50 group-hover/item:scale-110 transition-all">{cat.icon}</span>
+                      <span className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center group-hover/item:bg-lime-50 group-hover/item:scale-110 transition-all">
+                        <CategoryIconSvg icon={cat.icon} className="w-5 h-5 text-gray-700" />
+                      </span>
                       <div><p className="font-semibold text-gray-900 text-sm">{getCategoryName(cat, locale)}</p><p className="text-xs text-gray-400">{getCategoryDesc(cat, locale)}</p></div>
                       <svg className="w-4 h-4 text-gray-300 ml-auto group-hover/item:text-lime-500 group-hover/item:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                     </Link>
@@ -178,6 +186,7 @@ export default function StorefrontNav() {
             <div className="relative hidden sm:block" ref={wishRef} onMouseEnter={() => { closeOthers("wish"); setWishOpen(true); }} onMouseLeave={() => setWishOpen(false)}>
               <button
                 onClick={() => { closeOthers("wish"); setWishOpen(!wishOpen); }}
+                data-fly-target="wishlist-icon"
                 className="relative p-2.5 text-gray-900 hover:text-lime-500 rounded-xl transition-all duration-200 hover:bg-lime-50"
                 aria-label="Merkliste"
               >
@@ -228,6 +237,7 @@ export default function StorefrontNav() {
             <div className="relative hidden sm:block" ref={cartRef} onMouseEnter={() => { closeOthers("cart"); setCartOpen(true); }} onMouseLeave={() => setCartOpen(false)}>
               <button
                 onClick={() => { closeOthers("cart"); setCartOpen(!cartOpen); }}
+                data-fly-target="cart-icon"
                 className="relative p-2.5 text-gray-900 hover:text-gray-900 rounded-xl transition-all duration-200 hover:bg-gray-50"
                 aria-label="Warenkorb"
               >
@@ -311,10 +321,10 @@ export default function StorefrontNav() {
                     </>
                   ) : (
                     <>
-                      <Link href="/account" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
+                      <Link href="/login" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
                         <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg> {t("nav.signIn")}
                       </Link>
-                      <Link href="/account" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
+                      <Link href="/register" onClick={() => setAccountOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-900">
                         <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg> {t("nav.signUp")}
                       </Link>
                     </>

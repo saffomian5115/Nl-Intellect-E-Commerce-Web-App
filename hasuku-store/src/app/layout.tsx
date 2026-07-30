@@ -3,6 +3,7 @@ import { CartProvider } from "@/components/storefront/CartContext";
 import { WishlistProvider } from "@/components/storefront/WishlistContext";
 import { AuthProvider } from "@/components/storefront/AuthContext";
 import { LocaleProvider } from "@/components/shared/LocaleContext";
+import { FlyProvider } from "@/components/shared/FlyAnimationProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,11 +21,13 @@ export default function RootLayout({
     <html lang="de">
       <body>
         <AuthProvider>
+          <FlyProvider>
           <CartProvider>
             <WishlistProvider>
               <LocaleProvider>{children}</LocaleProvider>
             </WishlistProvider>
           </CartProvider>
+          </FlyProvider>
         </AuthProvider>
       </body>
     </html>

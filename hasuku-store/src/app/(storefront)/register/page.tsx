@@ -1,11 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/storefront/AuthContext";
 
-export default function AdminLoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
+  const { register } = useAuth();
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -16,27 +20,12 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
-
-    try {
-      const res = await fetch("/api/admin/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Anmeldung fehlgeschlagen");
-        setLoading(false);
-        return;
-      }
-
-      router.push("/admin");
-      router.refresh();
-    } catch {
-      setError("Netzwerkfehler");
-      setLoading(false);
+    const result = await register(email, password, name);
+    setLoading(false);
+    if (result.error) {
+      setError(result.error);
+    } else {
+      router.push("/account");
     }
   };
 
@@ -48,22 +37,14 @@ export default function AdminLoginPage() {
         style={{ backgroundImage: "url('/bg.jpg')" }}
       />
 
-      {/* Darker overlay for admin readability */}
-      <div className="absolute inset-0 bg-black/30" />
-
       {/* Glassmorphism Card */}
       <div className="relative w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/30 rounded-2xl shadow-2xl p-8 md:p-10 auth-card-anim">
         {/* Logo / Title */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm mb-4">
-            <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
-          </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">hausku Admin</h1>
-          <p className="text-white/60 text-sm mt-1">Bitte melden Sie sich an</p>
+          <Link href="/" className="inline-block text-white text-2xl font-bold tracking-tight">
+            hausku
+          </Link>
+          <p className="text-white/70 text-sm mt-1">Erstelle dein Konto</p>
         </div>
 
         {/* Error */}
@@ -74,8 +55,32 @@ export default function AdminLoginPage() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email Field */}
+          {/* Name Field */}
           <div className="login__box auth-field-anim auth-field-1">
+            <svg className="w-5 h-5 text-white/70 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            <div className="login__box-input relative flex-1">
+              <input
+                type="text"
+                id="reg-name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="login__input w-full bg-transparent text-white pt-5 pb-1 outline-none"
+                placeholder=" "
+              />
+              <label
+                htmlFor="reg-name"
+                className="absolute left-0 top-4 text-white/60 text-sm transition-all duration-300 pointer-events-none"
+              >
+                Vor- und Nachname
+              </label>
+            </div>
+          </div>
+
+          {/* Email Field */}
+          <div className="login__box auth-field-anim auth-field-2">
             <svg className="w-5 h-5 text-white/70 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
               <path d="M22 6l-10 7L2 6" />
@@ -83,7 +88,7 @@ export default function AdminLoginPage() {
             <div className="login__box-input relative flex-1">
               <input
                 type="email"
-                id="admin-email"
+                id="reg-email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="login__input w-full bg-transparent text-white pt-5 pb-1 outline-none"
@@ -91,7 +96,7 @@ export default function AdminLoginPage() {
                 required
               />
               <label
-                htmlFor="admin-email"
+                htmlFor="reg-email"
                 className="absolute left-0 top-4 text-white/60 text-sm transition-all duration-300 pointer-events-none"
               >
                 E-Mail
@@ -100,7 +105,7 @@ export default function AdminLoginPage() {
           </div>
 
           {/* Password Field */}
-          <div className="login__box auth-field-anim auth-field-2">
+          <div className="login__box auth-field-anim auth-field-3">
             <svg className="w-5 h-5 text-white/70 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
               <path d="M7 11V7a5 5 0 0110 0v4" />
@@ -108,18 +113,19 @@ export default function AdminLoginPage() {
             <div className="login__box-input relative flex-1">
               <input
                 type={showPassword ? "text" : "password"}
-                id="admin-pass"
+                id="reg-pass"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="login__input w-full bg-transparent text-white pt-5 pb-1 pr-8 outline-none"
                 placeholder=" "
                 required
+                minLength={8}
               />
               <label
-                htmlFor="admin-pass"
+                htmlFor="reg-pass"
                 className="absolute left-0 top-4 text-white/60 text-sm transition-all duration-300 pointer-events-none"
               >
-                Passwort
+                Passwort (min. 8 Zeichen)
               </label>
               {/* Eye toggle */}
               <button
@@ -149,29 +155,23 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`auth-field-anim auth-field-3 w-full font-semibold py-3.5 rounded-xl transition-all duration-200 text-sm ${
+            className={`auth-field-anim auth-field-4 w-full font-semibold py-3.5 rounded-xl transition-all duration-200 text-sm ${
               loading
                 ? "bg-white/30 text-white/60 cursor-not-allowed"
-                : "bg-white text-gray-900 hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                : "bg-lime-400 text-gray-900 hover:bg-lime-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-lime-500/30"
             }`}
           >
-            {loading ? "Wird angemeldet..." : "Anmelden"}
+            {loading ? "Wird erstellt..." : "Konto erstellen"}
           </button>
-        </form>
 
-        {/* Back to store link */}
-        <div className="mt-6 text-center">
-          <Link
-            href="/"
-            className="text-white/50 hover:text-white text-xs transition-colors inline-flex items-center gap-1"
-          >
-            <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 12H5" />
-              <path d="M12 19l-7-7 7-7" />
-            </svg>
-            Zurück zum Shop
-          </Link>
-        </div>
+          {/* Login link */}
+          <p className="text-center text-white/60 text-sm auth-field-anim auth-field-5">
+            Bereits ein Konto?{" "}
+            <Link href="/login" className="text-white font-medium hover:underline">
+              Jetzt anmelden
+            </Link>
+          </p>
+        </form>
       </div>
     </div>
   );

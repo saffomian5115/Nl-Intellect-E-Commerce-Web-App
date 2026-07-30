@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useCart } from "@/components/storefront/CartContext";
+import { useFly } from "@/components/shared/FlyAnimationProvider";
 
 type AddToCartButtonProps = {
   variantId: number;
@@ -19,6 +20,7 @@ type AddToCartButtonProps = {
 
 export default function AddToCartButton(props: AddToCartButtonProps) {
   const { addItem } = useCart();
+  const { flyToCart } = useFly();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -34,22 +36,49 @@ export default function AddToCartButton(props: AddToCartButtonProps) {
 
   const handleAdd = () => {
     if (!isInStock) return;
-    addItem(
-      {
-        variantId: props.variantId,
-        productId: props.productId,
-        name: props.name,
-        slug: props.slug,
-        size: props.size,
-        color: props.color,
-        colorHex: props.colorHex,
-        imageUrl: props.imageUrl,
-        unitPrice: props.unitPrice,
-        stockQty: props.stockQty,
-        sku: props.sku,
-      },
-      qty
-    );
+
+    // Try to find the product image element for fly animation
+    const imageEl = document.getElementById("product-main-image");
+    if (imageEl) {
+      const rect = imageEl.getBoundingClientRect();
+      flyToCart(rect, props.imageUrl, () => {
+        addItem(
+          {
+            variantId: props.variantId,
+            productId: props.productId,
+            name: props.name,
+            slug: props.slug,
+            size: props.size,
+            color: props.color,
+            colorHex: props.colorHex,
+            imageUrl: props.imageUrl,
+            unitPrice: props.unitPrice,
+            stockQty: props.stockQty,
+            sku: props.sku,
+          },
+          qty
+        );
+      });
+    } else {
+      // Fallback: add directly without animation
+      addItem(
+        {
+          variantId: props.variantId,
+          productId: props.productId,
+          name: props.name,
+          slug: props.slug,
+          size: props.size,
+          color: props.color,
+          colorHex: props.colorHex,
+          imageUrl: props.imageUrl,
+          unitPrice: props.unitPrice,
+          stockQty: props.stockQty,
+          sku: props.sku,
+        },
+        qty
+      );
+    }
+
     setAdded(true);
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => setAdded(false), 2000);

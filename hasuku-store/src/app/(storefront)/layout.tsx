@@ -10,7 +10,7 @@ export default function StorefrontLayout({
   return (
     <div className="min-h-screen bg-white">
       <StorefrontNav />
-      <main>{children}</main>
+      <main className="overflow-x-hidden">{children}</main>
       <StorefrontFooter />
       <CookieConsent />
     </div>

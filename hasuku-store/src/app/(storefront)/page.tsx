@@ -3,21 +3,13 @@ import { prisma } from "@/lib/db/prisma";
 import ProductCard from "@/components/storefront/ProductCard";
 import { getTranslations } from "@/lib/i18n";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+import { formatPrice } from "@/lib/vat";
 
 export default async function HomePage() {
   const { t } = await getTranslations();
 
-  const [featuredProducts, bestsellers, newArrivals, categories] =
+  const [bestsellers, snackbox, laptopCushion, lunchBox1400] =
     await Promise.all([
-      prisma.product.findMany({
-        where: { active: true, featured: true },
-        include: {
-          category: true,
-          variants: { where: { active: true } },
-        },
-        orderBy: { createdAt: "desc" },
-        take: 4,
-      }),
       prisma.product.findMany({
         where: { active: true },
         include: {
@@ -25,23 +17,27 @@ export default async function HomePage() {
           variants: { where: { active: true } },
         },
         orderBy: { createdAt: "asc" },
-        take: 6,
+        take: 3,
       }),
-      prisma.product.findMany({
-        where: { active: true },
+      prisma.product.findUnique({
+        where: { slug: "couchbar-snackbox" },
         include: {
           category: true,
           variants: { where: { active: true } },
         },
-        orderBy: { createdAt: "desc" },
-        take: 4,
       }),
-      prisma.category.findMany({
-        orderBy: { sortOrder: "asc" },
+      prisma.product.findUnique({
+        where: { slug: "laptopkissen-grau" },
         include: {
-          _count: {
-            select: { products: { where: { active: true } } },
-          },
+          category: true,
+          variants: { where: { active: true } },
+        },
+      }),
+      prisma.product.findUnique({
+        where: { slug: "brotdose-1400ml" },
+        include: {
+          category: true,
+          variants: { where: { active: true } },
         },
       }),
     ]);
@@ -49,7 +45,7 @@ export default async function HomePage() {
   return (
     <>
       {/* ═══ SECTION 1: Top Utility Bar ═══ */}
-      <div className="bg-lime-500 text-white text-center py-2 text-sm font-medium">
+      <div className="bg-lime-500 text-gray-900 text-center py-2 text-sm font-medium">
         <div className="max-w-7xl mx-auto px-4">
           <span className="hidden sm:inline">🚚 {t("home.freeShipping")}</span>
           <span className="hidden sm:inline mx-3 opacity-50">|</span>
@@ -62,14 +58,16 @@ export default async function HomePage() {
 
       {/* ═══ SECTION 2: Hero ═══ */}
       <section className="relative hero-bg text-white overflow-hidden min-h-[600px] md:min-h-[700px] flex items-center">
+        {/* Hero bg image with zoom-in animation */}
+        <div className="absolute inset-0 animate-hero-zoom" style={{ backgroundImage: "url('/bg.jpg')", backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
         {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30 z-10" />
         {/* Decorative lime glow accents */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute inset-0 opacity-20 pointer-events-none z-10">
           <div className="absolute top-10 left-10 w-80 h-80 bg-lime-500 rounded-full blur-[120px]" />
           <div className="absolute bottom-10 right-20 w-64 h-64 bg-lime-400 rounded-full blur-[100px]" />
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32 w-full">
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32 w-full">
           <div className="max-w-2xl">
             <AnimatedSection animation="fadeUp" delay={0}>
               <span className="inline-block px-4 py-1.5 bg-lime-500/20 text-lime-300 text-sm font-medium rounded-full mb-6 border border-lime-500/30 backdrop-blur-sm">
@@ -151,42 +149,12 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ═══ SECTION 5: Categories ═══ */}
-      {categories.length > 0 && (
-        <AnimatedSection animation="fadeUp">
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("home.browseCategories")}</h2>
-            <p className="text-gray-500 max-w-2xl mx-auto">{t("home.browseCategoriesDesc")}</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map((cat) => (
-              <Link key={cat.id} href={`/catalog?category=${cat.slug}`} className="group relative rounded-2xl overflow-hidden bg-gray-100 aspect-[4/3] hover:shadow-xl transition-all duration-300">
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 group-hover:from-gray-300 group-hover:to-gray-400 transition-all duration-300">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
-                    <svg className="w-16 h-16 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-                  </div>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-xl font-bold text-white mb-1">{cat.name}</h3>
-                  <p className="text-sm text-gray-300 mb-3">{cat._count.products} {cat._count.products === 1 ? t("home.product") : t("home.products")}</p>
-                  <span className="inline-flex items-center text-sm font-medium text-white group-hover:text-lime-400 transition-colors">
-                    {t("home.toCollection")}
-                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-        </AnimatedSection>
-      )}
 
-      {/* ═══ SECTION 6: Bestsellers ═══ */}
+
+      {/* ═══ SECTION 6: Popular Products with Gallery Float Animation ═══ */}
       {bestsellers.length > 0 && (
         <AnimatedSection animation="fadeUp">
-        <section className="bg-gray-50 py-16 md:py-20">
+        <section className="bg-gray-50 py-16 md:py-20 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-10">
               <div>
@@ -198,8 +166,12 @@ export default async function HomePage() {
                 <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
               </Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {bestsellers.map((product) => (<ProductCard key={product.id} product={product} />))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 gallery-grid">
+              {bestsellers.map((product, index) => (
+                <div key={product.id} className={`gallery-card gallery-card-${index + 1}`}>
+                  <ProductCard product={product} />
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -209,16 +181,16 @@ export default async function HomePage() {
       {/* ═══ SECTION 7: Promo Banner ═══ */}
       <AnimatedSection animation="scaleIn">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-lime-400 via-lime-500 to-green-500 text-white">
+        <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-lime-400 via-lime-500 to-green-500 text-gray-900">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/2" />
           </div>
           <div className="relative px-8 py-12 md:px-12 md:py-16 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-left">
-              <span className="inline-block px-3 py-1 bg-white/20 rounded-full text-sm font-medium mb-4">{t("home.promoTitle")}</span>
+              <span className="inline-block px-3 py-1 bg-white/40 rounded-full text-sm font-medium mb-4">{t("home.promoTitle")}</span>
               <h3 className="text-2xl md:text-3xl font-bold mb-2">{t("home.promoHeadline")}</h3>
-              <p className="text-white/80 max-w-lg">{t("home.promoDescription")}</p>
+              <p className="text-gray-700 max-w-lg">{t("home.promoDescription")}</p>
             </div>
             <Link href="/catalog" className="flex-shrink-0 bg-white text-lime-600 font-bold px-8 py-3.5 rounded-lg hover:bg-gray-100 transition-colors shadow-lg">{t("home.shopNow")}</Link>
           </div>
@@ -226,73 +198,220 @@ export default async function HomePage() {
       </section>
       </AnimatedSection>
 
-      {/* ═══ SECTION 8: New Arrivals ═══ */}
-      {newArrivals.length > 0 && (
-        <AnimatedSection animation="fadeUp">
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <div className="flex items-center justify-between mb-10">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">{t("home.newArrivals")}</h2>
-              <p className="text-gray-500">{t("home.newArrivalsDesc")}</p>
-            </div>
-            <Link href="/catalog?sort=newest" className="hidden sm:inline-flex items-center text-lime-500 hover:text-lime-600 font-medium transition-colors">
-              {t("home.viewAllNew")}
-              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {newArrivals.map((product) => (<ProductCard key={product.id} product={product} />))}
-          </div>
-        </section>
-        </AnimatedSection>
-      )}
 
-      {/* ═══ SECTION 9: Featured Products ═══ */}
-      {featuredProducts.length > 0 && (
-        <AnimatedSection animation="fadeUp">
-        <section className="bg-gray-50 py-16 md:py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-10">
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">{t("home.featuredProducts")}</h2>
-                <p className="text-gray-500">{t("home.featuredDesc")}</p>
-              </div>
-              <Link href="/catalog" className="hidden sm:inline-flex items-center text-lime-500 hover:text-lime-600 font-medium transition-colors">
-                {t("home.viewAll")}
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {featuredProducts.map((product) => (<ProductCard key={product.id} product={product} />))}
-            </div>
-          </div>
-        </section>
-        </AnimatedSection>
-      )}
 
-      {/* ═══ SECTION 10: Personalization ═══ */}
+      {/* ═══ SECTION 10: Premium & Sustainable — Snackbox Showcase ═══ */}
+      {snackbox && (
       <AnimatedSection animation="slideLeft">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-            <div className="text-center text-gray-400">
-              <svg className="w-20 h-20 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+          {/* Left — Image with 3D hover lens effect */}
+          <div className="relative group perspective-3d">
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-amber-50 to-amber-100 shadow-xl transition-all duration-500 group-hover:shadow-2xl relative product-image-card">
+              {snackbox.imageUrl ? (
+                <img
+                  src={snackbox.imageUrl}
+                  alt={snackbox.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-amber-300">
+                  <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                </div>
+              )}
+              {/* Decorative overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
+            {/* Floating badge */}
+            <div className="absolute -top-3 -right-3 bg-lime-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg animate-float-slow">
+              🌿 {snackbox.manufacturer || "HAUSKU"}
             </div>
           </div>
+
+          {/* Right — Details */}
           <div>
-            <span className="inline-block px-3 py-1 bg-lime-50 text-lime-500 text-sm font-medium rounded-full mb-4">{t("home.personalization")}</span>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t("home.personalizationTitle")}</h2>
-            <p className="text-gray-600 mb-6 leading-relaxed">{t("home.personalizationDesc")}</p>
-            <Link href="/catalog" className="inline-flex items-center bg-lime-500 hover:bg-lime-600 text-white font-semibold px-8 py-3.5 rounded-lg transition-all duration-200 shadow-lg shadow-lime-500/25">
-              {t("home.personalizeNow")}
-              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-            </Link>
+            <span className="inline-block px-3 py-1 bg-amber-100 text-amber-700 text-sm font-medium rounded-full mb-4">
+              ✨ {t("home.personalization")}
+            </span>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">{snackbox.name}</h2>
+            <p className="text-sm text-amber-600 font-medium mb-4">
+              {snackbox.category?.name} · {snackbox.variants.length > 0 ? snackbox.variants[0]?.color : ''}
+            </p>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              {snackbox.description}
+            </p>
+            <div className="flex flex-wrap gap-4 mb-8">
+              {snackbox.variants.slice(0, 3).map((v) => (
+                <span key={v.id} className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-lg text-sm text-gray-600">
+                  <span className="w-3 h-3 rounded-full" style={{ backgroundColor: v.colorHex || "#ccc" }} />
+                  {v.color}
+                </span>
+              ))}
+              {snackbox.variants.length > 3 && (
+                <span className="inline-flex items-center px-3 py-1.5 bg-gray-100 rounded-lg text-sm text-gray-500">
+                  +{snackbox.variants.length - 3}
+                </span>
+              )}
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+              <Link
+                href={`/product/${snackbox.slug}`}
+                className="inline-flex items-center bg-lime-500 hover:bg-lime-600 text-white font-semibold px-8 py-3.5 rounded-lg transition-all duration-200 shadow-lg shadow-lime-500/25 hover:shadow-xl hover:scale-[1.02]"
+              >
+                {t("home.personalizeNow")}
+                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </Link>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-bold text-gray-900">{formatPrice(snackbox.basePrice)}</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
       </AnimatedSection>
+      )}
 
-      {/* ═══ SECTION 11: Why hausku ═══ */}
+      {/* ═══ SECTION 11: German Engineering — Laptop Cushion (Image Right, Data Left) ═══ */}
+      {laptopCushion && (
+      <AnimatedSection animation="slideRight">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left — Details */}
+          <div>
+            <span className="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 text-sm font-medium rounded-full mb-4">
+              🇩🇪 {t("home.ergonomics")}
+            </span>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">{laptopCushion.name}</h2>
+            <p className="text-sm text-indigo-500 font-medium mb-4">
+              {laptopCushion.category?.name} · {laptopCushion.variants.length > 0 ? laptopCushion.variants[0]?.color : ''}
+            </p>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              {laptopCushion.description}
+            </p>
+            {/* Feature bullet points */}
+            <ul className="space-y-3 mb-8">
+              {[
+                { icon: "📱", text: t("home.ergoFeature1") },
+                { icon: "🖐️", text: t("home.ergoFeature2") },
+                { icon: "💻", text: t("home.ergoFeature3") },
+                { icon: "🪶", text: t("home.ergoFeature4") },
+              ].map((feat, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="text-lg flex-shrink-0 mt-0.5">{feat.icon}</span>
+                  <span className="text-gray-600 text-sm">{feat.text}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+              <Link
+                href={`/product/${laptopCushion.slug}`}
+                className="inline-flex items-center bg-indigo-500 hover:bg-indigo-600 text-white font-semibold px-8 py-3.5 rounded-lg transition-all duration-200 shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:scale-[1.02]"
+              >
+                {t("home.learnMore")}
+                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </Link>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-bold text-gray-900">{formatPrice(laptopCushion.basePrice)}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right — Image */}
+          <div className="relative group perspective-3d">
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-indigo-50 to-indigo-100 shadow-xl transition-all duration-500 group-hover:shadow-2xl relative product-image-card">
+              {laptopCushion.imageUrl ? (
+                <img
+                  src={laptopCushion.imageUrl}
+                  alt={laptopCushion.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-indigo-300">
+                  <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
+            <div className="absolute -top-3 -left-3 bg-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg animate-float-slow">
+              🏆 {t("home.ergoBadge")}
+            </div>
+          </div>
+        </div>
+      </section>
+      </AnimatedSection>
+      )}
+
+      {/* ═══ SECTION 12: Stainless Steel Excellence — Brotdose 1400ml (Image Left, Data Right) ═══ */}
+      {lunchBox1400 && (
+      <AnimatedSection animation="slideLeft">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left — Image */}
+          <div className="relative group perspective-3d">
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-slate-50 to-slate-200 shadow-xl transition-all duration-500 group-hover:shadow-2xl relative product-image-card">
+              {lunchBox1400.imageUrl ? (
+                <img
+                  src={lunchBox1400.imageUrl}
+                  alt={lunchBox1400.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-slate-300">
+                  <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
+            <div className="absolute -top-3 -right-3 bg-slate-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg animate-float-slow">
+              🥇 {t("home.steelBadge")}
+            </div>
+          </div>
+
+          {/* Right — Details */}
+          <div>
+            <span className="inline-block px-3 py-1 bg-slate-100 text-slate-700 text-sm font-medium rounded-full mb-4">
+              🥗 {t("home.steelTag")}
+            </span>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">{lunchBox1400.name}</h2>
+            <p className="text-sm text-slate-500 font-medium mb-4">
+              {lunchBox1400.category?.name} · {lunchBox1400.variants.length > 0 ? lunchBox1400.variants[0]?.size : ''} · {lunchBox1400.variants.length > 0 ? lunchBox1400.variants[0]?.color : ''}
+            </p>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              {lunchBox1400.description}
+            </p>
+            {/* Feature bullet points */}
+            <ul className="space-y-3 mb-8">
+              {[
+                { icon: "🔒", text: t("home.steelFeature1") },
+                { icon: "🍱", text: t("home.steelFeature2") },
+                { icon: "🧼", text: t("home.steelFeature3") },
+                { icon: "🌱", text: t("home.steelFeature4") },
+              ].map((feat, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="text-lg flex-shrink-0 mt-0.5">{feat.icon}</span>
+                  <span className="text-gray-600 text-sm">{feat.text}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+              <Link
+                href={`/product/${lunchBox1400.slug}`}
+                className="inline-flex items-center bg-slate-700 hover:bg-slate-800 text-white font-semibold px-8 py-3.5 rounded-lg transition-all duration-200 shadow-lg shadow-slate-700/25 hover:shadow-xl hover:scale-[1.02]"
+              >
+                {t("home.learnMore")}
+                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </Link>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-bold text-gray-900">{formatPrice(lunchBox1400.basePrice)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      </AnimatedSection>
+      )}
+
+      {/* ═══ SECTION 13: Why hausku ═══ */}
       <AnimatedSection animation="fadeUp">
       <section className="bg-gray-50 py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -318,7 +437,7 @@ export default async function HomePage() {
       </section>
       </AnimatedSection>
 
-      {/* ═══ SECTION 12: Reviews ═══ */}
+      {/* ═══ SECTION 14: Reviews ═══ */}
       <AnimatedSection animation="scaleIn">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
         <div className="text-center mb-12">
@@ -346,7 +465,7 @@ export default async function HomePage() {
       </section>
       </AnimatedSection>
 
-      {/* ═══ SECTION 13: Newsletter ═══ */}
+      {/* ═══ SECTION 15: Newsletter ═══ */}
       <AnimatedSection animation="fadeUp">
       <section className="bg-gray-900 text-white py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
