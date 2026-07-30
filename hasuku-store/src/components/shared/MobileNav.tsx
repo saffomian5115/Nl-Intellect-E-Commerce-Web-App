@@ -140,7 +140,7 @@ export default function MobileNav() {
 
           <div className="my-2 border-t border-gray-100" />
 
-          <Link href="/imprint" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">
+          <Link href="/about" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">
             <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
               <svg className="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />
@@ -151,7 +151,7 @@ export default function MobileNav() {
             {t("nav.about")}
           </Link>
 
-          <Link href="/imprint#contact" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">
+          <Link href="/contact" onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold transition-all">
             <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
               <svg className="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />

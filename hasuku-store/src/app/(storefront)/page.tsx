@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db/prisma";
 import ProductCard from "@/components/storefront/ProductCard";
 import { getTranslations } from "@/lib/i18n";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+import HeroCutouts from "@/components/storefront/HeroCutouts";
 import { formatPrice } from "@/lib/vat";
 
 export default async function HomePage() {
@@ -68,6 +69,7 @@ export default async function HomePage() {
           <div className="absolute bottom-10 right-20 w-64 h-64 bg-lime-400 rounded-full blur-[100px]" />
         </div>
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32 w-full">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
           <div className="max-w-2xl">
             <AnimatedSection animation="fadeUp" delay={0}>
               <span className="inline-block px-4 py-1.5 bg-lime-500/20 text-lime-300 text-sm font-medium rounded-full mb-6 border border-lime-500/30 backdrop-blur-sm">
@@ -95,12 +97,18 @@ export default async function HomePage() {
                   {t("home.heroCTA")}
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </Link>
-                <Link href="/imprint" className="inline-flex items-center justify-center border border-white/30 hover:border-white/60 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 backdrop-blur-sm hover:bg-white/10">
+                <Link href="/about" className="inline-flex items-center justify-center border border-white/30 hover:border-white/60 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 backdrop-blur-sm hover:bg-white/10">
                   {t("nav.about")}
                 </Link>
               </div>
             </AnimatedSection>
           </div>
+
+          {/* Right side — Cutout images */}
+          <div className="relative h-[600px] hidden lg:block">
+            <HeroCutouts />
+          </div>
+        </div>
         </div>
       </section>
 

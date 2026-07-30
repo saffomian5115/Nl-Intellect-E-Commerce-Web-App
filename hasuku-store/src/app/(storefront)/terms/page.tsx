@@ -1,22 +1,31 @@
+"use client";
+
+import { useLocale } from "@/components/shared/LocaleContext";
+
 export default function TermsPage() {
+  const { t } = useLocale();
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Allgemeine Geschäftsbedingungen (AGB)</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">{t("terms.title")}</h1>
       <div className="prose prose-gray max-w-none">
         <p className="text-gray-600">
-          Die vollständigen AGB werden hier angezeigt, sobald der Klient die finalen rechtlichen Texte bereitstellt.
+          {t("terms.pending")}
         </p>
-        <h2 className="text-xl font-bold mt-8 mb-4">1. Geltungsbereich</h2>
+
+        <h2 className="text-xl font-bold mt-8 mb-4">1. {t("terms.scope")}</h2>
         <p className="text-gray-600">
-          [Wird vom Klient ergänzt]
+          {t("terms.pending")}
         </p>
-        <h2 className="text-xl font-bold mt-8 mb-4">2. Vertragsschluss</h2>
+
+        <h2 className="text-xl font-bold mt-8 mb-4">2. {t("terms.contractConclusion")}</h2>
         <p className="text-gray-600">
-          [Wird vom Klient ergänzt]
+          {t("terms.pending")}
         </p>
-        <h2 className="text-xl font-bold mt-8 mb-4">3. Widerrufsrecht</h2>
+
+        <h2 className="text-xl font-bold mt-8 mb-4">3. {t("terms.rightOfWithdrawal")}</h2>
         <p className="text-gray-600">
-          Sie haben das Recht, binnen 14 Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.
+          {t("terms.withdrawalText")}
         </p>
       </div>
     </div>

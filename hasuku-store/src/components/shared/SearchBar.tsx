@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useLocale } from "@/components/shared/LocaleContext";
 
 interface Suggestion {
   id: number;
@@ -29,6 +30,7 @@ export default function SearchBar({
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const { t } = useLocale();
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Focus input when expanded
@@ -175,7 +177,7 @@ export default function SearchBar({
           <button
             onClick={() => setExpanded(true)}
             className="p-2.5 text-gray-900 hover:text-lime-600 rounded-xl transition-all duration-200 hover:bg-gray-50 group"
-            aria-label="Suchen"
+            aria-label={t("common.search")}
           >
             <svg
               className="w-5 h-5 transition-transform duration-200 group-hover:scale-110"
@@ -220,7 +222,7 @@ export default function SearchBar({
                 value={query}
                 onChange={(e) => handleInputChange(e.target.value)}
                 onFocus={() => { if (suggestions.length > 0) setShowSuggestions(true); }}
-                placeholder="Produkte suchen…"
+                placeholder={t("search.placeholder")}
                 className="flex-1 bg-transparent py-2.5 px-2 text-sm text-gray-900 placeholder-gray-400 outline-none min-w-0"
               />
               {loading && (
@@ -236,7 +238,7 @@ export default function SearchBar({
                 type="button"
                 onClick={handleClose}
                 className="mr-1 p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-full transition-all duration-200"
-                aria-label={query ? "Löschen" : "Schließen"}
+                aria-label={query ? t("search.clear") : t("search.close")}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -256,13 +258,13 @@ export default function SearchBar({
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                     </svg>
-                    Suche läuft…
+                    {t("search.searching")}
                   </div>
                 ) : suggestions.length > 0 ? (
                   <>
                     <div className="px-4 py-2.5 border-b border-gray-100">
                       <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                        {suggestions.length} {suggestions.length === 1 ? "Ergebnis" : "Ergebnisse"}
+                        {suggestions.length} {suggestions.length === 1 ? t("search.result") : t("search.results")}
                       </p>
                     </div>
                     {suggestions.map((product) => (

@@ -82,6 +82,19 @@ Elegante Zweifarben-Optik aus Bambus und mattschwarzem Sockel, mit seitlichem Tr
 
 ---
 
+## Images
+
+| Image | File |
+|---|---|
+| Main Product Image | ![couchbar-snackbox](couchbar-snackbox.jpg) |
+
+### Gallery Images (from Amazon)
+| # | Image |
+|---|---|
+| 1 | ![Couch Bar - Gallery 1](gallery/couchbar-1.jpg) |
+
+---
+
 ## Category Path (Amazon)
 
 Home & Kitchen › Cooking & Dining › Tableware › Dishware & Serving Pieces › Plates & Serving Dishes › Serving Trays, Dishes & Platters › Serving Trays

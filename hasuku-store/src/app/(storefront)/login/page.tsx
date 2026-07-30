@@ -4,8 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/storefront/AuthContext";
+import { useLocale } from "@/components/shared/LocaleContext";
 
 export default function LoginPage() {
+  const { t } = useLocale();
   const router = useRouter();
   const { login } = useAuth();
 
@@ -44,7 +46,7 @@ export default function LoginPage() {
           <Link href="/" className="inline-block text-white text-2xl font-bold tracking-tight">
             hausku
           </Link>
-          <p className="text-white/70 text-sm mt-1">Melde dich in deinem Konto an</p>
+          <p className="text-white/70 text-sm mt-1">{t("auth.signInTitle")}</p>
         </div>
 
         {/* Error */}
@@ -75,7 +77,7 @@ export default function LoginPage() {
                 htmlFor="login-email"
                 className="absolute left-0 top-4 text-white/60 text-sm transition-all duration-300 pointer-events-none"
               >
-                E-Mail
+                {t("auth.email")}
               </label>
             </div>
           </div>
@@ -101,7 +103,7 @@ export default function LoginPage() {
                 htmlFor="login-pass"
                 className="absolute left-0 top-4 text-white/60 text-sm transition-all duration-300 pointer-events-none"
               >
-                Passwort
+                {t("auth.password")}
               </label>
               {/* Eye toggle */}
               <button
@@ -136,10 +138,10 @@ export default function LoginPage() {
                 onChange={(e) => setRemember(e.target.checked)}
                 className="w-4 h-4 rounded border-white/30 bg-transparent accent-lime-400"
               />
-              Angemeldet bleiben
+              {t("auth.rememberMe")}
             </label>
             <Link href="#" className="text-white/70 hover:text-white transition-colors">
-              Passwort vergessen?
+              {t("auth.forgotPassword")}
             </Link>
           </div>
 
@@ -153,14 +155,14 @@ export default function LoginPage() {
                 : "bg-white text-gray-900 hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] shadow-lg"
             }`}
           >
-            {loading ? "Wird angemeldet..." : "Anmelden"}
+            {loading ? t("auth.signingIn") : t("auth.signIn")}
           </button>
 
           {/* Register link */}
           <p className="text-center text-white/60 text-sm auth-field-anim auth-field-5">
-            Noch kein Konto?{" "}
+            {t("auth.noAccount")}{" "}
             <Link href="/register" className="text-white font-medium hover:underline">
-              Jetzt registrieren
+              {t("auth.registerNow")}
             </Link>
           </p>
         </form>

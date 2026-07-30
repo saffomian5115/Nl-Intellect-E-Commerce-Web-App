@@ -89,6 +89,31 @@ Die Edelstahl-Lunchbox wurde für zuverlässigen Auslaufschutz entwickelt. Dank 
 
 ---
 
+## Images
+
+| Image | File |
+|---|---|
+| Main Product Image | ![brotdose-1400ml](brotdose-1400ml.jpg) |
+
+### Gallery Images (from Amazon) — Shared across all Lunch Box sizes
+| # | Image |
+|---|---|
+| 1 | ![Brotdose Gallery 1](gallery/brotdose-1.jpg) |
+| 2 | ![Brotdose Gallery 2](gallery/brotdose-2.jpg) |
+| 3 | ![Brotdose Gallery 3](gallery/brotdose-3.jpg) |
+| 4 | ![Brotdose Gallery 4](gallery/brotdose-4.jpg) |
+| 5 | ![Brotdose Gallery 5](gallery/brotdose-5.jpg) |
+| 6 | ![Brotdose Gallery 6](gallery/brotdose-6.jpg) |
+| 7 | ![Brotdose Gallery 7](gallery/brotdose-7.jpg) |
+| 8 | ![Brotdose Gallery 8](gallery/brotdose-8.jpg) |
+| 9 | ![Brotdose Gallery 9](gallery/brotdose-9.jpg) |
+| 10 | ![Brotdose Gallery 10](gallery/brotdose-10.jpg) |
+| 11 | ![Brotdose Gallery 11](gallery/brotdose-11.jpg) |
+| 12 | ![Brotdose Gallery 12](gallery/brotdose-12.jpg) |
+| 13 | ![Brotdose Gallery 13](gallery/brotdose-13.jpg) |
+
+---
+
 ## SEO / Marketing Keywords
 
 - Brotdose Edelstahl 1400ml, Lunchbox groß, Bento Box, Dip-Sauce

@@ -63,6 +63,16 @@ export default function StorefrontFooter() {
                   {t("footer.household")}
                 </Link>
               </li>
+              <li>
+                <Link href="/about" className="hover:text-white transition-colors">
+                  {t("nav.about")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-white transition-colors">
+                  {t("nav.contact")}
+                </Link>
+              </li>
             </ul>
           </div>
 

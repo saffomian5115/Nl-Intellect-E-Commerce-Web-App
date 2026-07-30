@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useCart } from "@/components/storefront/CartContext";
 import { useFly } from "@/components/shared/FlyAnimationProvider";
+import { getCutoutUrl } from "@/lib/cutouts";
 
 type AddToCartButtonProps = {
   variantId: number;
@@ -39,6 +40,7 @@ export default function AddToCartButton(props: AddToCartButtonProps) {
 
     // Try to find the product image element for fly animation
     const imageEl = document.getElementById("product-main-image");
+    const cutoutUrl = getCutoutUrl(props.slug);
     if (imageEl) {
       const rect = imageEl.getBoundingClientRect();
       flyToCart(rect, props.imageUrl, () => {
@@ -58,7 +60,7 @@ export default function AddToCartButton(props: AddToCartButtonProps) {
           },
           qty
         );
-      });
+      }, cutoutUrl);
     } else {
       // Fallback: add directly without animation
       addItem(

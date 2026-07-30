@@ -2,13 +2,16 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { formatPrice } from "@/lib/vat";
+import { getTranslations } from "@/lib/i18n";
 import AddToCartButton from "@/components/storefront/AddToCartButton";
+import ProductGallery from "@/components/storefront/ProductGallery";
 
 export default async function ProductDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  const { t } = await getTranslations();
   const { slug } = await params;
 
   const product = await prisma.product.findUnique({
@@ -48,11 +51,11 @@ export default async function ProductDetailPage({
       {/* Breadcrumb */}
       <nav className="text-sm text-gray-500 mb-8">
         <Link href="/" className="hover:text-gray-900">
-          Startseite
+          {t("product.home")}
         </Link>
         <span className="mx-2">/</span>
         <Link href="/catalog" className="hover:text-gray-900">
-          Produkte
+          {t("product.productsLink")}
         </Link>
         <span className="mx-2">/</span>
         <Link
@@ -66,27 +69,12 @@ export default async function ProductDetailPage({
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* Product Images */}
-        <div>
-          <div id="product-main-image" className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-xl relative overflow-hidden">
-            {product.imageUrl ? (
-              <img
-                src={product.imageUrl}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <svg className="w-24 h-24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            )}
-          </div>
-          {/* Thumbnail strip */}
-          <div className="grid grid-cols-4 gap-3 mt-4">
-            <div className="aspect-square bg-gray-100 rounded cursor-pointer border-2 border-gray-900" />
-            <div className="aspect-square bg-gray-100 rounded cursor-pointer border-2 border-transparent hover:border-gray-300 transition-colors" />
-          </div>
-        </div>
+        {/* Product Images with 3D Preview */}
+        <ProductGallery
+          mainImage={product.imageUrl || "/placeholder.jpg"}
+          productName={product.name}
+          slug={product.slug}
+        />
 
         {/* Product Info */}
         <div>
@@ -100,14 +88,14 @@ export default async function ProductDetailPage({
             <p className="text-3xl font-bold text-gray-900">
               {formatPrice(product.basePrice)}
             </p>
-            <p className="text-sm text-gray-500 mt-1">inkl. MwSt.</p>
+            <p className="text-sm text-gray-500 mt-1">{t("product.inclVat")}</p>
           </div>
 
           {/* Color Selection */}
           {colors.length > 0 && (
             <div className="mt-8">
               <h3 className="font-medium text-gray-900 mb-3">
-                Farbe auswählen
+                {t("product.selectColor")}
               </h3>
               <div className="flex flex-wrap gap-3">
                 {colors.map((color) => (
@@ -127,7 +115,7 @@ export default async function ProductDetailPage({
           {sizes.length > 0 && (
             <div className="mt-6">
               <h3 className="font-medium text-gray-900 mb-3">
-                Größe auswählen
+                {t("product.selectSize")}
               </h3>
               <div className="flex flex-wrap gap-3">
                 {sizes.map((size) => (
@@ -147,12 +135,12 @@ export default async function ProductDetailPage({
             {isInStock ? (
               <p className="text-sm text-green-600 flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full" />
-                Auf Lager ({totalStock} Stück)
+                {t("product.inStock")} ({t("product.stockCount").replace("{count}", totalStock.toString())})
               </p>
             ) : (
               <p className="text-sm text-lime-600 flex items-center gap-2">
                 <span className="w-2 h-2 bg-lime-500 rounded-full" />
-                Nicht verfügbar
+                {t("product.outOfStock")}
               </p>
             )}
           </div>
@@ -178,7 +166,7 @@ export default async function ProductDetailPage({
 
           {/* Shipping hint */}
           <p className="text-xs text-gray-500 mt-4">
-            Kostenloser Versand ab 30 € · Versand: 4,99 €
+            {t("product.shippingHint")}
           </p>
         </div>
       </div>
@@ -186,7 +174,7 @@ export default async function ProductDetailPage({
       {/* Description */}
       {product.description && (
         <div className="mt-16">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Beschreibung</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">{t("product.description")}</h2>
           <p className="text-gray-600 leading-relaxed whitespace-pre-line">
             {product.description}
           </p>
@@ -197,17 +185,17 @@ export default async function ProductDetailPage({
       {(product.manufacturer || product.safetyWarnings) && (
         <div className="mt-8 border rounded-lg p-6 bg-gray-50">
           <h2 className="text-sm font-bold text-gray-900 mb-3">
-            Sicherheitsinformationen (GPSR)
+            {t("product.gpsrTitle")}
           </h2>
           {product.manufacturer && (
             <p className="text-sm text-gray-600">
-              <span className="font-medium">Hersteller:</span>{" "}
+              <span className="font-medium">{t("product.manufacturer")}</span>{" "}
               {product.manufacturer}
             </p>
           )}
           {product.safetyWarnings && (
             <p className="text-sm text-gray-600 mt-1">
-              <span className="font-medium">Warnhinweise:</span>{" "}
+              <span className="font-medium">{t("product.safetyWarnings")}</span>{" "}
               {product.safetyWarnings}
             </p>
           )}

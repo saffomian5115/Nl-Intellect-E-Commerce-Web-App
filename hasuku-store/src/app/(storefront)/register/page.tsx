@@ -4,8 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/storefront/AuthContext";
+import { useLocale } from "@/components/shared/LocaleContext";
 
 export default function RegisterPage() {
+  const { t } = useLocale();
   const router = useRouter();
   const { register } = useAuth();
 
@@ -44,7 +46,7 @@ export default function RegisterPage() {
           <Link href="/" className="inline-block text-white text-2xl font-bold tracking-tight">
             hausku
           </Link>
-          <p className="text-white/70 text-sm mt-1">Erstelle dein Konto</p>
+          <p className="text-white/70 text-sm mt-1">{t("auth.registerTitle")}</p>
         </div>
 
         {/* Error */}
@@ -74,7 +76,7 @@ export default function RegisterPage() {
                 htmlFor="reg-name"
                 className="absolute left-0 top-4 text-white/60 text-sm transition-all duration-300 pointer-events-none"
               >
-                Vor- und Nachname
+                {t("auth.fullName")}
               </label>
             </div>
           </div>
@@ -99,7 +101,7 @@ export default function RegisterPage() {
                 htmlFor="reg-email"
                 className="absolute left-0 top-4 text-white/60 text-sm transition-all duration-300 pointer-events-none"
               >
-                E-Mail
+                {t("auth.email")}
               </label>
             </div>
           </div>
@@ -125,7 +127,7 @@ export default function RegisterPage() {
                 htmlFor="reg-pass"
                 className="absolute left-0 top-4 text-white/60 text-sm transition-all duration-300 pointer-events-none"
               >
-                Passwort (min. 8 Zeichen)
+                {t("auth.passwordMin")}
               </label>
               {/* Eye toggle */}
               <button
@@ -161,14 +163,14 @@ export default function RegisterPage() {
                 : "bg-lime-400 text-gray-900 hover:bg-lime-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-lime-500/30"
             }`}
           >
-            {loading ? "Wird erstellt..." : "Konto erstellen"}
+            {loading ? t("auth.creating") : t("auth.createAccount")}
           </button>
 
           {/* Login link */}
           <p className="text-center text-white/60 text-sm auth-field-anim auth-field-5">
-            Bereits ein Konto?{" "}
+            {t("auth.alreadyAccount")}{" "}
             <Link href="/login" className="text-white font-medium hover:underline">
-              Jetzt anmelden
+              {t("auth.signInNow")}
             </Link>
           </p>
         </form>

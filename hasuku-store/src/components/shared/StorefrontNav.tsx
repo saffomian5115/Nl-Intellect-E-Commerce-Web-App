@@ -129,12 +129,12 @@ export default function StorefrontNav() {
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-lime-500 rounded-full transition-all duration-300 group-hover:w-12" />
             </Link>
 
-            <Link href="/imprint" className="relative text-gray-900 hover:text-lime-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
+            <Link href="/about" className="relative text-gray-900 hover:text-lime-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
               <span>{t("nav.about")}</span>
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-lime-500 rounded-full transition-all duration-300 group-hover:w-10" />
             </Link>
 
-            <Link href="/imprint#contact" className="relative text-gray-900 hover:text-lime-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
+            <Link href="/contact" className="relative text-gray-900 hover:text-lime-600 transition-all duration-200 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 group">
               <span>{t("nav.contact")}</span>
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-lime-500 rounded-full transition-all duration-300 group-hover:w-10" />
             </Link>

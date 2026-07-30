@@ -241,5 +241,14 @@
 .auth-field-4 { animation-delay: 0.85s; }
 .auth-field-5 { animation-delay: 1.0s; }
 
-
-
+/* ═══ Hero Cutout Sparkle Animation ═══ */
+@keyframes hero-sparkle {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5) translateY(-20px);
+  }
+}

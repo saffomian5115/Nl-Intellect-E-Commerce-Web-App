@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/components/storefront/AuthContext";
+import { useLocale } from "@/components/shared/LocaleContext";
 
 type Address = {
   id: number;
@@ -18,6 +19,7 @@ type Address = {
 };
 
 export default function AddressesPage() {
+  const { t } = useLocale();
   const { user, loading: authLoading } = useAuth();
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
@@ -116,7 +118,7 @@ export default function AddressesPage() {
   if (authLoading || loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Adressen</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">{t("account.addresses")}</h1>
         <div className="animate-pulse space-y-4">
           {[1, 2].map((i) => (
             <div key={i} className="h-32 bg-gray-100 rounded-lg" />
@@ -130,16 +132,16 @@ export default function AddressesPage() {
   if (!user) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Adressen</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">{t("account.addresses")}</h1>
         <div className="border rounded-lg p-12 text-center text-gray-500">
           <p className="text-lg font-medium mb-4">
-            Bitte melden Sie sich an, um Ihre Adressen zu verwalten.
+            {t("account.loginRequiredAddresses")}
           </p>
           <Link
             href="/account"
             className="inline-block bg-lime-500 hover:bg-lime-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
           >
-            Anmelden
+            {t("account.signIn")}
           </Link>
         </div>
       </div>
@@ -149,12 +151,12 @@ export default function AddressesPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Adressen</h1>
+        <h1 className="text-3xl font-bold text-gray-900">{t("account.addresses")}</h1>
         <button
           onClick={() => setShowForm(!showForm)}
           className="bg-lime-500 hover:bg-lime-600 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
         >
-          {showForm ? "Abbrechen" : "+ Neue Adresse"}
+          {showForm ? t("common.cancel") : t("account.addAddress")}
         </button>
       </div>
 
@@ -166,19 +168,19 @@ export default function AddressesPage() {
               href="/account"
               className="block px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg"
             >
-              Übersicht
+              {t("account.overview")}
             </Link>
             <Link
               href="/account/orders"
               className="block px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg"
             >
-              Meine Bestellungen
+              {t("account.orders")}
             </Link>
             <Link
               href="/account/addresses"
               className="block px-4 py-3 bg-gray-900 text-white rounded-lg font-medium"
             >
-              Adressen
+              {t("account.addresses")}
             </Link>
           </nav>
         </aside>
@@ -187,7 +189,7 @@ export default function AddressesPage() {
           {/* Add Form */}
           {showForm && (
             <div className="border rounded-lg p-6 mb-6">
-              <h2 className="text-lg font-bold mb-4">Neue Adresse</h2>
+              <h2 className="text-lg font-bold mb-4">{t("account.newAddress")}</h2>
               {error && (
                 <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-3 mb-4 text-sm">
                   {error}
@@ -195,7 +197,7 @@ export default function AddressesPage() {
               )}
               <form onSubmit={handleAdd} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Vorname *</label>
+                  <label className="block text-sm font-medium mb-1">{t("account.firstName")} *</label>
                   <input
                     type="text"
                     value={form.firstName}
@@ -205,7 +207,7 @@ export default function AddressesPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Nachname *</label>
+                  <label className="block text-sm font-medium mb-1">{t("account.lastName")} *</label>
                   <input
                     type="text"
                     value={form.lastName}
@@ -215,7 +217,7 @@ export default function AddressesPage() {
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium mb-1">Straße *</label>
+                  <label className="block text-sm font-medium mb-1">{t("account.street")} *</label>
                   <input
                     type="text"
                     value={form.street}
@@ -225,7 +227,7 @@ export default function AddressesPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">PLZ *</label>
+                  <label className="block text-sm font-medium mb-1">{t("account.postalCode")} *</label>
                   <input
                     type="text"
                     value={form.postalCode}
@@ -235,7 +237,7 @@ export default function AddressesPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Stadt *</label>
+                  <label className="block text-sm font-medium mb-1">{t("account.city")} *</label>
                   <input
                     type="text"
                     value={form.city}
@@ -252,7 +254,7 @@ export default function AddressesPage() {
                       onChange={(e) => setForm({ ...form, isDefault: e.target.checked })}
                       className="w-4 h-4"
                     />
-                    <span className="text-sm font-medium">Als Standardadresse setzen</span>
+                    <span className="text-sm font-medium">{t("account.setAsDefault")}</span>
                   </label>
                 </div>
                 <div className="md:col-span-2">
@@ -265,7 +267,7 @@ export default function AddressesPage() {
                         : "bg-gray-900 hover:bg-gray-800 text-white"
                     }`}
                   >
-                    {saving ? "Wird gespeichert..." : "Adresse speichern"}
+                    {saving ? t("account.saving") : t("account.saveAddress")}
                   </button>
                 </div>
               </form>
@@ -275,8 +277,8 @@ export default function AddressesPage() {
           {/* Address List */}
           {addresses.length === 0 && !showForm ? (
             <div className="border rounded-lg p-12 text-center text-gray-500">
-              <p className="text-lg font-medium">Keine gespeicherten Adressen</p>
-              <p className="mt-2">Fügen Sie eine Lieferadresse hinzu.</p>
+              <p className="text-lg font-medium">{t("account.noAddresses")}</p>
+              <p className="mt-2">{t("account.addAddressHint")}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -295,8 +297,8 @@ export default function AddressesPage() {
                         </p>
                         {addr.isDefault && (
                           <span className="text-xs bg-gray-900 text-white px-2 py-0.5 rounded">
-                            Standard
-                          </span>
+                          {t("account.defaultAddress")}
+                        </span>
                         )}
                       </div>
                       <p className="text-sm text-gray-600">

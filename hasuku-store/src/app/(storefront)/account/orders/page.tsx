@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/components/storefront/AuthContext";
+import { useLocale } from "@/components/shared/LocaleContext";
 
 type Order = {
   id: number;
@@ -18,16 +19,7 @@ type Order = {
   }[];
 };
 
-const STATUS_LABELS: Record<string, string> = {
-  PENDING: "Ausstehend",
-  CONFIRMED: "Bestätigt",
-  PROCESSING: "In Bearbeitung",
-  SHIPPED: "Versendet",
-  DELIVERED: "Geliefert",
-  CANCELLED: "Storniert",
-  RETURNED: "Retourniert",
-  REFUNDED: "Rückerstattet",
-};
+
 
 function formatPrice(amount: number): string {
   return new Intl.NumberFormat("de-DE", {
@@ -37,6 +29,7 @@ function formatPrice(amount: number): string {
 }
 
 export default function OrdersPage() {
+  const { t } = useLocale();
   const { user, loading: authLoading } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,7 +55,7 @@ export default function OrdersPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">
-          Meine Bestellungen
+          {t("account.orders")}
         </h1>
         <div className="animate-pulse space-y-4">
           {[1, 2, 3].map((i) => (
@@ -78,17 +71,17 @@ export default function OrdersPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">
-          Meine Bestellungen
+          {t("account.orders")}
         </h1>
         <div className="border rounded-lg p-12 text-center text-gray-500">
           <p className="text-lg font-medium mb-4">
-            Bitte melden Sie sich an, um Ihre Bestellungen zu sehen.
+            {t("account.ordersLoginRequired")}
           </p>
           <Link
             href="/account"
             className="inline-block bg-lime-500 hover:bg-lime-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
           >
-            Anmelden
+            {t("account.signIn")}
           </Link>
         </div>
       </div>
@@ -98,7 +91,7 @@ export default function OrdersPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h1 className="text-3xl font-bold text-gray-900 mb-8">
-        Meine Bestellungen
+        {t("account.orders")}
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -109,19 +102,19 @@ export default function OrdersPage() {
               href="/account"
               className="block px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg"
             >
-              Übersicht
+              {t("account.overview")}
             </Link>
             <Link
               href="/account/orders"
               className="block px-4 py-3 bg-gray-900 text-white rounded-lg font-medium"
             >
-              Meine Bestellungen
+              {t("account.orders")}
             </Link>
             <Link
               href="/account/addresses"
               className="block px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg"
             >
-              Adressen
+              {t("account.addresses")}
             </Link>
           </nav>
         </aside>
@@ -130,12 +123,12 @@ export default function OrdersPage() {
         <main className="md:col-span-3">
           {orders.length === 0 ? (
             <div className="border rounded-lg p-12 text-center text-gray-500">
-              <p className="text-lg font-medium">Noch keine Bestellungen</p>
+              <p className="text-lg font-medium">{t("account.noOrders")}</p>
               <Link
                 href="/catalog"
                 className="mt-4 inline-block text-lime-500 hover:text-lime-600 font-medium"
               >
-                Jetzt einkaufen →
+                {t("account.shopNow")}
               </Link>
             </div>
           ) : (
@@ -170,7 +163,7 @@ export default function OrdersPage() {
                             : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {STATUS_LABELS[order.status] || order.status}
+                        {t(`order.status${order.status}`) || order.status}
                       </span>
                       <p className="font-bold text-gray-900 mt-1">
                         {formatPrice(order.total)}

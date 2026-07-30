@@ -4,14 +4,14 @@
 **Amazon URL:** https://www.amazon.de/dp/B0FH2N8BQ1
 **Farbe:** Schwarz (Black)
 **Preis:** €29.90 (UVP €33.50)
-**Bewertung:** 4.8/5 (55 Bewertungen)
+**Bewertung:** 4.4/5 (55 Bewertungen)
 **Small Business:** Ja
 
 ---
 
 ## Produktname (DE)
 
-**Laptopkissen für Bett & Sofa — Laptopleinche mit Kissen, Mobilhalterung & Handgelenkauflage — Passt bis 17 Zoll Laptop — Leicht & Komfortabel für Büro, Lernen & Entspannung (Schwarz)**
+**Laptopkissen für Bett & Sofa — Laptopunterlage mit Kissen, Mobilhalterung & Handgelenkauflage — Passt bis 17 Zoll Laptop — Leicht & Komfortabel für Büro, Lernen & Entspannung (Schwarz)**
 
 ## Produktname (EN)
 
@@ -24,6 +24,7 @@
 | Eigenschaft | Wert |
 |---|---|
 | **Marke** | HAUSKU |
+| **Modell** | HSK-LPD-2401 |
 | **Farbe** | Schwarz (Black) |
 | **Material** | Polyester (Kissen), Holz (Oberfläche) |
 | **Abmessungen (L x B x H)** | 54.5 x 37 x 9.5 cm |
@@ -35,7 +36,7 @@
 
 ## Besondere Merkmale
 
-- 🛋️ **Ergonomisches Kissen** —angepasst an den Schoß, stabil ohne unangenehmen Druck
+- 🛋️ **Ergonomisches Kissen** — Angepasst an den Schoß, stabil ohne unangenehmen Druck
 - 📱 **Smartphone-Tablet-Slot** — Geräte sichtbar und griffbereit
 - 🖱️ **Mausbereich** — Integrierter Platz für Mausbedienung
 - 🧳 **Tragegriff** — Leicht und portabel für unterwegs
@@ -73,10 +74,28 @@ The HAUSKU Laptop Cushion is an ergonomic lap desk for comfortable use on the so
 
 | Eigenschaft | Grau (B0FH2PRZNG) | Schwarz (B0FH2N8BQ1) |
 |---|---|---|
-| Preis | €29.90 | €29.90 |
-| UVP | €32.50 | €33.50 |
-| Farbe | Grau | Schwarz |
-| Sonstiges | Identisch | Identisch |
+| **ASIN** | B0FH2PRZNG | B0FH2N8BQ1 |
+| **Preis** | €29.90 | €29.90 |
+| **UVP** | €32.50 | €33.50 |
+| **Farbe** | Grau | Schwarz |
+
+---
+
+## Images
+
+| Image | File |
+|---|---|
+| Main Product Image | ![laptopkissen-schwarz](laptopkissen-schwarz.jpg) |
+
+### Gallery Images (from Amazon)
+| # | Image |
+|---|---|
+| 1 | ![Laptop Cushion Black Gallery 1](gallery/laptopkissen-schwarz-1.jpg) |
+| 2 | ![Laptop Cushion Black Gallery 2](gallery/laptopkissen-schwarz-2.jpg) |
+| 3 | ![Laptop Cushion Black Gallery 3](gallery/laptopkissen-schwarz-3.jpg) |
+| 4 | ![Laptop Cushion Black Gallery 4](gallery/laptopkissen-schwarz-4.jpg) |
+| 5 | ![Laptop Cushion Black Gallery 5](gallery/laptopkissen-schwarz-5.jpg) |
+| 6 | ![Laptop Cushion Black Gallery 6](gallery/laptopkissen-schwarz-6.jpg) |
 
 ---
 

@@ -3,15 +3,15 @@
 **Amazon ASIN:** B0FH2PRZNG
 **Amazon URL:** https://www.amazon.de/dp/B0FH2PRZNG
 **Farbe:** Grau (Grey)
-**Preis:** €29.90 (UVP €32.50, 5%-Gutschein verfügbar → €28.40)
-**Bewertung:** 4.8/5 (55 Bewertungen)
+**Preis:** €29.90 (UVP €32.50)
+**Bewertung:** 4.4/5 (55 Bewertungen)
 **Small Business:** Ja
 
 ---
 
 ## Produktname (DE)
 
-**Laptopkissen für Bett & Sofa — Laptopleinche mit Kissen, Mobilhalterung & Handgelenkauflage — Passt bis 17 Zoll Laptop — Leicht & Komfortabel für Büro, Lernen & Entspannung (Grau)**
+**Laptopkissen für Bett & Sofa — Laptopunterlage mit Kissen, Mobilhalterung & Handgelenkauflage — Passt bis 17 Zoll Laptop — Leicht & Komfortabel für Büro, Lernen & Entspannung (Grau)**
 
 ## Produktname (EN)
 
@@ -24,7 +24,8 @@
 | Eigenschaft | Wert |
 |---|---|
 | **Marke** | HAUSKU |
-| **Farbe** | Grau (Natural/Schwarz) |
+| **Modell** | HSK-LPD-2401 |
+| **Farbe** | Grau (Grey) |
 | **Material** | Polyester (Kissen), Holz (Oberfläche) |
 | **Abmessungen (L x B x H)** | 54.5 x 37 x 9.5 cm |
 | **Gewicht** | 1.8 kg |
@@ -35,7 +36,7 @@
 
 ## Besondere Merkmale
 
-- 🛋️ **Ergonomisches Kissen** —angepasst an den Schoß, stabil ohne unangenehmen Druck
+- 🛋️ **Ergonomisches Kissen** — Angepasst an den Schoß, stabil ohne unangenehmen Druck
 - 📱 **Smartphone-Tablet-Slot** — Geräte sichtbar und griffbereit
 - 🖱️ **Mausbereich** — Integrierter Platz für Mausbedienung
 - 🧳 **Tragegriff** — Leicht und portabel für unterwegs
@@ -66,6 +67,37 @@ The HAUSKU Laptop Cushion is an ergonomic lap desk for comfortable use on the so
 3. 1x Integrierter Smartphone-Tablet-Slot
 4. 1x Handgelenkauflage
 5. 1x Tragegriff
+
+---
+
+## Varianten-Unterschiede
+
+| Eigenschaft | Grau (B0FH2PRZNG) | Schwarz (B0FH2N8BQ1) |
+|---|---|---|
+| **ASIN** | B0FH2PRZNG | B0FH2N8BQ1 |
+| **Preis** | €29.90 | €29.90 |
+| **UVP** | €32.50 | €33.50 |
+| **Farbe** | Grau | Schwarz |
+
+---
+
+## Images
+
+| Image | File |
+|---|---|
+| Main Product Image | ![laptopkissen-grau](laptopkissen-grau.jpg) |
+
+### Gallery Images (from Amazon)
+| # | Image |
+|---|---|
+| 1 | ![Laptop Cushion Grey Gallery 1](gallery/laptopkissen-grau-1.jpg) |
+| 2 | ![Laptop Cushion Grey Gallery 2](gallery/laptopkissen-grau-2.jpg) |
+| 3 | ![Laptop Cushion Grey Gallery 3](gallery/laptopkissen-grau-3.jpg) |
+| 4 | ![Laptop Cushion Grey Gallery 4](gallery/laptopkissen-grau-4.jpg) |
+| 5 | ![Laptop Cushion Grey Gallery 5](gallery/laptopkissen-grau-5.jpg) |
+| 6 | ![Laptop Cushion Grey Gallery 6](gallery/laptopkissen-grau-6.jpg) |
+| 7 | ![Laptop Cushion Grey Gallery 7](gallery/laptopkissen-grau-7.jpg) |
+| 8 | ![Laptop Cushion Grey Gallery 8](gallery/laptopkissen-grau-8.jpg) |
 
 ---
 

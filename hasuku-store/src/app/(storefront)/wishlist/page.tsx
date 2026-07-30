@@ -5,8 +5,10 @@ import { useWishlist } from "@/components/storefront/WishlistContext";
 import { useAuth } from "@/components/storefront/AuthContext";
 import { useCart } from "@/components/storefront/CartContext";
 import { formatPrice } from "@/lib/vat";
+import { useLocale } from "@/components/shared/LocaleContext";
 
 export default function WishlistPage() {
+  const { t } = useLocale();
   const { user, loading: authLoading } = useAuth();
   const { wishlistProducts, toggleLike, loading: wishlistLoading } = useWishlist();
   const { addItem } = useCart();

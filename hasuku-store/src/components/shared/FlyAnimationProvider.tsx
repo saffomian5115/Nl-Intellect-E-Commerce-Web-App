@@ -15,6 +15,7 @@ type FlyEntry = {
   id: string;
   type: "cart" | "heart";
   imageUrl: string | null;
+  cutoutUrl: string | null;
   sourceRect: { left: number; top: number; width: number; height: number };
   onLand: () => void;
 };
@@ -23,7 +24,8 @@ type FlyContextType = {
   flyToCart: (
     sourceRect: DOMRect,
     imageUrl: string | null,
-    onLand?: () => void
+    onLand?: () => void,
+    cutoutUrl?: string | null
   ) => void;
   flyToWishlist: (sourceRect: DOMRect, onLand?: () => void) => void;
 };
@@ -99,12 +101,13 @@ function FlyItem({
       }}
     >
       {fly.type === "cart" ? (
-        <div className="w-full h-full rounded-lg overflow-hidden shadow-2xl border-2 border-lime-400 bg-white">
-          {fly.imageUrl ? (
+        <div className="w-full h-full rounded-lg overflow-hidden shadow-2xl border-2 border-lime-400 bg-white flex items-center justify-center">
+          {(fly.cutoutUrl || fly.imageUrl) ? (
             <img
-              src={fly.imageUrl}
+              src={fly.cutoutUrl || fly.imageUrl || ""}
               alt=""
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain p-1"
+              style={{ filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.15))" }}
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-lime-100 to-lime-200 flex items-center justify-center text-lime-500 text-xl">
@@ -140,13 +143,15 @@ export function FlyProvider({ children }: { children: ReactNode }) {
     (
       sourceRect: DOMRect,
       imageUrl: string | null,
-      onLand?: () => void
+      onLand?: () => void,
+      cutoutUrl?: string | null
     ) => {
       const id = `fly-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
       const fly: FlyEntry = {
         id,
         type: "cart",
         imageUrl,
+        cutoutUrl: cutoutUrl ?? null,
         sourceRect: {
           left: sourceRect.left,
           top: sourceRect.top,
@@ -170,6 +175,7 @@ export function FlyProvider({ children }: { children: ReactNode }) {
         id,
         type: "heart",
         imageUrl: null,
+        cutoutUrl: null,
         sourceRect: {
           left: sourceRect.left,
           top: sourceRect.top,
