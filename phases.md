@@ -4,7 +4,7 @@ Estimated total duration: ~5-6 weeks.
 
 ## Phase 1 — Planning & Design (5-6 days) ✅
 - [x] Set up Next.js project skeleton + folder structure per architecture.md
-- [x] Prisma schema with all database tables (SQLite for dev, MySQL for production)
+- [x] Prisma schema with all database tables (MySQL)
 - [x] Locale files (German default + English)
 - [x] Storefront page shells (home, catalog, product, cart, checkout, account)
 - [x] Admin panel shell (dashboard, products, orders, customers, settings)

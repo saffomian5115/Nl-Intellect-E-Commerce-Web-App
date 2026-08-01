@@ -25,7 +25,7 @@ model Product {
   id          Int              @id @default(autoincrement())
   name        String
   slug        String           @unique
-  description String?
+  description String?   @db.Text
   basePrice   Float
   imageUrl    String?
   categoryId  Int
@@ -33,7 +33,7 @@ model Product {
   active      Boolean          @default(true)
   featured    Boolean          @default(false)
   manufacturer    String?
-  safetyWarnings  String?
+  safetyWarnings  String?   @db.Text
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
   variants    ProductVariant[]
@@ -131,7 +131,7 @@ model Order {
   shippingCity  String?
   shippingPostal String?
   shippingCountry String?
-  notes         String?
+  notes         String?   @db.Text
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   items         OrderItem[]
@@ -182,7 +182,7 @@ model CreditNote {
   order            Order    @relation(fields: [orderId], references: [id])
   creditNoteNumber String   @unique
   pdfPath          String?
-  reason           String?
+  reason           String?   @db.Text
   amount           Float
   issuedAt         DateTime @default(now())
 
@@ -200,7 +200,7 @@ model Review {
   customer  Customer @relation(fields: [customerId], references: [id])
   rating    Int
   title     String?
-  body      String?
+  body      String?    @db.Text
   approved  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -214,7 +214,7 @@ model Review {
 model Setting {
   id    Int    @id @default(autoincrement())
   key   String @unique
-  value String
+  value String @db.Text
   updatedAt DateTime @updatedAt
 
   @@map("settings")

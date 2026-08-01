@@ -112,8 +112,8 @@
 
 | Platform | Status | Issue |
 |----------|--------|-------|
-| **Vercel (Free Tier)** | ✅ Deployed | ⚠️ SQLite DB not available at runtime — some dynamic pages fail |
-| **Hostinger** | ❌ Not deployed | User has Premium Web Hosting — "Deploy Web App" feature locked |
+| **Vercel (Free Tier)** | ✅ Deployed | ⚠️ Needs hosted DB — some dynamic pages fail on SQLite-free runtime |
+| **Hostinger** | ✅ Deployed | MySQL database connected (hausku.com) |
 
 ### Vercel Issues (Known)
 
@@ -124,11 +124,11 @@
 | Product detail page | 🔧 Fix in progress | Add `generateStaticParams` |
 | API routes (cart, auth, orders) | ❌ Won't work | Need hosted DB (Turso/Neon) or Hostinger |
 
-### Recommended: Hostinger Business Web Hosting (Upgrade)
-Sabse achi approach — **Business Web Hosting** upgrade (~$3-4/month extra). Tab:
-- ✅ SQLite chalega (file-based DB persistent hai)
-- ✅ Full working store — cart, checkout, admin sab kaam karega
-- ✅ "Deploy Web App" feature unlock ho jayega
+### Status: Hostinger Business Web Hosting + MySQL
+Ab **MySQL** use ho raha hai (Hostinger ke included MySQL database ke saath) — SQLite completely remove kar diya hai:
+- ✅ MySQL — proper multi-user database (concurrent orders safe)
+- ✅ Full working store — cart, checkout, admin sab kaam karta hai
+- ✅ "Deploy Web App" feature active hai (hausku.com)
 
 ---
 
@@ -241,7 +241,7 @@ hasuku-store/
 ├── prisma/
 │   ├── schema.prisma        → Database schema (14 models)
 │   ├── seed.ts              → Seed data (6 products, 2 categories)
-│   └── dev.db               → SQLite database
+│   └── schema.prisma        → Database schema (14 models, MySQL)
 ├── public/images/products/  → Product images + cutouts
 └── products/               → Product data + requirements
 ```
